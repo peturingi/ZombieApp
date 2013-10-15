@@ -14,13 +14,14 @@
 		D8340F07180D4955004B6679 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F06180D4955004B6679 /* main.m */; };
 		D8340F0B180D4955004B6679 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F0A180D4955004B6679 /* AppDelegate.m */; };
 		D8340F0E180D4955004B6679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8340F0C180D4955004B6679 /* Main.storyboard */; };
-		D8340F11180D4955004B6679 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F10180D4955004B6679 /* ViewController.m */; };
 		D8340F13180D4955004B6679 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8340F12180D4955004B6679 /* Images.xcassets */; };
 		D8340F1A180D4955004B6679 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340F19180D4955004B6679 /* XCTest.framework */; };
 		D8340F1B180D4955004B6679 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFA180D4955004B6679 /* Foundation.framework */; };
 		D8340F1C180D4955004B6679 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFE180D4955004B6679 /* UIKit.framework */; };
 		D8340F24180D4955004B6679 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8340F22180D4955004B6679 /* InfoPlist.strings */; };
 		D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F25180D4955004B6679 /* Zombie_AppTests.m */; };
+		D884F3E2180D4ABC00DC077A /* MapDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3DF180D4ABC00DC077A /* MapDelegate.m */; };
+		D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E1180D4ABC00DC077A /* MapViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +46,16 @@
 		D8340F09180D4955004B6679 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D8340F0A180D4955004B6679 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D8340F0D180D4955004B6679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D8340F0F180D4955004B6679 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D8340F10180D4955004B6679 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D8340F12180D4955004B6679 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D8340F18180D4955004B6679 /* Zombie AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Zombie AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8340F19180D4955004B6679 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D8340F21180D4955004B6679 /* Zombie AppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zombie AppTests-Info.plist"; sourceTree = "<group>"; };
 		D8340F23180D4955004B6679 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8340F25180D4955004B6679 /* Zombie_AppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zombie_AppTests.m; sourceTree = "<group>"; };
+		D884F3DE180D4ABC00DC077A /* MapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapDelegate.h; sourceTree = "<group>"; };
+		D884F3DF180D4ABC00DC077A /* MapDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapDelegate.m; sourceTree = "<group>"; };
+		D884F3E0180D4ABC00DC077A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		D884F3E1180D4ABC00DC077A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +118,10 @@
 				D8340F09180D4955004B6679 /* AppDelegate.h */,
 				D8340F0A180D4955004B6679 /* AppDelegate.m */,
 				D8340F0C180D4955004B6679 /* Main.storyboard */,
-				D8340F0F180D4955004B6679 /* ViewController.h */,
-				D8340F10180D4955004B6679 /* ViewController.m */,
+				D884F3DE180D4ABC00DC077A /* MapDelegate.h */,
+				D884F3DF180D4ABC00DC077A /* MapDelegate.m */,
+				D884F3E0180D4ABC00DC077A /* MapViewController.h */,
+				D884F3E1180D4ABC00DC077A /* MapViewController.m */,
 				D8340F12180D4955004B6679 /* Images.xcassets */,
 				D8340F01180D4955004B6679 /* Supporting Files */,
 			);
@@ -249,7 +254,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8340F11180D4955004B6679 /* ViewController.m in Sources */,
+				D884F3E2180D4ABC00DC077A /* MapDelegate.m in Sources */,
+				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				D8340F0B180D4955004B6679 /* AppDelegate.m in Sources */,
 				D8340F07180D4955004B6679 /* main.m in Sources */,
 			);
@@ -460,6 +466,7 @@
 				D8340F2B180D4955004B6679 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D8340F2C180D4955004B6679 /* Build configuration list for PBXNativeTarget "Zombie AppTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +475,7 @@
 				D8340F2E180D4955004B6679 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
