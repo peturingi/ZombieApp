@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "GameController.h"
 
 
-@interface MapViewController : UIViewController <MKMapViewDelegate>
-
+@interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate>{
+    
+    GameController* gc;
+}
+@property (weak, nonatomic) IBOutlet UILabel *eltLabel;
+@property (nonatomic) int elt;
 @end
