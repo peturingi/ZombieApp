@@ -62,7 +62,7 @@
 		D884F3E8180D533500DC077A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		D884F3EA180D537700DC077A /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
 		D884F3EB180D537700DC077A /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
-		D884F3EE180D73F900DC077A /* GameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameControllerDelegate.h; sourceTree = "<group>"; };
+		D884F3EE180D73F900DC077A /* GameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameControllerDelegate.h; path = "Zombie App/GameControllerDelegate.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +124,6 @@
 		D8340F00180D4955004B6679 /* Zombie App */ = {
 			isa = PBXGroup;
 			children = (
-				D884F3EE180D73F900DC077A /* GameControllerDelegate.h */,
 				D8340F09180D4955004B6679 /* AppDelegate.h */,
 				D8340F0A180D4955004B6679 /* AppDelegate.m */,
 				D8340F0C180D4955004B6679 /* Main.storyboard */,
@@ -181,6 +180,7 @@
 				D884F3E8180D533500DC077A /* User.m */,
 				D884F3EA180D537700DC077A /* GameController.h */,
 				D884F3EB180D537700DC077A /* GameController.m */,
+				D884F3EE180D73F900DC077A /* GameControllerDelegate.h */,
 			);
 			name = GameLogic;
 			sourceTree = "<group>";

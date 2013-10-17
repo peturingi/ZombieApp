@@ -14,13 +14,13 @@
  *  Indicates when the user started playing the current session of the game.
  *  @return The time when the game started.
  */
-@property (strong, atomic, readonly) NSDate *startedPlaying;
+@property (strong, atomic, readwrite) NSDate *startedPlaying;
 
 /**
  *  When did the player stop the last session of the game.
  *  @return The time the game stopped.
  */
-@property (strong, atomic, readonly) NSDate *stoppedPlaying;
+@property (strong, atomic, readwrite) NSDate *stoppedPlaying;
 
 /**
  *  How long the player has been playing the current session.

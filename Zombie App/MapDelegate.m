@@ -2,7 +2,6 @@
 //  MapDelegate.m
 //  Zombie App
 //
-//  Created by Pétur Ingi Egilsson on 14/10/13.
 //  Copyright (c) 2013 Aalborg Universitet. All rights reserved.
 //
 
@@ -12,6 +11,7 @@
 
 #pragma mark - MapView
 
+// Zooms in to the users current location, the map the first time the map is shown.
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     NSAssert(userLocation,

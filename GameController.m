@@ -2,7 +2,6 @@
 //  GameController.m
 //  Zombie App
 //
-//  Created by Pétur Ingi Egilsson on 15/10/13.
 //  Copyright (c) 2013 Aalborg Universitet. All rights reserved.
 //
 
@@ -11,41 +10,49 @@
 
 @implementation GameController
 
-+(id)sharedInstance{
-
++(id)sharedInstance
+{
     __strong static id _sharedObject = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedObject = [[self alloc]init];
-        
-        
     });
     return _sharedObject;
 }
 
-
 -(id)init{
     self = [super init];
-    time = 0;
-    [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updatetime) userInfo:nil repeats:YES];
-
+    
+    _user = [[User alloc] init];
     
     return self;
 }
 
-
-
-
--(void)updatetime{
-    NSLog(@"updated");
-    time++;
-    self.hp = time;
-    [_delegate updateElapsedTime:time];
+/**
+ *  This is the main gameloop.
+ */
+- (void)gameloop {
 }
 
+/**
+ *  Notifies the delegate, that the time has changed.
+ */
+-(void)updateTime{
+    NSAssert(_user,
+             @"User was nil! Can not get elapsed time!");
+    NSTimeInterval elapsedPlayingTime = [_user elapsedPlayingTime];
+    [_delegate elapsedTimeUpdated:elapsedPlayingTime];
+}
 
--(int)getTime{
-    return time;
+#pragma mark - Start/Stop/Restart.
+
+- (void)start {
+    // User setup.
+    NSAssert(_user,
+             @"User is nil");
+    
+    [_user setStartedPlaying:[NSDate date]];
+    timer_updateTime = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
 }
 
 

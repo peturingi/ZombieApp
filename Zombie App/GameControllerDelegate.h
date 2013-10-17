@@ -9,8 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @protocol GameControllerDelegate <NSObject>
--(void)updateElapsedTime:(NSInteger)elapsedTime;
--(void)updatePlayerScore;
--(void)updatePlayerSpeed;
--(void)updatePlayerHealth;
+
+/**
+ *  Sent whenever the GameController has new information about the elapsed time.
+ */
+-(void)elapsedTimeUpdated:(NSTimeInterval)elapsedTime;
+
+-(void)playerScoreUpdated;
+-(void)playerSpeedUpdated;
+-(void)playerHealthUpdated;
+
 @end

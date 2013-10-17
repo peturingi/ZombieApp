@@ -15,7 +15,8 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate>{
     
     GameController* gc;
+    
+    __weak IBOutlet UILabel *_elapsedtimeLabel;
 }
-@property (weak, nonatomic) IBOutlet UILabel *eltLabel;
-@property (nonatomic) int elt;
+
 @end

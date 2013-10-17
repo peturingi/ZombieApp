@@ -26,14 +26,11 @@
                                      userInfo:nil];
     }
     
-    _startedPlaying = [NSDate date];
-
     return self;
 }
 
 - (NSTimeInterval)elapsedPlayingTime
 {
-    
     if (_startedPlaying == nil)
     {
         @throw [NSException exceptionWithName:@"Invalid time interval."
