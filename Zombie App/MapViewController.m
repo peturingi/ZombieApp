@@ -35,13 +35,13 @@
     // Assuming that all subviews have loaded.
     gc = [GameController sharedInstance];
     [gc setDelegate:self];
-    
-    [gc start]; // Start the game loop.
-    
-    [self addObserver:gc forKeyPath:@"hp" options:NSKeyValueObservingOptionNew context:nil];
-        
-    
  }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+        [gc start]; // Start the game loop.
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -99,7 +99,6 @@
         
         [destination setStats:stats];
     }
-    
 }
 
 @end

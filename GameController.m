@@ -61,6 +61,7 @@
              @"User is nil");
     
     [_user setStartedPlaying:[NSDate date]];
+    [_user setStoppedPlaying:nil];
     timer_updateTime = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
 }
 

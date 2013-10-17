@@ -27,6 +27,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    //[[self navigationItem] setHidesBackButton:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -48,6 +49,9 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)exitToMenu:(id)sender {
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 @end
