@@ -7,6 +7,7 @@
 //
 
 #import "MapViewController.h"
+#import "StatsViewController.h"
 
 @interface MapViewController ()
 
@@ -83,4 +84,22 @@
 #warning not implemented
 
 }
+
+#pragma mark - Seague
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([[segue identifier] isEqualToString:@"endGame"]) {
+        [gc stop];
+        NSDictionary *stats = [gc stats];
+        id destination = [segue destinationViewController];
+
+        NSAssert([destination isKindOfClass:[StatsViewController class]],
+                 @"Wrong destination controller.");
+        
+        [destination setStats:stats];
+    }
+    
+}
+
 @end

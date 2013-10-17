@@ -38,7 +38,16 @@
                                      userInfo:nil];
     }
     
-    NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:_startedPlaying];
+    NSTimeInterval elapsedTime;
+    
+    if (_stoppedPlaying == nil) { // The game has not yet ended.
+        elapsedTime = [[NSDate date] timeIntervalSinceDate:_startedPlaying];
+    } else { // The game has ended.
+        elapsedTime = [_stoppedPlaying timeIntervalSinceDate:_startedPlaying];
+    }
+    
+    NSAssert(elapsedTime >= 0,
+             @"Playing time can never be negative!");
     
     return elapsedTime;
 }

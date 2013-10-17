@@ -31,11 +31,13 @@
 @property (weak, readwrite, nonatomic) id<GameControllerDelegate> delegate;
 
 - (void)start;
-//- (void)stop;
+- (void)stop;
 
 //- (void)restart;
 
 //- (void)pause;
 //- (void)unpause;
+
+- (NSDictionary *)stats;
 
 @end

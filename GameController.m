@@ -28,6 +28,15 @@
     return self;
 }
 
+- (NSDictionary *)stats {
+    NSMutableDictionary *statistics = [NSMutableDictionary dictionary];
+    
+    [statistics setValue:[NSNumber numberWithDouble:[_user elapsedPlayingTime]]
+                  forKey:@"playingTime"];
+    
+    return statistics;
+}
+
 /**
  *  This is the main gameloop.
  */
@@ -53,6 +62,11 @@
     
     [_user setStartedPlaying:[NSDate date]];
     timer_updateTime = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+}
+
+- (void)stop {
+    [timer_updateTime invalidate];
+    [_user setStoppedPlaying:[NSDate date]];
 }
 
 

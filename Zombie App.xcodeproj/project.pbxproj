@@ -24,6 +24,7 @@
 		D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E1180D4ABC00DC077A /* MapViewController.m */; };
 		D884F3E9180D533500DC077A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E8180D533500DC077A /* User.m */; };
 		D884F3EC180D537700DC077A /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3EB180D537700DC077A /* GameController.m */; };
+		D8A9C442181017F10056698F /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C441181017F10056698F /* StatsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		D884F3EA180D537700DC077A /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
 		D884F3EB180D537700DC077A /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
 		D884F3EE180D73F900DC077A /* GameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameControllerDelegate.h; path = "Zombie App/GameControllerDelegate.h"; sourceTree = "<group>"; };
+		D8A9C440181017F10056698F /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
+		D8A9C441181017F10056698F /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,8 @@
 				D8340F09180D4955004B6679 /* AppDelegate.h */,
 				D8340F0A180D4955004B6679 /* AppDelegate.m */,
 				D8340F0C180D4955004B6679 /* Main.storyboard */,
+				D8A9C440181017F10056698F /* StatsViewController.h */,
+				D8A9C441181017F10056698F /* StatsViewController.m */,
 				D884F3E0180D4ABC00DC077A /* MapViewController.h */,
 				D884F3E1180D4ABC00DC077A /* MapViewController.m */,
 				D8340F12180D4955004B6679 /* Images.xcassets */,
@@ -284,6 +289,7 @@
 			files = (
 				D884F3E9180D533500DC077A /* User.m in Sources */,
 				D884F3E2180D4ABC00DC077A /* MapDelegate.m in Sources */,
+				D8A9C442181017F10056698F /* StatsViewController.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				D884F3EC180D537700DC077A /* GameController.m in Sources */,
 				D8340F0B180D4955004B6679 /* AppDelegate.m in Sources */,
