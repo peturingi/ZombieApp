@@ -71,7 +71,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
-                                    <outlet property="delegate" destination="TYv-vr-7hM" id="NhF-lM-Br3"/>
+                                    <outlet property="delegate" destination="Qfk-ho-7n5" id="HvY-Jt-ode"/>
                                 </connections>
                             </mapView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CCC-Zf-uRQ" userLabel="elapsed time">
@@ -112,6 +112,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8n-8D-bH6">
+                                <rect key="frame" x="20" y="396" width="88" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="meters" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNj-rc-fjh">
+                                <rect key="frame" x="116" y="396" width="53" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -123,14 +137,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="_elapsedtimeLabel" destination="CCC-Zf-uRQ" id="rVe-vP-NbT"/>
+                        <outlet property="_map" destination="0yT-K7-Ylb" id="OkV-lU-I9Y"/>
+                        <outlet property="_speedLabel" destination="DUJ-VA-RRI" id="AUr-3s-T42"/>
+                        <outlet property="distance" destination="k8n-8D-bH6" id="8q2-gK-yqN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dl2-tF-RWu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="TYv-vr-7hM" customClass="MapDelegate">
-                    <connections>
-                        <outlet property="speedLabel" destination="DUJ-VA-RRI" id="C9s-5S-8Bv"/>
-                    </connections>
-                </customObject>
             </objects>
             <point key="canvasLocation" x="443" y="1"/>
         </scene>

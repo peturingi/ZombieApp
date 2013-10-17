@@ -20,7 +20,6 @@
 		D8340F1C180D4955004B6679 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFE180D4955004B6679 /* UIKit.framework */; };
 		D8340F24180D4955004B6679 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8340F22180D4955004B6679 /* InfoPlist.strings */; };
 		D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F25180D4955004B6679 /* Zombie_AppTests.m */; };
-		D884F3E2180D4ABC00DC077A /* MapDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3DF180D4ABC00DC077A /* MapDelegate.m */; };
 		D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E1180D4ABC00DC077A /* MapViewController.m */; };
 		D884F3E9180D533500DC077A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E8180D533500DC077A /* User.m */; };
 		D884F3EC180D537700DC077A /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3EB180D537700DC077A /* GameController.m */; };
@@ -55,10 +54,8 @@
 		D8340F21180D4955004B6679 /* Zombie AppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zombie AppTests-Info.plist"; sourceTree = "<group>"; };
 		D8340F23180D4955004B6679 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8340F25180D4955004B6679 /* Zombie_AppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zombie_AppTests.m; sourceTree = "<group>"; };
-		D884F3DE180D4ABC00DC077A /* MapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapDelegate.h; path = "Zombie App/MapDelegate.h"; sourceTree = "<group>"; };
-		D884F3DF180D4ABC00DC077A /* MapDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapDelegate.m; path = "Zombie App/MapDelegate.m"; sourceTree = "<group>"; };
-		D884F3E0180D4ABC00DC077A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		D884F3E1180D4ABC00DC077A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		D884F3E0180D4ABC00DC077A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = "Zombie App/MapViewController.h"; sourceTree = "<group>"; };
+		D884F3E1180D4ABC00DC077A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = "Zombie App/MapViewController.m"; sourceTree = "<group>"; };
 		D884F3E7180D533500DC077A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		D884F3E8180D533500DC077A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		D884F3EA180D537700DC077A /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
@@ -132,8 +129,6 @@
 				D8340F0C180D4955004B6679 /* Main.storyboard */,
 				D8A9C440181017F10056698F /* StatsViewController.h */,
 				D8A9C441181017F10056698F /* StatsViewController.m */,
-				D884F3E0180D4ABC00DC077A /* MapViewController.h */,
-				D884F3E1180D4ABC00DC077A /* MapViewController.m */,
 				D8340F12180D4955004B6679 /* Images.xcassets */,
 				D8340F01180D4955004B6679 /* Supporting Files */,
 			);
@@ -172,8 +167,8 @@
 		D884F3E4180D4FF900DC077A /* LocationComponent */ = {
 			isa = PBXGroup;
 			children = (
-				D884F3DE180D4ABC00DC077A /* MapDelegate.h */,
-				D884F3DF180D4ABC00DC077A /* MapDelegate.m */,
+				D884F3E0180D4ABC00DC077A /* MapViewController.h */,
+				D884F3E1180D4ABC00DC077A /* MapViewController.m */,
 			);
 			name = LocationComponent;
 			sourceTree = "<group>";
@@ -288,7 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D884F3E9180D533500DC077A /* User.m in Sources */,
-				D884F3E2180D4ABC00DC077A /* MapDelegate.m in Sources */,
 				D8A9C442181017F10056698F /* StatsViewController.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				D884F3EC180D537700DC077A /* GameController.m in Sources */,

@@ -101,4 +101,47 @@
     }
 }
 
+#pragma mark - MapView Delegate
+// Zooms in to the users current location, the map the first time the map is shown.
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    // Zoom logic begin
+    NSAssert(userLocation,
+             @"userLocation was nil");
+    
+    CLLocationCoordinate2D currentCoordinate = [userLocation coordinate];
+    
+    // Zoom in on he map, once - the first time the users location is received.
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        const NSInteger mapLongMeters = 20;
+        const NSInteger mapLatMeters = 20;
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(currentCoordinate,
+                                                                       mapLongMeters,
+                                                                       mapLatMeters);
+        [mapView setRegion:region];
+    });
+    [mapView setCenterCoordinate:currentCoordinate animated:YES];
+    // Zoom logic end
+    
+    // Speed Logic
+    CLLocation *speedLocation = [userLocation location];
+    CLLocationSpeed speed = [speedLocation speed];
+    if (speed < 0) speed = 0.0f; // Make sure the user does not see a negative value due to inaccuracy.
+    NSString *speedString = [NSString stringWithFormat:@"%.2f", speed];
+    [_speedLabel setText:speedString];
+    // Speed logic ends
+    
+    // Distance logic
+    if (!_lastKnownLocation) {
+        _lastKnownLocation = [userLocation location];
+    } else {
+        _distanceInMeters += [_lastKnownLocation distanceFromLocation:[userLocation location]];
+        _lastKnownLocation = [userLocation location];
+    }
+    [distance setText:[NSString stringWithFormat:@"%.2f", _distanceInMeters]];
+    // Distance logic ends
+    
+}
+
 @end
