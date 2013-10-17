@@ -76,6 +76,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUJ-VA-RRI" userLabel="elapsed time">
+                                <rect key="frame" x="20" y="320" width="88" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -85,7 +92,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dl2-tF-RWu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="TYv-vr-7hM" customClass="MapDelegate"/>
+                <customObject id="TYv-vr-7hM" customClass="MapDelegate">
+                    <connections>
+                        <outlet property="speedLabel" destination="DUJ-VA-RRI" id="C9s-5S-8Bv"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="443" y="1"/>
         </scene>

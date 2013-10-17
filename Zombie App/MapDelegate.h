@@ -9,6 +9,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface MapDelegate : NSObject <MKMapViewDelegate>
+@interface MapDelegate : NSObject <MKMapViewDelegate> {
+    
+    __weak IBOutlet UILabel *_speedLabel;
+}
 
 @end

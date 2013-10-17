@@ -14,6 +14,7 @@
 // Zooms in to the users current location, the map the first time the map is shown.
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
+    // Zoom logic begin
     NSAssert(userLocation,
              @"userLocation was nil");
     
@@ -31,6 +32,13 @@
     });
     
     [mapView setCenterCoordinate:currentCoordinate];
+    
+    // Zoom logic end
+    CLLocation *speedLocation = [userLocation location];
+    CLLocationSpeed speed = [speedLocation speed];
+    NSString *speedString = [NSString stringWithFormat:@"%.2f", speed];
+    [_speedLabel setText:speedString];
+    
 }
 
 @end
