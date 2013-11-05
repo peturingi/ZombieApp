@@ -13,14 +13,11 @@
 
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate>{
-    
-    GameController* gc;
-    CLLocationDistance _distanceInMeters;
-    CLLocation *_lastKnownLocation;
-    __weak IBOutlet MKMapView *_map;
+    NSNotificationCenter* _notificationCenter;
+    GameController* _gameController;
+    __weak IBOutlet MKMapView *_mapView;
     __weak IBOutlet UILabel *_elapsedtimeLabel;
     __weak IBOutlet UILabel *_speedLabel;
-    __weak IBOutlet UILabel *distance;
+    __weak IBOutlet UILabel *_distanceLabel;
 }
-
 @end

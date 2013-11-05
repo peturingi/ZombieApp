@@ -12,6 +12,7 @@
 
 +(id)sharedInstance
 {
+    // boilerplate singleton code
     __strong static id _sharedObject = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -23,15 +24,17 @@
 -(id)init{
     self = [super init];
     
+    // initialize game entities
+    _zombies = [[NSMutableArray alloc] init];
     _user = [[User alloc] init];
     
     return self;
 }
 
-- (NSDictionary *)stats {
+
+- (NSDictionary *)stats{
     NSMutableDictionary *statistics = [NSMutableDictionary dictionary];
-    
-    [statistics setValue:[NSNumber numberWithDouble:[_user elapsedPlayingTime]]
+    [statistics setValue:[NSNumber numberWithDouble:[_engineTimer elapsedGameTime]]
                   forKey:@"playingTime"];
     
     return statistics;
@@ -40,34 +43,48 @@
 /**
  *  This is the main gameloop.
  */
-- (void)gameloop {
+-(void)gameloop{
+    // update time
+    [_engineTimer update];
+    double deltaTime = [_engineTimer currentDeltaInSeconds];
+    // think for the zombies
+    // check if any zombies got too far away
+        // if so, then delete that/those zombies and spawn them again at random locations around the player
+    // update display (mapview)
+    [self updateUI:deltaTime];
 }
 
 /**
  *  Notifies the delegate, that the time has changed.
  */
--(void)updateTime{
-    NSAssert(_user,
-             @"User was nil! Can not get elapsed time!");
-    NSTimeInterval elapsedPlayingTime = [_user elapsedPlayingTime];
-    [_delegate elapsedTimeUpdated:elapsedPlayingTime];
+-(void)updateUI:(double)deltaTime{
+    static double timeTillUpdate = UPDATE_UI;
+    timeTillUpdate -= deltaTime;
+    if (timeTillUpdate < 0) {
+        NSMutableDictionary* info = [NSMutableDictionary dictionary];
+        NSNumber* elapsedGameTime = [NSNumber numberWithDouble:[_engineTimer elapsedGameTime]];
+        [info setValue:elapsedGameTime forKey:@"elapsedGameTime"];
+        NSNumber* speed = [NSNumber numberWithDouble:[_user speed]];
+        [info setValue:speed forKey:@"speed"];
+        NSNumber* distance = [NSNumber numberWithDouble:[_user distanceTravelledInMeters]];
+        [info setValue:distance forKey:@"distance"];
+        [_delegate didUpdateGameInfo:info];
+        timeTillUpdate = UPDATE_UI;
+    }
 }
 
 #pragma mark - Start/Stop/Restart.
 
 - (void)start {
-    // User setup.
-    NSAssert(_user,
-             @"User is nil");
-    
-    [_user setStartedPlaying:[NSDate date]];
-    [_user setStoppedPlaying:nil];
-    timer_updateTime = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+    // initialize the internal timer and thread
+    _engineTimer = [[EngineTimer alloc]init];
+    _gameloopThread = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INTERVAL target:self selector:@selector(gameloop) userInfo:nil repeats:YES];
 }
 
 - (void)stop {
-    [timer_updateTime invalidate];
-    [_user setStoppedPlaying:[NSDate date]];
+    // stop the internal timer and thread
+    [_gameloopThread invalidate];
+    [_engineTimer stop];
 }
 
 

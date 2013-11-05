@@ -13,10 +13,7 @@
 /**
  *  Sent whenever the GameController has new information about the elapsed time.
  */
--(void)elapsedTimeUpdated:(NSTimeInterval)elapsedTime;
 
--(void)playerScoreUpdated;
--(void)playerSpeedUpdated;
--(void)playerHealthUpdated;
+-(void)didUpdateGameInfo:(NSDictionary*)infoDictionary;
 
 @end

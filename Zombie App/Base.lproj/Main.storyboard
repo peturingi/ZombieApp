@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="JQb-K0-bXw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="JQb-K0-bXw">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -67,11 +67,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="hybrid" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0yT-K7-Ylb">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="satellite" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0yT-K7-Ylb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
-                                    <outlet property="delegate" destination="Qfk-ho-7n5" id="HvY-Jt-ode"/>
+                                    <outlet property="delegate" destination="5cj-4E-pvC" id="hHU-bu-WRe"/>
                                 </connections>
                             </mapView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CCC-Zf-uRQ" userLabel="elapsed time">
@@ -136,13 +136,14 @@
                         </userDefinedRuntimeAttributes>
                     </navigationItem>
                     <connections>
+                        <outlet property="_distanceLabel" destination="k8n-8D-bH6" id="zEr-Vm-XYr"/>
                         <outlet property="_elapsedtimeLabel" destination="CCC-Zf-uRQ" id="rVe-vP-NbT"/>
-                        <outlet property="_map" destination="0yT-K7-Ylb" id="OkV-lU-I9Y"/>
+                        <outlet property="_mapView" destination="0yT-K7-Ylb" id="GUl-Ij-mYB"/>
                         <outlet property="_speedLabel" destination="DUJ-VA-RRI" id="AUr-3s-T42"/>
-                        <outlet property="distance" destination="k8n-8D-bH6" id="8q2-gK-yqN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dl2-tF-RWu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="5cj-4E-pvC" customClass="MapViewDelegate"/>
             </objects>
             <point key="canvasLocation" x="443" y="1"/>
         </scene>

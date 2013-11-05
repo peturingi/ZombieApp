@@ -7,25 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface User : NSObject
+@interface User : NSObject{
+    CLLocation* _previousLocation;
+}
 
-/**
- *  Indicates when the user started playing the current session of the game.
- *  @return The time when the game started.
- */
-@property (strong, atomic, readwrite) NSDate *startedPlaying;
 
-/**
- *  When did the player stop the last session of the game.
- *  @return The time the game stopped.
- */
-@property (strong, atomic, readwrite) NSDate *stoppedPlaying;
-
-/**
- *  How long the player has been playing the current session.
- *  @return The elpased time.
- */
-- (NSTimeInterval)elapsedPlayingTime;
+@property (atomic) CLLocation* location;
+@property (atomic) CLLocationDistance distanceTravelledInMeters;
+@property (atomic) CLLocationSpeed speed;
 
 @end

@@ -8,17 +8,27 @@
 #import <Foundation/Foundation.h>
 #import "GameControllerDelegate.h"
 #import "User.h"
+#import "EngineTimer.h"
+
+// how often to update the game loop
+#define UPDATE_INTERVAL 0.1f
+
+// how often to notify the UI that important game stats updated
+#define UPDATE_UI 1.0f
 
 /**
 *   Manages agents and game logic.
 */
 @interface GameController : NSObject
 {
-    // The loop which updates the elapsed time.
-    NSTimer* timer_updateTime;
-    
-    // The player.
+    // scheduled game loop thread
+    NSTimer* _gameloopThread;
+    // Internal timer, responsible for updating deltatime and
+    // keeping track of for how long the game has been running
+    EngineTimer* _engineTimer;
+    // Game entities, the player and zombies
     User *_user;
+    NSMutableArray* _zombies;
 }
 
 /**
