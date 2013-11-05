@@ -11,6 +11,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import "GameController.h"
 
+#define IMAGE_ZOMBIE [UIImage imageNamed:@"Zombie"];
+
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate>{
     
@@ -22,5 +24,7 @@
     __weak IBOutlet UILabel *_speedLabel;
     __weak IBOutlet UILabel *distance;
 }
+
+@property (weak, nonatomic) NSDictionary *zombiesCoordinates;
 
 @end

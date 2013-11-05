@@ -32,7 +32,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    // Assuming that all subviews have loaded.
+    // TODO, remove the following 2 lines of code.
+    CLLocation *loc = [[CLLocation alloc] initWithLatitude:48.85833 longitude:2.2945];
+    [_map setCenterCoordinate:loc.coordinate];
+    _map.region = MKCoordinateRegionMakeWithDistance(loc.coordinate, 100, 100);
+    
+    
     gc = [GameController sharedInstance];
     [gc setDelegate:self];
  }
@@ -48,6 +53,88 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Zombie Drawing
+
+- (void)displayZombiesOnMap {
+    // 1. Ensure the zombies have a pairing uiimageview, if not create one.
+    // 2. Detect if zombie has been deleted, then remove his uiimageview.
+    // 3. Update overlay coordinates.
+    
+    NSAssert(_map != nil, @"Map should not be nil!");
+    NSAssert(self.zombiesCoordinates != nil, @"zombieCoordinates dictionary was nil");
+#ifdef DEBUG
+    if (self.zombiesCoordinates.count == 0) {
+        NSLog(@"%@ : Warning, dictionary empty", NSStringFromSelector(_cmd));
+    }
+#endif
+    
+    // Remove zombie views not found in the passed in dictioanry.
+    for (UIImageView *view in _map.subviews) {
+        NSNumber *tagOfView = [NSNumber numberWithInteger:view.tag];
+        CLLocation *coordinates = [self.zombiesCoordinates objectForKey:tagOfView];
+        if (coordinates == nil && [view isKindOfClass:[UIImageView class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    
+    // Create views for new zombies.
+    NSEnumerator *zombiesKeyEnumerator = self.zombiesCoordinates.keyEnumerator;
+    id key;
+    while ((key = zombiesKeyEnumerator.nextObject)) {
+        BOOL zombieHasAView = FALSE;
+        NSInteger zombieID = [key integerValue];
+        for (UIImageView *view in _map.subviews) {
+            if (view.tag == zombieID) {
+                zombieHasAView = YES;
+                break;
+            }
+        }
+        
+        // Create a view if one does not excist for the current zombie.
+        if (!zombieHasAView) {
+            
+            // Convert the zombies GPS coordinates into coordinates within the MapView.
+            CLLocation *geoCoords = [self.zombiesCoordinates objectForKey:key];
+            NSAssert (geoCoords != nil, @"geoCoords are nil!");
+            CGPoint pointInMapView = [_map convertCoordinate:geoCoords.coordinate toPointToView:_map];
+            
+            // Create the zombie view
+            UIImage *zombieImage = IMAGE_ZOMBIE
+            NSAssert(zombieImage != nil, @"Image not found!");
+            UIImageView *view = [[UIImageView alloc] initWithImage:zombieImage];
+            view.tag = zombieID;
+            
+            // Place the view in its correct position.
+            CGRect viewFrame = view.frame;
+            viewFrame.origin = pointInMapView;
+            viewFrame.origin.x -= viewFrame.size.width / 2;
+            viewFrame.origin.y -= viewFrame.size.height / 2;
+            view.frame = viewFrame;
+            [_map addSubview:view];
+        }
+    }
+    
+    // Move views to new locations.
+    for (UIImageView *view in _map.subviews) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            NSNumber *zombieID = [NSNumber numberWithInteger:view.tag];
+            NSAssert (zombieID != nil, @"zombieID is nil");
+        
+            CLLocation *geoCoords = [self.zombiesCoordinates objectForKey:zombieID];
+            NSAssert(geoCoords != nil, @"geoCoords are nil!");
+        
+            CGPoint pointInMapView = [_map convertCoordinate:geoCoords.coordinate toPointToView:_map];
+            CGRect viewFrame = view.frame;
+            viewFrame.origin = pointInMapView;
+            viewFrame.origin.x -= viewFrame.size.width / 2;
+            viewFrame.origin.y -= viewFrame.size.height / 2;
+            view.frame = viewFrame;
+        }
+    }
+}
+
+
 
 #pragma mark - game controller delegate methods
 
@@ -142,6 +229,12 @@
     [distance setText:[NSString stringWithFormat:@"%.2f", _distanceInMeters]];
     // Distance logic ends
     
+}
+
+- (void)setZombiesCoordinates:(NSDictionary *)zombiesCoordinates {
+    _zombiesCoordinates = zombiesCoordinates;
+    
+    [self displayZombiesOnMap];
 }
 
 @end
