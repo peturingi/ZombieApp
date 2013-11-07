@@ -1,16 +1,18 @@
 //
-//  ZombieState.m
+//  ZombieAIRoam.m
 //  Zombie App
 //
-//  Created by Brian Pedersen on 05/11/13.
+//  Created by Brian Pedersen on 07/11/13.
 //  Copyright (c) 2013 Aalborg Universitet. All rights reserved.
 //
 
-#import "ZombieState.h"
+#import "ZombieAIRoam.h"
+#import "Zombie.h"
 
-@implementation ZombieState
+@implementation ZombieAIRoam
 
 -(void)processStateFor:(Zombie*)zombie otherZombies:(NSArray*)zombies andPlayer:(User*)user for:(double)deltaTime{
+    // do something for this zombie when it roams
     
 }
 @end

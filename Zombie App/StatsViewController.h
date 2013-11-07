@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface StatsViewController : UIViewController {
-    
-    __weak IBOutlet UILabel *_totalTime;
+    __weak IBOutlet UILabel *_totalGameTimeLabel;
 }
 
 @property NSDictionary *stats;

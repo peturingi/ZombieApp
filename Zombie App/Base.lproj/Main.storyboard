@@ -192,7 +192,7 @@
                         </userDefinedRuntimeAttributes>
                     </navigationItem>
                     <connections>
-                        <outlet property="_totalTime" destination="5r8-t6-M9j" id="3aO-Vo-xC1"/>
+                        <outlet property="_totalGameTimeLabel" destination="5r8-t6-M9j" id="f86-zE-HL8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q3A-6f-c1c" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -9,10 +9,7 @@
 #import "MapViewController.h"
 #import "StatsViewController.h"
 #import "MapViewDelegate.h"
-
-@interface MapViewController ()
-
-@end
+#import "NSString+stringFromTimeInterval.h"
 
 @implementation MapViewController
 
@@ -84,35 +81,22 @@
 
 -(void)updateElapsedTimeLabel:(NSTimeInterval)elapsedTime
 {
-    NSString* intervalString = [self timeIntervalToString:elapsedTime];
+    NSString* intervalString = [NSString stringFromTimeInterval:elapsedTime];
     [_elapsedtimeLabel setText:intervalString];
-}
-
--(NSString*)timeIntervalToString:(NSTimeInterval)timeInSeconds{
-    NSUInteger elapsed = timeInSeconds;
-    NSUInteger seconds = elapsed % 60;
-    NSUInteger minutes = (elapsed / 60) % 60;
-    NSUInteger hours = (elapsed / 3600) % 24;
-    
-    NSString* timeIntervalString = [NSString stringWithFormat:@"%.2ld:%.2ld:%.2ld",
-                                    (unsigned long)hours,
-                                    (unsigned long)minutes,
-                                    (unsigned long)seconds];
-    return timeIntervalString;
 }
 
 
 #pragma mark - game controller delegate methods
 
 -(void)didUpdateGameInfo:(NSDictionary*)infoDictionary{
-        NSTimeInterval elapsedTime = [[infoDictionary valueForKey:@"elapsedGameTime"] doubleValue];
-    [self updateElapsedTimeLabel:elapsedTime];
+    NSTimeInterval elapsedGameTime = [[infoDictionary valueForKey:@"elapsedGameTime"] doubleValue];
+    [self updateElapsedTimeLabel:elapsedGameTime];
     
-    CLLocationDistance distance = [[infoDictionary valueForKey:@"distance"] doubleValue];
-    [self updateDistanceLabel:distance];
+    CLLocationDistance userDistance = [[infoDictionary valueForKey:@"userDistance"] doubleValue];
+    [self updateDistanceLabel:userDistance];
     
-    CLLocationSpeed speed = [[infoDictionary valueForKey:@"speed"] doubleValue];
-    [self updateSpeedLabel:speed];
+    CLLocationSpeed userSpeed = [[infoDictionary valueForKey:@"userSpeed"] doubleValue];
+    [self updateSpeedLabel:userSpeed];
 }
 
 

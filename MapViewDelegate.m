@@ -25,12 +25,10 @@
     });
     
     [mapView setCenterCoordinate:currentCoordinate animated:YES];
-    // Zoom logic end
     
     // post a notification that the user location has changed.
     CLLocation *location = [userLocation location];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:location];
-    
 }
 
 @end

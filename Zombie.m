@@ -7,6 +7,7 @@
 //
 
 #import "Zombie.h"
+#import "ZombieAIRoam.h"
 
 @implementation Zombie
 
@@ -18,8 +19,16 @@
     return self;
 }
 
+-(void)initializeAIStates{
+    [_zombieStates setObject:[[ZombieAIRoam alloc]init] forKey:[NSNumber numberWithInt:ROAM]];
+}
 
 -(void)think:(NSArray*)otherZombies andPlayer:(User*)user for:(double)deltaTime{
-    
+    [_currentState processStateFor:self otherZombies:otherZombies andPlayer:user for:deltaTime];
+}
+
+-(void)changeToState:(int)stateIdentifier{
+    _currentState = [_zombieStates objectForKey:[NSNumber numberWithInt:stateIdentifier]];
+    NSAssert(_currentState, @"Attempting statechange to non existing state!");
 }
 @end

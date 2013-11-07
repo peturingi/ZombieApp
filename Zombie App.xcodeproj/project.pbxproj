@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD05182C0F5F003E828C /* ZombieAIRoam.m */; };
+		6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */; };
 		68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926BBB1827ADAF00571313 /* EngineTimer.m */; };
 		68926BBF1827B3BF00571313 /* Zombie.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926BBE1827B3BF00571313 /* Zombie.m */; };
 		68926C49182928D500571313 /* MapViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926C48182928D500571313 /* MapViewDelegate.m */; };
-		68926C4D182936AE00571313 /* ZombieState.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926C4C182936AE00571313 /* ZombieState.m */; };
 		D8340EFB180D4955004B6679 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFA180D4955004B6679 /* Foundation.framework */; };
 		D8340EFD180D4955004B6679 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFC180D4955004B6679 /* CoreGraphics.framework */; };
 		D8340EFF180D4955004B6679 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFE180D4955004B6679 /* UIKit.framework */; };
@@ -41,14 +42,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6877AD03182C0D28003E828C /* ZombieAIState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZombieAIState.h; sourceTree = "<group>"; };
+		6877AD04182C0F5F003E828C /* ZombieAIRoam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieAIRoam.h; sourceTree = "<group>"; };
+		6877AD05182C0F5F003E828C /* ZombieAIRoam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAIRoam.m; sourceTree = "<group>"; };
+		6877AD0A182C1809003E828C /* NSString+stringFromTimeInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+stringFromTimeInterval.h"; sourceTree = "<group>"; };
+		6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+stringFromTimeInterval.m"; sourceTree = "<group>"; };
 		68926BBA1827ADAF00571313 /* EngineTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineTimer.h; sourceTree = "<group>"; };
 		68926BBB1827ADAF00571313 /* EngineTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineTimer.m; sourceTree = "<group>"; };
 		68926BBD1827B3BF00571313 /* Zombie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zombie.h; sourceTree = "<group>"; };
 		68926BBE1827B3BF00571313 /* Zombie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zombie.m; sourceTree = "<group>"; };
 		68926C47182928D500571313 /* MapViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewDelegate.h; sourceTree = "<group>"; };
 		68926C48182928D500571313 /* MapViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewDelegate.m; sourceTree = "<group>"; };
-		68926C4B182936AE00571313 /* ZombieState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieState.h; sourceTree = "<group>"; };
-		68926C4C182936AE00571313 /* ZombieState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieState.m; sourceTree = "<group>"; };
 		D8340EF7180D4955004B6679 /* Zombie App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zombie App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8340EFA180D4955004B6679 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8340EFC180D4955004B6679 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -101,6 +105,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6877AD07182C11EC003E828C /* ZombieAI */ = {
+			isa = PBXGroup;
+			children = (
+				6877AD03182C0D28003E828C /* ZombieAIState.h */,
+				6877AD04182C0F5F003E828C /* ZombieAIRoam.h */,
+				6877AD05182C0F5F003E828C /* ZombieAIRoam.m */,
+			);
+			name = ZombieAI;
+			sourceTree = "<group>";
+		};
+		6877AD08182C1205003E828C /* GameController */ = {
+			isa = PBXGroup;
+			children = (
+				D884F3EA180D537700DC077A /* GameController.h */,
+				D884F3EB180D537700DC077A /* GameController.m */,
+				D884F3EE180D73F900DC077A /* GameControllerDelegate.h */,
+				68926BBA1827ADAF00571313 /* EngineTimer.h */,
+				68926BBB1827ADAF00571313 /* EngineTimer.m */,
+			);
+			name = GameController;
+			sourceTree = "<group>";
+		};
+		6877AD09182C1214003E828C /* GameEntities */ = {
+			isa = PBXGroup;
+			children = (
+				6877AD07182C11EC003E828C /* ZombieAI */,
+				D884F3E7180D533500DC077A /* User.h */,
+				D884F3E8180D533500DC077A /* User.m */,
+				68926BBD1827B3BF00571313 /* Zombie.h */,
+				68926BBE1827B3BF00571313 /* Zombie.m */,
+			);
+			name = GameEntities;
+			sourceTree = "<group>";
+		};
 		D8340EEE180D4955004B6679 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +181,8 @@
 				D8A9C441181017F10056698F /* StatsViewController.m */,
 				D8340F12180D4955004B6679 /* Images.xcassets */,
 				D8340F01180D4955004B6679 /* Supporting Files */,
+				6877AD0A182C1809003E828C /* NSString+stringFromTimeInterval.h */,
+				6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */,
 			);
 			path = "Zombie App";
 			sourceTree = "<group>";
@@ -190,17 +230,8 @@
 		D884F3E5180D504D00DC077A /* GameLogic */ = {
 			isa = PBXGroup;
 			children = (
-				D884F3E7180D533500DC077A /* User.h */,
-				D884F3E8180D533500DC077A /* User.m */,
-				D884F3EA180D537700DC077A /* GameController.h */,
-				D884F3EB180D537700DC077A /* GameController.m */,
-				D884F3EE180D73F900DC077A /* GameControllerDelegate.h */,
-				68926BBA1827ADAF00571313 /* EngineTimer.h */,
-				68926BBB1827ADAF00571313 /* EngineTimer.m */,
-				68926BBD1827B3BF00571313 /* Zombie.h */,
-				68926C4B182936AE00571313 /* ZombieState.h */,
-				68926C4C182936AE00571313 /* ZombieState.m */,
-				68926BBE1827B3BF00571313 /* Zombie.m */,
+				6877AD09182C1214003E828C /* GameEntities */,
+				6877AD08182C1205003E828C /* GameController */,
 			);
 			name = GameLogic;
 			sourceTree = "<group>";
@@ -302,12 +333,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */,
+				6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */,
 				D884F3E9180D533500DC077A /* User.m in Sources */,
 				68926BBF1827B3BF00571313 /* Zombie.m in Sources */,
 				D8A9C442181017F10056698F /* StatsViewController.m in Sources */,
 				68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */,
 				68926C49182928D500571313 /* MapViewDelegate.m in Sources */,
-				68926C4D182936AE00571313 /* ZombieState.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				D884F3EC180D537700DC077A /* GameController.m in Sources */,
 				D8340F0B180D4955004B6679 /* AppDelegate.m in Sources */,

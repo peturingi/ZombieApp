@@ -11,10 +11,10 @@
 #import "EngineTimer.h"
 
 // how often to update the game loop
-#define UPDATE_INTERVAL 0.1f
+#define UPDATE_GAME_INTERVAL 0.1f
 
 // how often to notify the UI that important game stats updated
-#define UPDATE_UI 1.0f
+#define UPDATE_UI_INTERVAL 1.0f
 
 /**
 *   Manages agents and game logic.

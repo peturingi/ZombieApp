@@ -34,8 +34,15 @@
 
 - (NSDictionary *)stats{
     NSMutableDictionary *statistics = [NSMutableDictionary dictionary];
-    [statistics setValue:[NSNumber numberWithDouble:[_engineTimer elapsedGameTime]]
-                  forKey:@"playingTime"];
+    
+    NSNumber* elapsedGameTime = [NSNumber numberWithDouble:[_engineTimer elapsedGameTime]];
+    [statistics setValue:elapsedGameTime forKey:@"elapsedGameTime"];
+    
+    NSNumber* userSpeed = [NSNumber numberWithDouble:[_user speed]];
+    [statistics setValue:userSpeed forKey:@"userSpeed"];
+    
+    NSNumber* userDistance = [NSNumber numberWithDouble:[_user distanceTravelledInMeters]];
+    [statistics setObject:userDistance forKey:@"userDistance"];
     
     return statistics;
 }
@@ -58,18 +65,11 @@
  *  Notifies the delegate, that the time has changed.
  */
 -(void)updateUI:(double)deltaTime{
-    static double timeTillUpdate = UPDATE_UI;
+    static double timeTillUpdate = UPDATE_UI_INTERVAL;
     timeTillUpdate -= deltaTime;
     if (timeTillUpdate < 0) {
-        NSMutableDictionary* info = [NSMutableDictionary dictionary];
-        NSNumber* elapsedGameTime = [NSNumber numberWithDouble:[_engineTimer elapsedGameTime]];
-        [info setValue:elapsedGameTime forKey:@"elapsedGameTime"];
-        NSNumber* speed = [NSNumber numberWithDouble:[_user speed]];
-        [info setValue:speed forKey:@"speed"];
-        NSNumber* distance = [NSNumber numberWithDouble:[_user distanceTravelledInMeters]];
-        [info setValue:distance forKey:@"distance"];
-        [_delegate didUpdateGameInfo:info];
-        timeTillUpdate = UPDATE_UI;
+        [_delegate didUpdateGameInfo:[self stats]];
+        timeTillUpdate = UPDATE_UI_INTERVAL;
     }
 }
 
@@ -78,7 +78,7 @@
 - (void)start {
     // initialize the internal timer and thread
     _engineTimer = [[EngineTimer alloc]init];
-    _gameloopThread = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INTERVAL target:self selector:@selector(gameloop) userInfo:nil repeats:YES];
+    _gameloopThread = [NSTimer scheduledTimerWithTimeInterval:UPDATE_GAME_INTERVAL target:self selector:@selector(gameloop) userInfo:nil repeats:YES];
 }
 
 - (void)stop {

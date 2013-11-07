@@ -7,6 +7,7 @@
 //
 
 #import "StatsViewController.h"
+#import "NSString+stringFromTimeInterval.h"
 
 @interface StatsViewController ()
 
@@ -27,22 +28,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    //[[self navigationItem] setHidesBackButton:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSNumber *number = [[self stats] valueForKey:@"playingTime"];
-    NSUInteger playingtime = [number doubleValue];
-    NSUInteger seconds = playingtime % 60;
-    NSUInteger minutes = (playingtime / 60) % 60;
-    NSUInteger hours = (playingtime / 3600) % 24;
-    
-    NSString *elapsedTimeString = [NSString stringWithFormat:@"%.2ld:%.2ld:%.2ld",
-                                   (unsigned long)hours,
-                                   (unsigned long)minutes,
-                                   (unsigned long)seconds];
-    
-    [_totalTime setText:elapsedTimeString];
+    NSNumber *elapsedGameTime = [[self stats] valueForKey:@"elapsedGameTime"];
+    NSString* elapsedTimeString = [NSString stringFromTimeInterval:[elapsedGameTime doubleValue]];
+    [_totalGameTimeLabel setText:elapsedTimeString];
 }
 
 - (void)didReceiveMemoryWarning

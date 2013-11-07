@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "User.h"
-#import "ZombieState.h"
+#import "ZombieAIState.h"
 
-// distinct zombie states
-
+@class User;
 
 @interface Zombie : NSObject{
     NSMutableDictionary* _zombieStates;
-    //ZombieState* _currentState;
+    id<ZombieAIState> _currentState;
 }
 
 @property CLLocation* location;
@@ -25,4 +23,5 @@
 
 
 -(void)think:(NSArray*)otherZombies andPlayer:(User*)user for:(double)deltaTime;
+-(void)changeToState:(int)stateIdentifier;
 @end
