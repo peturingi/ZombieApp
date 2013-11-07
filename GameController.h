@@ -11,7 +11,7 @@
 #import "EngineTimer.h"
 
 // how often to update the game loop
-#define UPDATE_GAME_INTERVAL 0.1f
+#define UPDATE_GAME_INTERVAL 0.5f
 
 // how often to notify the UI that important game stats updated
 #define UPDATE_UI_INTERVAL 1.0f
@@ -32,7 +32,7 @@
 }
 
 /**
- *  Creates a new GameController if one does not already excist.
+ *  Creates a new GameController if one does not already exist.
  *  @return A singleton instance of the GameController
  */
 +(id)sharedInstance;
@@ -48,6 +48,8 @@
 //- (void)pause;
 //- (void)unpause;
 
+
+// Returns information about the current state of the game, such as distances, speed and elapsed time.
 - (NSDictionary *)stats;
 
 @end

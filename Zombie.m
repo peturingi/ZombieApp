@@ -15,20 +15,26 @@
     self = [super init];
     if(self){
         self.location = location;
+        [self initializeAIStates];
     }
     return self;
 }
 
--(void)initializeAIStates{
-    [_zombieStates setObject:[[ZombieAIRoam alloc]init] forKey:[NSNumber numberWithInt:ROAM]];
-}
 
--(void)think:(NSArray*)otherZombies andPlayer:(User*)user for:(double)deltaTime{
-    [_currentState processStateFor:self otherZombies:otherZombies andPlayer:user for:deltaTime];
+
+-(void)think:(NSArray*)otherZombies andPlayer:(User*)user forDuration:(double)deltaTime{
+    [_currentState processStateFor:self otherZombies:otherZombies andPlayer:user forDuration:deltaTime];
 }
 
 -(void)changeToState:(int)stateIdentifier{
     _currentState = [_zombieStates objectForKey:[NSNumber numberWithInt:stateIdentifier]];
     NSAssert(_currentState, @"Attempting statechange to non existing state!");
+}
+
+# pragma mark - private methods
+
+// Add all distinct AI states to the internal dictionary.
+-(void)initializeAIStates{
+    [_zombieStates setObject:[[ZombieAIRoam alloc]init] forKey:[NSNumber numberWithInt:ROAM]];
 }
 @end

@@ -7,6 +7,7 @@
 
 #import "GameController.h"
 #import "MapViewController.h"
+#import "Zombie.h"
 
 @implementation GameController
 
@@ -26,6 +27,7 @@
     
     // initialize game entities
     _zombies = [[NSMutableArray alloc] init];
+    [_zombies addObject:[[Zombie alloc]init]];
     _user = [[User alloc] init];
     
     return self;
@@ -55,6 +57,9 @@
     [_engineTimer update];
     double deltaTime = [_engineTimer currentDeltaInSeconds];
     // think for the zombies
+    for(Zombie* zombie in _zombies){
+        [zombie think:_zombies andPlayer:_user forDuration:deltaTime];
+    }
     // check if any zombies got too far away
         // if so, then delete that/those zombies and spawn them again at random locations around the player
     // update display (mapview)

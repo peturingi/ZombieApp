@@ -11,7 +11,7 @@
 
 @implementation ZombieAIRoam
 
--(void)processStateFor:(Zombie*)zombie otherZombies:(NSArray*)zombies andPlayer:(User*)user for:(double)deltaTime{
+-(void)processStateFor:(Zombie*)zombie otherZombies:(NSArray*)zombies andPlayer:(User*)user forDuration:(double)deltaTime{
     // do something for this zombie when it roams
     
 }

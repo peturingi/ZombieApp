@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ZombieAIState.h"
 
+// This is an example of an implementation of a ZombieAIState
 @interface ZombieAIRoam : NSObject <ZombieAIState>
-
 
 @end

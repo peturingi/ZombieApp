@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+
+// This protocol dictates one method which all zombie AI states must implement as well
+// as an enum identifying particular states.
 @class Zombie;
 @class User;
 
 @protocol ZombieAIState <NSObject>
--(void)processStateFor:(Zombie*)zombie otherZombies:(NSArray*)zombies andPlayer:(User*)user for:(double)deltaTime;
 
+-(void)processStateFor:(Zombie*)zombie otherZombies:(NSArray*)zombies andPlayer:(User*)user forDuration:(double)deltaTime;
 
 @end
 
