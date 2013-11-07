@@ -28,20 +28,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _notificationCenter = [NSNotificationCenter defaultCenter];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
-    // Assuming that all subviews have loaded.
+    // Get a reference to the game controller and set this view controller as its delegate.
     _gameController = [GameController sharedInstance];
-    
-    //[_mapView setDelegate:self];
     [_gameController setDelegate:self];
  }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-        [_gameController start]; // Start the game loop.
+    // Start the game loop.
+    [_gameController start];
 }
 
 - (void)didReceiveMemoryWarning

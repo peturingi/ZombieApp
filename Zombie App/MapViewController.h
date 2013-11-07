@@ -13,7 +13,6 @@
 
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate>{
-    NSNotificationCenter* _notificationCenter;
     GameController* _gameController;
     __weak IBOutlet MKMapView *_mapView;
     __weak IBOutlet UILabel *_elapsedtimeLabel;

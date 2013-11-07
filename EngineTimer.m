@@ -14,7 +14,10 @@
 -(id)init{
     self = [super init];
     if(self){
-        [self reset];
+        _lastTime = 0.0f;
+        _newTime = 0.0f;
+        _deltaTime = 0.0f;
+        _gameStartedAtDate = [NSDate date];
     }
     return self;
 }
@@ -23,38 +26,33 @@
     _gameStoppedAtDate = [NSDate date];
 }
 
--(void)reset{
-    _lastTime = 0.0f;
-    _newTime = 0.0f;
-    _deltaTime = 0.0f;
-    _gameStartedAtDate = [NSDate date];
-}
 -(void)update{
+    // CFAbsoluteTimeGetCurrent get the current system time. It is important that
+    // this is accurate in relation to some specific moment in time - only the relative time
+    // between two measurements are important. I have not been able to find any documentation
+    // on the resolution, but I assume it's about 50-100ms, which is more that precise enough for
+    // our purposes.
     _newTime = CFAbsoluteTimeGetCurrent();
     _deltaTime = (_newTime - _lastTime);
     _lastTime = _newTime;
 }
--(double)currentDeltaInSeconds{
+-(NSTimeInterval)currentDeltaInSeconds{
     return _deltaTime;
 }
 
 
 - (NSTimeInterval)elapsedGameTime{
-    if (_gameStartedAtDate == nil){
-        @throw [NSException exceptionWithName:@"Invalid time interval."
-                                       reason:@"startedPlaying is nil."
-                                     userInfo:nil];
-    }
+    NSAssert(_gameStartedAtDate, @"_gameStartedAtDate was unexpectedly nil!");
 
     NSTimeInterval elapsedTime;
     // The game has not yet ended.
     if(_gameStoppedAtDate == nil){
         elapsedTime = [[NSDate date] timeIntervalSinceDate:_gameStartedAtDate];
-        // The game has ended.
+    // The game has ended.
     }else{
         elapsedTime = [_gameStoppedAtDate timeIntervalSinceDate:_gameStartedAtDate];
     }
-    NSAssert(elapsedTime >= 0, @"Playing time can never be negative!");
+    NSAssert(elapsedTime >= 0, @"elapsedTime was unexpectedly negative!");
     return elapsedTime;
 }
 

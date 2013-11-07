@@ -62,7 +62,7 @@
     }
     // check if any zombies got too far away
         // if so, then delete that/those zombies and spawn them again at random locations around the player
-    // update display (mapview)
+    // update display (mapview) with zombie locations
     [self updateUI:deltaTime];
 }
 

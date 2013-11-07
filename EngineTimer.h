@@ -10,9 +10,9 @@
 
 @interface EngineTimer : NSObject{
     // These variables are important for calculation frame delta time
-    double _deltaTime;
-    double _lastTime;
-    double _newTime;
+    NSTimeInterval _deltaTime;
+    NSTimeInterval _lastTime;
+    NSTimeInterval _newTime;
     
     // Time and date for when the game is started and stopped.
     NSDate* _gameStartedAtDate;
@@ -28,7 +28,7 @@
 
 // Returns the recently calculated delta time. This has no sideeffects, and can
 // called often each cycle if nessesary.
--(double)currentDeltaInSeconds;
+-(NSTimeInterval)currentDeltaInSeconds;
 
 // This implicitly sets the _gameStoppedAtDate to 'now'.
 -(void)stop;
