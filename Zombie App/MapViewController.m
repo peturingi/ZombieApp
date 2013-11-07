@@ -21,7 +21,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         
     }
     return self;
@@ -32,11 +31,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    // TODO, remove the following 2 lines of code.
-    CLLocation *loc = [[CLLocation alloc] initWithLatitude:48.85833 longitude:2.2945];
+#warning development code - remove before release.
+    CLLocation *loc = [[CLLocation alloc] initWithLatitude:37.334256 longitude:-122.032168];
     [_map setCenterCoordinate:loc.coordinate];
     _map.region = MKCoordinateRegionMakeWithDistance(loc.coordinate, 100, 100);
-    
+    CLLocation *z1Coord = loc;
+    CLLocation *z2Coord = [[CLLocation alloc] initWithLatitude:37.334276 longitude:-122.032188];
+    NSNumber *z1Id = [NSNumber numberWithInteger:1];
+    NSNumber *z2Id = [NSNumber numberWithInteger:2];
+    self.zombiesCoordinates = [NSDictionary dictionaryWithObjectsAndKeys:z1Coord, z1Id, z2Coord, z2Id, nil];
     
     gc = [GameController sharedInstance];
     [gc setDelegate:self];
@@ -56,29 +59,34 @@
 
 #pragma mark - Zombie Drawing
 
+/** Draws the zombies found in self.zombiesCoordinates onto the map.
+ *  @remark Not the most efficient code but it is very readable. Uses less than 1% cpu on iPhone 4s.
+ */
 - (void)displayZombiesOnMap {
     // 1. Ensure the zombies have a pairing uiimageview, if not create one.
     // 2. Detect if zombie has been deleted, then remove his uiimageview.
-    // 3. Update overlay coordinates.
+    // 3. Redraw at correct coordinates.
     
-    NSAssert(_map != nil, @"Map should not be nil!");
+    NSAssert(_map != nil, @"Map was nil!");
     NSAssert(self.zombiesCoordinates != nil, @"zombieCoordinates dictionary was nil");
 #ifdef DEBUG
     if (self.zombiesCoordinates.count == 0) {
         NSLog(@"%@ : Warning, dictionary empty", NSStringFromSelector(_cmd));
     }
 #endif
-    
-    // Remove zombie views not found in the passed in dictioanry.
+    // 1.
+    // Handle deletion of zombies, by removing UIImageViews which do not belong to any zombie identifier.
     for (UIImageView *view in _map.subviews) {
         NSNumber *tagOfView = [NSNumber numberWithInteger:view.tag];
         CLLocation *coordinates = [self.zombiesCoordinates objectForKey:tagOfView];
+        // Map can have multiple subviews. Only concern those of UIImageView class as its used to draw the images.
         if (coordinates == nil && [view isKindOfClass:[UIImageView class]]) {
             [view removeFromSuperview];
         }
     }
     
-    // Create views for new zombies.
+    // 2.
+    // Create a new UIImageView for new zombies, add it to the map.
     NSEnumerator *zombiesKeyEnumerator = self.zombiesCoordinates.keyEnumerator;
     id key;
     while ((key = zombiesKeyEnumerator.nextObject)) {
@@ -91,13 +99,11 @@
             }
         }
         
-        // Create a view if one does not excist for the current zombie.
+        // Create a UIImageView if one does not excist for the current zombie.
         if (!zombieHasAView) {
-            
             // Convert the zombies GPS coordinates into coordinates within the MapView.
             CLLocation *geoCoords = [self.zombiesCoordinates objectForKey:key];
             NSAssert (geoCoords != nil, @"geoCoords are nil!");
-            CGPoint pointInMapView = [_map convertCoordinate:geoCoords.coordinate toPointToView:_map];
             
             // Create the zombie view
             UIImage *zombieImage = IMAGE_ZOMBIE
@@ -105,17 +111,15 @@
             UIImageView *view = [[UIImageView alloc] initWithImage:zombieImage];
             view.tag = zombieID;
             
-            // Place the view in its correct position.
-            CGRect viewFrame = view.frame;
-            viewFrame.origin = pointInMapView;
-            viewFrame.origin.x -= viewFrame.size.width / 2;
-            viewFrame.origin.y -= viewFrame.size.height / 2;
-            view.frame = viewFrame;
+            CGPoint pointInMapView = [_map convertCoordinate:geoCoords.coordinate toPointToView:_map];
+            centerViewAtPoint(view, pointInMapView);
+            
             [_map addSubview:view];
         }
     }
     
-    // Move views to new locations.
+    // 3.
+    // Move views to new locations, to match the new location of zombies.
     for (UIImageView *view in _map.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
             NSNumber *zombieID = [NSNumber numberWithInteger:view.tag];
@@ -125,16 +129,22 @@
             NSAssert(geoCoords != nil, @"geoCoords are nil!");
         
             CGPoint pointInMapView = [_map convertCoordinate:geoCoords.coordinate toPointToView:_map];
-            CGRect viewFrame = view.frame;
-            viewFrame.origin = pointInMapView;
-            viewFrame.origin.x -= viewFrame.size.width / 2;
-            viewFrame.origin.y -= viewFrame.size.height / 2;
-            view.frame = viewFrame;
+            centerViewAtPoint(view, pointInMapView);
         }
     }
 }
 
-
+/** Moves the center of an UIImageView to a given CGPoint.
+ *  @param view UIImageView
+ *  @param pointInMap CGPoint
+ */
+void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
+    CGRect viewFrame = view.frame;
+    viewFrame.origin = pointInMapView;
+    viewFrame.origin.x -= viewFrame.size.width / 2;
+    viewFrame.origin.y -= viewFrame.size.height / 2;
+    view.frame = viewFrame;
+}
 
 #pragma mark - game controller delegate methods
 
@@ -192,12 +202,10 @@
 // Zooms in to the users current location, the map the first time the map is shown.
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
-    // Zoom logic begin
+    // -- Zoom logic begin
     NSAssert(userLocation,
              @"userLocation was nil");
-    
     CLLocationCoordinate2D currentCoordinate = [userLocation coordinate];
-    
     // Zoom in on he map, once - the first time the users location is received.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -208,18 +216,19 @@
                                                                        mapLatMeters);
         [mapView setRegion:region];
     });
-    [mapView setCenterCoordinate:currentCoordinate animated:YES];
-    // Zoom logic end
-    
-    // Speed Logic
+    // animation causes problems when syncing zombie location because the didUpdateLocatoinMethod does not get called each time the animation moves the screen.
+    // this could be investigated but from initial analysis it appears that the displayzombiesOnMap method would need to implement its own animation to
+    // math the one provided by setCenterCoordinate. Too hard and outside the scope of the project?
+    [mapView setCenterCoordinate:currentCoordinate animated:NO];
+
+    // -- Speed Logic
     CLLocation *speedLocation = [userLocation location];
     CLLocationSpeed speed = [speedLocation speed];
     if (speed < 0) speed = 0.0f; // Make sure the user does not see a negative value due to inaccuracy.
     NSString *speedString = [NSString stringWithFormat:@"%.2f", speed];
     [_speedLabel setText:speedString];
-    // Speed logic ends
     
-    // Distance logic
+    // -- Distance logic
     if (!_lastKnownLocation) {
         _lastKnownLocation = [userLocation location];
     } else {
@@ -227,14 +236,30 @@
         _lastKnownLocation = [userLocation location];
     }
     [distance setText:[NSString stringWithFormat:@"%.2f", _distanceInMeters]];
-    // Distance logic ends
-    
 }
 
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+#ifdef DEBUG
+    if (!self.zombiesCoordinates)
+        NSLog(@"%@ - verbose debugging: zombiesCoordinates is nil.", NSStringFromSelector(_cmd));
+#endif
+    
+    // Redraw zombies.
+    if (self.zombiesCoordinates) {
+        [self displayZombiesOnMap];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
+#warning not implemented
+}
+
+#pragma mark - Setters & Getters
 - (void)setZombiesCoordinates:(NSDictionary *)zombiesCoordinates {
     _zombiesCoordinates = zombiesCoordinates;
     
     [self displayZombiesOnMap];
 }
+
 
 @end
