@@ -11,11 +11,12 @@
 
 @implementation Zombie
 
--(id)initWithLocation:(CLLocation*)location andIdentifier:(unsigned int)identifier{
+-(id)initWithLocation:(CLLocation*)location andIdentifier:(NSInteger)identifier{
     self = [super init];
     if(self){
         self.location = location;
         [self initializeAIStates];
+        [self setIdentifier:identifier];
     }
     return self;
 }

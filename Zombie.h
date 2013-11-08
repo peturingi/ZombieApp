@@ -21,6 +21,7 @@
 }
 
 @property CLLocation* location;
+@property NSInteger identifier;
 
 // zombie location
 -(id)initWithLocation:(CLLocation*)location andIdentifier:(unsigned int)identifier;

@@ -18,7 +18,7 @@
 
 // This is the amount of zombies to spawn. As it is now, this number is constant
 // throughout the game.
-#define MAX_ZOMBIES 2
+#define MAX_ZOMBIES 20
 
 // Maximum distance from player which is allowed for zombies. Distances larger than this
 // results in generating a new location for the zombie in the vacinity of the player.

@@ -21,4 +21,13 @@
     __weak IBOutlet UILabel *_speedLabel;
     __weak IBOutlet UILabel *_distanceLabel;
 }
+
+/** Zombie identifiers and their coordinates.
+ *  @param zombieCoordinates
+    key: integer wrapped in a NSNumber, represents a specific zombies identifier.
+    value: coordinates for the given key as a CLLocation
+ *  @note Change strong to weak if another class should be responsible for the property.
+ */
+@property (strong, nonatomic) NSDictionary *zombiesCoordinates;
+
 @end

@@ -82,9 +82,20 @@
     // check if any zombies got too far away
     [self checkZombieLocations];
     // update display (mapview) with zombie locations
+    [self renderZombies];
+    
     // update UI stat labels
     [self updateUI:deltaTime];
     
+}
+
+
+-(void)renderZombies{
+    NSMutableDictionary* zombs = [NSMutableDictionary dictionary];
+    for(Zombie* zomb in _zombies){
+        [zombs setObject:zomb.location forKey:[NSNumber numberWithInteger:[zomb identifier]]];
+    }
+    [[self delegate] setZombiesCoordinates:zombs];
 }
 
 // check for each zombie 
