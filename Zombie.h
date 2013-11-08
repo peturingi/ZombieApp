@@ -23,7 +23,7 @@
 @property CLLocation* location;
 
 // zombie location
--(id)initWithLocation:(CLLocation*)location;
+-(id)initWithLocation:(CLLocation*)location andIdentifier:(unsigned int)identifier;
 
 // 'think' method invoked by the game controller. The zombie delegates it further to its internal AI state.
 -(void)think:(NSArray*)otherZombies andPlayer:(User*)user forDuration:(double)deltaTime;

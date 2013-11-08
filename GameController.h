@@ -11,11 +11,18 @@
 #import "EngineTimer.h"
 
 // how often to update the game loop
-#define UPDATE_GAME_INTERVAL 0.5f
+#define UPDATE_GAME_INTERVAL 0.1f
 
 // how often to notify the UI that important game stats updated
 #define UPDATE_UI_INTERVAL 1.0f
 
+// This is the amount of zombies to spawn. As it is now, this number is constant
+// throughout the game.
+#define MAX_ZOMBIES 2
+
+// Maximum distance from player which is allowed for zombies. Distances larger than this
+// results in generating a new location for the zombie in the vacinity of the player.
+#define DISTANCE_FROM_PLAYER_ALLOWED 100
 /**
 *   Manages agents and game logic.
 */

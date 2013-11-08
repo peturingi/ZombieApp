@@ -8,6 +8,7 @@
 #import "GameController.h"
 #import "MapViewController.h"
 #import "Zombie.h"
+#import "MathUtilities.h"
 
 @implementation GameController
 
@@ -26,14 +27,32 @@
     self = [super init];
     
     // initialize game entities
-    _zombies = [[NSMutableArray alloc] init];
-    [_zombies addObject:[[Zombie alloc]init]];
     _user = [[User alloc] init];
+    _zombies = [[NSMutableArray alloc] init];
+    [self generateZombies:MAX_ZOMBIES];
     
     return self;
 }
 
+-(void)generateZombies:(int)amount{
+    for (int index = 0; index < amount; index++) {
+        CLLocation* newLoc = [self generateLocationNearPlayer];
+        Zombie* zomb = [[Zombie alloc]initWithLocation:newLoc andIdentifier:index];
+        [_zombies addObject:zomb];
+    }
+}
 
+-(CLLocation*)generateLocationNearPlayer{
+    NSArray* randomVector = [MathUtilities randomBaseVector];
+    double randomModifier = [MathUtilities randomDoubleNumberBetween:0.0005f and:0.001f];
+    CLLocationDegrees longitude = [[randomVector objectAtIndex:0] doubleValue] * randomModifier;
+    CLLocationDegrees latitude = [[randomVector objectAtIndex:1] doubleValue] * randomModifier;
+    longitude += [[_user location]coordinate].longitude;
+    latitude += [[_user location]coordinate].latitude;
+    CLLocation* location = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
+    NSLog(@"A location was created %.fmeters away from the player", [[_user location] distanceFromLocation:location]);
+    return location;
+}
 - (NSDictionary *)stats{
     NSMutableDictionary *statistics = [NSMutableDictionary dictionary];
     
@@ -61,14 +80,26 @@
         [zombie think:_zombies andPlayer:_user forDuration:deltaTime];
     }
     // check if any zombies got too far away
-        // if so, then delete that/those zombies and spawn them again at random locations around the player
+    [self checkZombieLocations];
     // update display (mapview) with zombie locations
+    // update UI stat labels
     [self updateUI:deltaTime];
+    
 }
 
-/**
- *  Notifies the delegate, that the time has changed.
- */
+// check for each zombie 
+-(void)checkZombieLocations{
+    for(Zombie* zomb in _zombies){
+        if ([[zomb location] distanceFromLocation:[_user location]] > DISTANCE_FROM_PLAYER_ALLOWED) {
+            // if zombie is too far away from the player, create a new location near
+            // the player, for that zombie
+            [zomb setLocation:[self generateLocationNearPlayer]];
+        }
+    }
+}
+
+
+// notifies the delegate, game info has updated.
 -(void)updateUI:(double)deltaTime{
     static double timeTillUpdate = UPDATE_UI_INTERVAL;
     timeTillUpdate -= deltaTime;
@@ -80,12 +111,14 @@
 
 #pragma mark - Start/Stop/Restart.
 
+// start the game engine main loop
 - (void)start {
     // initialize the internal timer and thread
     _engineTimer = [[EngineTimer alloc]init];
     _gameloopThread = [NSTimer scheduledTimerWithTimeInterval:UPDATE_GAME_INTERVAL target:self selector:@selector(gameloop) userInfo:nil repeats:YES];
 }
 
+// stop the main loop, invalidate thread and stop timer
 - (void)stop {
     // stop the internal timer and thread
     [_gameloopThread invalidate];

@@ -11,7 +11,7 @@
 
 @implementation Zombie
 
--(id)initWithLocation:(CLLocation*)location{
+-(id)initWithLocation:(CLLocation*)location andIdentifier:(unsigned int)identifier{
     self = [super init];
     if(self){
         self.location = location;

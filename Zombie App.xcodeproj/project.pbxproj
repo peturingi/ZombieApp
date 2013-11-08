@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD05182C0F5F003E828C /* ZombieAIRoam.m */; };
 		6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */; };
+		6877AD0F182C6901003E828C /* MathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0E182C6901003E828C /* MathUtilities.m */; };
 		68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926BBB1827ADAF00571313 /* EngineTimer.m */; };
 		68926BBF1827B3BF00571313 /* Zombie.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926BBE1827B3BF00571313 /* Zombie.m */; };
 		68926C49182928D500571313 /* MapViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926C48182928D500571313 /* MapViewDelegate.m */; };
@@ -47,6 +48,8 @@
 		6877AD05182C0F5F003E828C /* ZombieAIRoam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAIRoam.m; sourceTree = "<group>"; };
 		6877AD0A182C1809003E828C /* NSString+stringFromTimeInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+stringFromTimeInterval.h"; sourceTree = "<group>"; };
 		6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+stringFromTimeInterval.m"; sourceTree = "<group>"; };
+		6877AD0D182C6901003E828C /* MathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtilities.h; sourceTree = "<group>"; };
+		6877AD0E182C6901003E828C /* MathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathUtilities.m; sourceTree = "<group>"; };
 		68926BBA1827ADAF00571313 /* EngineTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineTimer.h; sourceTree = "<group>"; };
 		68926BBB1827ADAF00571313 /* EngineTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineTimer.m; sourceTree = "<group>"; };
 		68926BBD1827B3BF00571313 /* Zombie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zombie.h; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 			children = (
 				6877AD09182C1214003E828C /* GameEntities */,
 				6877AD08182C1205003E828C /* GameController */,
+				6877AD0D182C6901003E828C /* MathUtilities.h */,
+				6877AD0E182C6901003E828C /* MathUtilities.m */,
 			);
 			name = GameLogic;
 			sourceTree = "<group>";
@@ -341,6 +346,7 @@
 				68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */,
 				68926C49182928D500571313 /* MapViewDelegate.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
+				6877AD0F182C6901003E828C /* MathUtilities.m in Sources */,
 				D884F3EC180D537700DC077A /* GameController.m in Sources */,
 				D8340F0B180D4955004B6679 /* AppDelegate.m in Sources */,
 				D8340F07180D4955004B6679 /* main.m in Sources */,
