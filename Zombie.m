@@ -21,13 +21,13 @@
     return self;
 }
 
-
-
 -(void)think:(NSArray*)otherZombies andPlayer:(User*)user forDuration:(double)deltaTime{
     [_currentState processStateFor:self otherZombies:otherZombies andPlayer:user forDuration:deltaTime];
 }
 
+#warning use of int instead of NSInteger
 -(void)changeToState:(int)stateIdentifier{
+#warning use numberWithInteger
     _currentState = [_zombieStates objectForKey:[NSNumber numberWithInt:stateIdentifier]];
     NSAssert(_currentState, @"Attempting statechange to non existing state!");
 }
@@ -36,6 +36,7 @@
 
 // Add all distinct AI states to the internal dictionary.
 -(void)initializeAIStates{
+#warning use numberWithInteger
     [_zombieStates setObject:[[ZombieAIRoam alloc]init] forKey:[NSNumber numberWithInt:ROAM]];
 }
 @end

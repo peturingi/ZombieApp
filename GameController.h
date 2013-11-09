@@ -56,7 +56,9 @@
 //- (void)unpause;
 
 
-// Returns information about the current state of the game, such as distances, speed and elapsed time.
+/** Returns information about the current state of the game, such as distances, speed and elapsed time.
+ @return Current state of game.
+ */
 - (NSDictionary *)stats;
 
 @end

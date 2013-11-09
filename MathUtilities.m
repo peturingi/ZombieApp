@@ -12,10 +12,12 @@
 #define PI_INTEGER (M_PI * MULTIPLIER_CONSTANT)
 @implementation MathUtilities
 
+#warning use NSInteger.
 +(int)randomNumberBetween:(int)from and:(int)to{
     return (int)from + arc4random() % (to-from+1);
 }
 
+#warning use NSInteger. Also, possible overflow?
 +(double)randomDoubleNumberBetween:(double)from and:(double)to{
     int fromAsInt = from * MULTIPLIER_CONSTANT;
     int toAsInt = to * MULTIPLIER_CONSTANT;
@@ -27,7 +29,6 @@
 +(double)randomBaseCoord{
     return [self randomNumberBetween:0 and:2 * PI_INTEGER] / MULTIPLIER_CONSTANT;
 }
-
 
 +(NSArray*)randomBaseVector{
     double randBC = [self randomBaseCoord];

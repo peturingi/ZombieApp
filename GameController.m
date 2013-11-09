@@ -25,34 +25,61 @@
 
 -(id)init{
     self = [super init];
-    
-    // initialize game entities
-    _user = [[User alloc] init];
-    _zombies = [[NSMutableArray alloc] init];
-    [self generateZombies:MAX_ZOMBIES];
-    
+    if (self) {
+        // initialize game entities
+        _user = [[User alloc] init];
+        _zombies = [[NSMutableArray alloc] init];
+        [self generateZombies:MAX_ZOMBIES];
+    }
     return self;
 }
 
 -(void)generateZombies:(int)amount{
     for (int index = 0; index < amount; index++) {
         CLLocation* newLoc = [self generateLocationNearPlayer];
+        NSAssert(newLoc,
+                 @"Failed to generate a new location");
+        
         Zombie* zomb = [[Zombie alloc]initWithLocation:newLoc andIdentifier:index];
+        NSAssert(zomb,
+                 @"Failed to create a zombie");
+        
         [_zombies addObject:zomb];
     }
 }
 
+
 -(CLLocation*)generateLocationNearPlayer{
     NSArray* randomVector = [MathUtilities randomBaseVector];
+//todo: discuss the spawn distance.
     double randomModifier = [MathUtilities randomDoubleNumberBetween:0.0005f and:0.001f];
     CLLocationDegrees longitude = [[randomVector objectAtIndex:0] doubleValue] * randomModifier;
     CLLocationDegrees latitude = [[randomVector objectAtIndex:1] doubleValue] * randomModifier;
     longitude += [[_user location]coordinate].longitude;
     latitude += [[_user location]coordinate].latitude;
+    
+    // Validate coordinates; make corrections if needed
+    if (latitude < -90) {
+        latitude += 180;
+    } else if (latitude > 90) {
+        latitude -= 180;
+    }
+    if (longitude > 180) {
+        longitude -= 360;
+    } else if (longitude < -180) {
+        longitude += 360;
+    }
+    
     CLLocation* location = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
+    
+#ifdef DEBUG
     NSLog(@"A location was created %.fmeters away from the player", [[_user location] distanceFromLocation:location]);
+#endif
+    
     return location;
 }
+
+// todo: define those magic strings.
 - (NSDictionary *)stats{
     NSMutableDictionary *statistics = [NSMutableDictionary dictionary];
     
@@ -77,6 +104,7 @@
     double deltaTime = [_engineTimer currentDeltaInSeconds];
     // think for the zombies
     for(Zombie* zombie in _zombies){
+// todo: according to AI book, the agent himself must be able to determine for how long he wants to think. Maby this is also ok, I dont know.
         [zombie think:_zombies andPlayer:_user forDuration:deltaTime];
     }
     // check if any zombies got too far away
@@ -89,7 +117,9 @@
     
 }
 
-
+/**
+ *  Sends the list of zombies and their current location over to the view controller.
+ */
 -(void)renderZombies{
     NSMutableDictionary* zombs = [NSMutableDictionary dictionary];
     for(Zombie* zomb in _zombies){
@@ -127,6 +157,9 @@
     // initialize the internal timer and thread
     _engineTimer = [[EngineTimer alloc]init];
     _gameloopThread = [NSTimer scheduledTimerWithTimeInterval:UPDATE_GAME_INTERVAL target:self selector:@selector(gameloop) userInfo:nil repeats:YES];
+    
+    NSAssert(_engineTimer, @"engine timer is nil");
+    NSAssert(_gameloopThread, @"loop is nil");
 }
 
 // stop the main loop, invalidate thread and stop timer
