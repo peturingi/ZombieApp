@@ -30,6 +30,8 @@
 		D884F3E9180D533500DC077A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E8180D533500DC077A /* User.m */; };
 		D884F3EC180D537700DC077A /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3EB180D537700DC077A /* GameController.m */; };
 		D8A9C442181017F10056698F /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C441181017F10056698F /* StatsViewController.m */; };
+		D8AC133C1842AA2500D741FB /* Bayesian.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8AC133A1842AA2500D741FB /* Bayesian.mm */; };
+		D8AC133E1842AAF500D741FB /* Bayesian_Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = D8AC133D1842AAF500D741FB /* Bayesian_Test.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,9 @@
 		D884F3EE180D73F900DC077A /* GameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameControllerDelegate.h; path = "Zombie App/GameControllerDelegate.h"; sourceTree = "<group>"; };
 		D8A9C440181017F10056698F /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		D8A9C441181017F10056698F /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
+		D8AC133A1842AA2500D741FB /* Bayesian.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Bayesian.mm; sourceTree = SOURCE_ROOT; };
+		D8AC133B1842AA2500D741FB /* Bayesian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bayesian.h; sourceTree = SOURCE_ROOT; };
+		D8AC133D1842AAF500D741FB /* Bayesian_Test.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Bayesian_Test.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +116,9 @@
 		6877AD07182C11EC003E828C /* ZombieAI */ = {
 			isa = PBXGroup;
 			children = (
+				D8AC133A1842AA2500D741FB /* Bayesian.mm */,
+				D8AC133D1842AAF500D741FB /* Bayesian_Test.mm */,
+				D8AC133B1842AA2500D741FB /* Bayesian.h */,
 				6877AD03182C0D28003E828C /* ZombieAIState.h */,
 				6877AD04182C0F5F003E828C /* ZombieAIRoam.h */,
 				6877AD05182C0F5F003E828C /* ZombieAIRoam.m */,
@@ -339,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */,
+				D8AC133C1842AA2500D741FB /* Bayesian.mm in Sources */,
 				6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */,
 				D884F3E9180D533500DC077A /* User.m in Sources */,
 				68926BBF1827B3BF00571313 /* Zombie.m in Sources */,
@@ -358,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */,
+				D8AC133E1842AAF500D741FB /* Bayesian_Test.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
