@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9479D14F-1FE7-41AD-B369-23DBAA0BC8E2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Zombie App</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AA20A5B9-60BB-4717-859E-28868EA5DE0F</key>
+		<string>https://bitbucket.org/peturingi/zombie-app.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Zombie App.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AA20A5B9-60BB-4717-859E-28868EA5DE0F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/peturingi/zombie-app.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AA20A5B9-60BB-4717-859E-28868EA5DE0F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AA20A5B9-60BB-4717-859E-28868EA5DE0F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Zombie App</string>
+		</dict>
+	</array>
+</dict>
+</plist>
