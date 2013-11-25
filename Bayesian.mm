@@ -108,15 +108,53 @@ using namespace bayes_node_utils;
                 } states;
             } visualReachesZombie;
             
+            struct {
+                NSInteger ident                     = 10;
+                struct {
+                    NSInteger yes                   = 0;
+                    NSInteger no                    = 1;
+                } states;
+            } seesPlayer;
             
-            NSInteger visionSkill                   = 9;
-            NSInteger seesPlayer                    = 11;
-            NSInteger energy                        = 12;
-            NSInteger strategy                      = 13;
-            NSInteger travelingDistanceFromPlayer   = 14;
+            struct {
+                NSInteger ident                     = 11;
+                struct {
+                    NSInteger blind                 = 0;
+                    NSInteger normal                = 1;
+                    NSInteger impaired              = 2;
+                } states;
+            } visionSkill;
+            
+            struct {
+                NSInteger ident                     = 12;
+                struct {
+                    NSInteger low                   = 0;
+                    NSInteger medium                = 1;
+                    NSInteger high                  = 2;
+                } states;
+            } energy;
+            
+            struct {
+                NSInteger ident                     = 13;
+                struct {
+                    NSInteger idle                  = 0;
+                    NSInteger roam                  = 1;
+                    NSInteger walk                  = 2;
+                    NSInteger sprint                = 3;
+                } states;
+            } strategy;
+            
+            struct {
+                NSInteger ident                     = 14;
+                struct {
+                    NSInteger sprintRange           = 0;
+                    NSInteger walkRange             = 1;
+                    NSInteger outOfRange            = 2;
+                } states;
+            } travelingDistanceToPercept;
         } node;
         
-        static NSInteger numberOfNodes = 10;
+        static NSInteger numberOfNodes = 15;
         
         // Creates a Bayesian Network.
         directed_graph<bayes_node>::kernel_1a_c bn;
@@ -139,16 +177,16 @@ using namespace bayes_node_utils;
         bn.add_edge(node.visibilityDistance.ident,  node.visualReachesZombie.ident);
         bn.add_edge(node.zombieFacingPercept.ident, node.visualReachesZombie.ident);
         bn.add_edge(node.obstacleInBetween.ident,   node.visualReachesZombie.ident);
-        /*
          // node: seesPlayer
-         bn.add_edge(node.hearsPlayer, node.seesPlayer);
-         bn.add_edge(node.visionSkill, node.seesPlayer);
-         bn.add_edge(node.visualReachesZombie, node.seesPlayer);
+         bn.add_edge(node.hearsPlayer.ident, node.seesPlayer.ident);
+         bn.add_edge(node.visionSkill.ident, node.seesPlayer.ident);
+         bn.add_edge(node.visualReachesZombie.ident, node.seesPlayer.ident);
+        
          // node: strategy
-         bn.add_edge(node.energy, node.strategy);
-         bn.add_edge(node.travelingDistanceFromPlayer, node.strategy);
-         bn.add_edge(node.hearsPlayer, node.strategy);
-         bn.add_edge(node.seesPlayer, node.strategy);*/
+         bn.add_edge(node.energy.ident, node.strategy.ident);
+         bn.add_edge(node.travelingDistanceToPercept.ident, node.strategy.ident);
+         bn.add_edge(node.hearsPlayer.ident, node.strategy.ident);
+         bn.add_edge(node.seesPlayer.ident, node.strategy.ident);
         ALog(@"");
         /**
          *  Specify the number of states each node has.
@@ -164,6 +202,11 @@ using namespace bayes_node_utils;
         set_node_num_values(bn, node.zombieFacingPercept.ident, sizeof(node.zombieFacingPercept.states) / sizeof(NSInteger));
         set_node_num_values(bn, node.obstacleInBetween.ident,   sizeof(node.obstacleInBetween.states) / sizeof(NSInteger));
         set_node_num_values(bn, node.visualReachesZombie.ident, sizeof(node.visualReachesZombie.states) / sizeof(NSInteger));
+        set_node_num_values(bn, node.visionSkill.ident,         sizeof(node.visionSkill.states) / sizeof(NSInteger));
+        set_node_num_values(bn, node.seesPlayer.ident,          sizeof(node.seesPlayer.states) / sizeof(NSInteger));
+        set_node_num_values(bn, node.energy.ident,              sizeof(node.energy.states) / sizeof(NSInteger));
+        set_node_num_values(bn, node.strategy.ident,            sizeof(node.strategy.states) / sizeof(NSInteger));
+        set_node_num_values(bn, node.travelingDistanceToPercept.ident, sizeof(node.travelingDistanceToPercept.states) / sizeof(NSInteger));
         
         /**
          *  Construct the probability tables.
@@ -351,8 +394,7 @@ using namespace bayes_node_utils;
         parent_state[node.zombieFacingPercept.ident] = node.zombieFacingPercept.states.no;      // ... not-facing
         set_node_probability(bn, node.visualReachesZombie.ident, node.visualReachesZombie.states.yes, parent_state, 0.0);
         set_node_probability(bn, node.visualReachesZombie.ident, node.visualReachesZombie.states.no, parent_state, 1.0);
-        // night
-        parent_state[node.dayOrNight.ident] = node.dayOrNight.states.night;
+        parent_state[node.dayOrNight.ident] = node.dayOrNight.states.night; // night
         parent_state[node.obstacleInBetween.ident] = node.obstacleInBetween.states.yes;
         parent_state[node.visibilityDistance.ident] = node.visibilityDistance.states.close;
         parent_state[node.zombieFacingPercept.ident] = node.zombieFacingPercept.states.yes;  // night, obstacle, close, facing
@@ -397,6 +439,64 @@ using namespace bayes_node_utils;
         parent_state[node.zombieFacingPercept.ident] = node.zombieFacingPercept.states.no;      // ... not-facing
         set_node_probability(bn, node.visualReachesZombie.ident, node.visualReachesZombie.states.yes, parent_state, 0.0);
         set_node_probability(bn, node.visualReachesZombie.ident, node.visualReachesZombie.states.no, parent_state, 1.0);
+        
+        // node: visionSkills , node without parents
+        parent_state.clear();
+        set_node_probability(bn, node.visionSkill.ident, node.visionSkill.states.blind, parent_state, 0.005);
+        set_node_probability(bn, node.visionSkill.ident, node.visionSkill.states.impaired, parent_state, 0.034);
+        set_node_probability(bn, node.visionSkill.ident, node.visionSkill.states.normal, parent_state, 0.961);
+        
+        // node: seesPlayer , parents:hearsPlayer&visionSkill&visualReachesZombie
+        parent_state.clear();
+        parent_state.add(node.visionSkill.ident, node.visionSkill.states.blind);
+            parent_state.add(node.visualReachesZombie.ident, node.visualReachesZombie.states.yes);
+                parent_state.add(node.hearsPlayer.ident, node.hearsPlayer.states.yes);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.no;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+            parent_state[node.visualReachesZombie.ident] = node.visualReachesZombie.states.no; // blind, not reaches, hears
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.yes;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.no;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+        parent_state[node.visionSkill.ident] = node.visionSkill.states.impaired;
+            parent_state[node.visualReachesZombie.ident] = node.visualReachesZombie.states.yes;
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.yes;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.46);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 0.54);
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.no;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.3);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 0.7);
+            parent_state[node.visualReachesZombie.ident] = node.visualReachesZombie.states.no;
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.yes;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.no;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+        parent_state[node.visionSkill.ident] = node.visionSkill.states.normal;
+            parent_state[node.visualReachesZombie.ident] = node.visualReachesZombie.states.yes;
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.yes;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.9);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 0.1);
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.no;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.6);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 0.4);
+            parent_state[node.visualReachesZombie.ident] = node.visualReachesZombie.states.no;
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.yes;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+                parent_state[node.hearsPlayer.ident] = node.hearsPlayer.states.no;
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.yes, parent_state, 0.0);
+        set_node_probability(bn, node.seesPlayer.ident, node.seesPlayer.states.no, parent_state, 1.0);
+        
+        // node: strategy, parents:energy&hearsPlayer&seesPlayer&travelingDistanceToPercept
+        
+        
         {
             /* test code */
             typedef dlib::set<unsigned long>::compare_1b_c set_type;
@@ -409,17 +509,19 @@ using namespace bayes_node_utils;
             set_node_value(bn, node.visibilityDistance.ident, node.visibilityDistance.states.far);
             set_node_value(bn, node.zombieFacingPercept.ident, node.zombieFacingPercept.states.yes);
             set_node_value(bn, node.obstacleInBetween.ident, node.obstacleInBetween.states.no);
+            set_node_value(bn, node.visionSkill.ident, node.visionSkill.states.impaired);
             set_node_as_evidence(bn, node.dayOrNight.ident);
             set_node_as_evidence(bn, node.visibilityDistance.ident);
             set_node_as_evidence(bn, node.zombieFacingPercept.ident);
             set_node_as_evidence(bn, node.obstacleInBetween.ident);
+            set_node_as_evidence(bn, node.visionSkill.ident);
             ALog(@"");
             bayesian_network_join_tree solution(bn, join_tree);
             ALog(@"");
             // now print out the probabilities for each node
             cout << "Using the join tree algorithm:\n";
-            cout << "p(soundReachesZombie = yes) = " << solution.probability(node.visualReachesZombie.ident)(node.hearsPlayer.states.yes) << endl;
-            cout << "p(soundReachesZombie = no) = " << solution.probability(node.visualReachesZombie.ident)(node.hearsPlayer.states.no) << endl;
+            cout << "p(soundReachesZombie = yes) = " << solution.probability(node.seesPlayer.ident)(node.seesPlayer.states.yes) << endl;
+            cout << "p(soundReachesZombie = no) = " << solution.probability(node.seesPlayer.ident)(node.seesPlayer.states.no) << endl;
             cout << "\n\n\n";
         }
         
