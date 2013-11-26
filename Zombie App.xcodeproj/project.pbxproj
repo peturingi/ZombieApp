@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6817CBFD18422A9E00849768 /* GridMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CBFC18422A9E00849768 /* GridMap.m */; };
+		6817CC0018422F6A00849768 /* GridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CBFF18422F6A00849768 /* GridCell.m */; };
+		6817CC021842882600849768 /* GridMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC011842882600849768 /* GridMapTests.m */; };
+		6817CC041842890A00849768 /* GridCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC031842890A00849768 /* GridCellTests.m */; };
+		6817CC071842A35E00849768 /* PathfindingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC061842A35E00849768 /* PathfindingSystem.m */; };
+		6817CC091842B2AB00849768 /* PathfindingSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC081842B2AB00849768 /* PathfindingSystemTests.m */; };
 		6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD05182C0F5F003E828C /* ZombieAIRoam.m */; };
 		6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */; };
 		6877AD0F182C6901003E828C /* MathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0E182C6901003E828C /* MathUtilities.m */; };
@@ -46,6 +52,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6817CBFB18422A9E00849768 /* GridMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridMap.h; sourceTree = "<group>"; };
+		6817CBFC18422A9E00849768 /* GridMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridMap.m; sourceTree = "<group>"; };
+		6817CBFE18422F6A00849768 /* GridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridCell.h; sourceTree = "<group>"; };
+		6817CBFF18422F6A00849768 /* GridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridCell.m; sourceTree = "<group>"; };
+		6817CC011842882600849768 /* GridMapTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridMapTests.m; sourceTree = "<group>"; };
+		6817CC031842890A00849768 /* GridCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridCellTests.m; sourceTree = "<group>"; };
+		6817CC051842A35E00849768 /* PathfindingSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathfindingSystem.h; sourceTree = "<group>"; };
+		6817CC061842A35E00849768 /* PathfindingSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathfindingSystem.m; sourceTree = "<group>"; };
+		6817CC081842B2AB00849768 /* PathfindingSystemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathfindingSystemTests.m; sourceTree = "<group>"; };
 		6877AD03182C0D28003E828C /* ZombieAIState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZombieAIState.h; sourceTree = "<group>"; };
 		6877AD04182C0F5F003E828C /* ZombieAIRoam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieAIRoam.h; sourceTree = "<group>"; };
 		6877AD05182C0F5F003E828C /* ZombieAIRoam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAIRoam.m; sourceTree = "<group>"; };
@@ -115,6 +130,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6817CBFA18422A8900849768 /* GridSystem */ = {
+			isa = PBXGroup;
+			children = (
+				6817CBFB18422A9E00849768 /* GridMap.h */,
+				6817CBFC18422A9E00849768 /* GridMap.m */,
+				6817CBFE18422F6A00849768 /* GridCell.h */,
+				6817CBFF18422F6A00849768 /* GridCell.m */,
+				6817CC051842A35E00849768 /* PathfindingSystem.h */,
+				6817CC061842A35E00849768 /* PathfindingSystem.m */,
+			);
+			name = GridSystem;
+			sourceTree = "<group>";
+		};
 		6877AD07182C11EC003E828C /* ZombieAI */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +159,7 @@
 		6877AD08182C1205003E828C /* GameController */ = {
 			isa = PBXGroup;
 			children = (
+				6817CBFA18422A8900849768 /* GridSystem */,
 				D884F3EA180D537700DC077A /* GameController.h */,
 				D884F3EB180D537700DC077A /* GameController.m */,
 				D884F3EE180D73F900DC077A /* GameControllerDelegate.h */,
@@ -215,6 +244,9 @@
 		D8340F1F180D4955004B6679 /* Zombie AppTests */ = {
 			isa = PBXGroup;
 			children = (
+				6817CC081842B2AB00849768 /* PathfindingSystemTests.m */,
+				6817CC031842890A00849768 /* GridCellTests.m */,
+				6817CC011842882600849768 /* GridMapTests.m */,
 				D8340F25180D4955004B6679 /* Zombie_AppTests.m */,
 				D8340F20180D4955004B6679 /* Supporting Files */,
 			);
@@ -352,6 +384,7 @@
 			files = (
 				6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */,
 				6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */,
+				6817CBFD18422A9E00849768 /* GridMap.m in Sources */,
 				D884F3E9180D533500DC077A /* User.m in Sources */,
 				D88DF1571844D2E000F711C4 /* Strategy.m in Sources */,
 				68926BBF1827B3BF00571313 /* Zombie.m in Sources */,
@@ -361,7 +394,9 @@
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				6877AD0F182C6901003E828C /* MathUtilities.m in Sources */,
 				D884F3EC180D537700DC077A /* GameController.m in Sources */,
+				6817CC0018422F6A00849768 /* GridCell.m in Sources */,
 				D8340F0B180D4955004B6679 /* AppDelegate.m in Sources */,
+				6817CC071842A35E00849768 /* PathfindingSystem.m in Sources */,
 				D8340F07180D4955004B6679 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,7 +406,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D88DF1591844D61000F711C4 /* Strategy_Test.m in Sources */,
+				6817CC021842882600849768 /* GridMapTests.m in Sources */,
+				6817CC041842890A00849768 /* GridCellTests.m in Sources */,
 				D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */,
+				6817CC091842B2AB00849768 /* PathfindingSystemTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

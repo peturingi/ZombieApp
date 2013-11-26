@@ -15,5 +15,5 @@
  */
 
 -(void)didUpdateGameInfo:(NSDictionary*)infoDictionary;
-@property (strong, nonatomic) NSDictionary *zombiesCoordinates;
+-(void)renderZombies:(NSDictionary*)zombies;
 @end

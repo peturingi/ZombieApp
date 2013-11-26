@@ -10,6 +10,8 @@
 #import "Zombie.h"
 #import "MathUtilities.h"
 
+
+
 @implementation GameController
 
 +(id)sharedInstance
@@ -29,13 +31,18 @@
         // initialize game entities
         _user = [[User alloc] init];
         _zombies = [[NSMutableArray alloc] init];
+        _gridMap = [[GridMap alloc]init];
         [self generateZombies:MAX_ZOMBIES];
+        
     }
     return self;
 }
 
 -(void)generateZombies:(int)amount{
+    PathfindingSystem* pathfindingSystem = [[PathfindingSystem alloc]initWithMap:_gridMap];
+    
     for (int index = 0; index < amount; index++) {
+        /*
         CLLocation* newLoc = [self generateLocationNearPlayer];
         NSAssert(newLoc,
                  @"Failed to generate a new location");
@@ -45,7 +52,13 @@
                  @"Failed to create a zombie");
         
         [_zombies addObject:zomb];
+         */
+        GridCell* cell = [_gridMap cellAt:0+(index*40)+1 andY:0+(index*10)+1];
+        Zombie* zombie = [[Zombie alloc]initWithCellLocation:cell
+                                                  identifier:index+1 andPathfindingSystem:pathfindingSystem];
+        [_zombies addObject:zombie];
     }
+     
 }
 
 
@@ -102,15 +115,22 @@
     // update time
     [_engineTimer update];
     double deltaTime = [_engineTimer currentDeltaInSeconds];
+    
+    // update player position in cell map
+    CLLocation* location = [_user location];
+    GridCell* cell = [_gridMap cellForCoreLocation:location];
+    [_user setCellLocation:cell];
+    
+    // update percepts for zombies
+    for(Zombie* zombie in _zombies){
+        [zombie setPerceptLocation:[_user cellLocation]];
+    }
+    
     // think for the zombies
     for(Zombie* zombie in _zombies){
 // todo: according to AI book, the agent himself must be able to determine for how long he wants to think. Maby this is also ok, I dont know.
-        [zombie think:_zombies andPlayer:_user forDuration:deltaTime];
+        [zombie think:deltaTime];
     }
-    // check if any zombies got too far away
-    [self checkZombieLocations];
-    // update display (mapview) with zombie locations
-    [self renderZombies];
     
     // update UI stat labels
     [self updateUI:deltaTime];
@@ -121,14 +141,16 @@
  *  Sends the list of zombies and their current location over to the view controller.
  */
 -(void)renderZombies{
-    NSMutableDictionary* zombs = [NSMutableDictionary dictionary];
-    for(Zombie* zomb in _zombies){
-        [zombs setObject:zomb.location forKey:[NSNumber numberWithInteger:[zomb identifier]]];
+    NSMutableDictionary* zombiesLocations = [NSMutableDictionary dictionary];
+    for(Zombie* zombie in _zombies){
+        CLLocation* location = [_gridMap coreLocationForCell:[zombie cellLocation]];
+        [zombiesLocations setObject:location forKey:[NSNumber numberWithInteger:[zombie identifier]]];
     }
-    [[self delegate] setZombiesCoordinates:zombs];
+    [[self delegate] renderZombies:zombiesLocations];
 }
 
-// check for each zombie 
+// check for each zombie
+/*
 -(void)checkZombieLocations{
     for(Zombie* zomb in _zombies){
         if ([[zomb location] distanceFromLocation:[_user location]] > DISTANCE_FROM_PLAYER_ALLOWED) {
@@ -138,6 +160,7 @@
         }
     }
 }
+ */
 
 
 // notifies the delegate, game info has updated.
@@ -146,6 +169,7 @@
     timeTillUpdate -= deltaTime;
     if (timeTillUpdate < 0) {
         [_delegate didUpdateGameInfo:[self stats]];
+        [self renderZombies];
         timeTillUpdate = UPDATE_UI_INTERVAL;
     }
 }
