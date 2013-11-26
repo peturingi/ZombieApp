@@ -29,6 +29,9 @@
 		D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E1180D4ABC00DC077A /* MapViewController.m */; };
 		D884F3E9180D533500DC077A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E8180D533500DC077A /* User.m */; };
 		D884F3EC180D537700DC077A /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3EB180D537700DC077A /* GameController.m */; };
+		D88DF1541844D2CA00F711C4 /* table.csv in Resources */ = {isa = PBXBuildFile; fileRef = D88DF1531844D2CA00F711C4 /* table.csv */; };
+		D88DF1571844D2E000F711C4 /* Strategy.m in Sources */ = {isa = PBXBuildFile; fileRef = D88DF1561844D2E000F711C4 /* Strategy.m */; };
+		D88DF1591844D61000F711C4 /* Strategy_Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D88DF1581844D61000F711C4 /* Strategy_Test.m */; };
 		D8A9C442181017F10056698F /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A9C441181017F10056698F /* StatsViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +83,10 @@
 		D884F3EA180D537700DC077A /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
 		D884F3EB180D537700DC077A /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
 		D884F3EE180D73F900DC077A /* GameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameControllerDelegate.h; path = "Zombie App/GameControllerDelegate.h"; sourceTree = "<group>"; };
+		D88DF1531844D2CA00F711C4 /* table.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = table.csv; sourceTree = "<group>"; };
+		D88DF1551844D2E000F711C4 /* Strategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strategy.h; sourceTree = "<group>"; };
+		D88DF1561844D2E000F711C4 /* Strategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Strategy.m; sourceTree = "<group>"; };
+		D88DF1581844D61000F711C4 /* Strategy_Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Strategy_Test.m; path = "Zombie App/Strategy_Test.m"; sourceTree = "<group>"; };
 		D8A9C440181017F10056698F /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		D8A9C441181017F10056698F /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				6877AD03182C0D28003E828C /* ZombieAIState.h */,
+				D88DF1551844D2E000F711C4 /* Strategy.h */,
+				D88DF1561844D2E000F711C4 /* Strategy.m */,
+				D88DF1581844D61000F711C4 /* Strategy_Test.m */,
 				6877AD04182C0F5F003E828C /* ZombieAIRoam.h */,
 				6877AD05182C0F5F003E828C /* ZombieAIRoam.m */,
 			);
@@ -193,6 +203,7 @@
 		D8340F01180D4955004B6679 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D88DF1531844D2CA00F711C4 /* table.csv */,
 				D8340F02180D4955004B6679 /* Zombie App-Info.plist */,
 				D8340F03180D4955004B6679 /* InfoPlist.strings */,
 				D8340F06180D4955004B6679 /* main.m */,
@@ -320,6 +331,7 @@
 				D8340F13180D4955004B6679 /* Images.xcassets in Resources */,
 				D8340F05180D4955004B6679 /* InfoPlist.strings in Resources */,
 				D8340F0E180D4955004B6679 /* Main.storyboard in Resources */,
+				D88DF1541844D2CA00F711C4 /* table.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +353,7 @@
 				6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */,
 				6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */,
 				D884F3E9180D533500DC077A /* User.m in Sources */,
+				D88DF1571844D2E000F711C4 /* Strategy.m in Sources */,
 				68926BBF1827B3BF00571313 /* Zombie.m in Sources */,
 				D8A9C442181017F10056698F /* StatsViewController.m in Sources */,
 				68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */,
@@ -357,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D88DF1591844D61000F711C4 /* Strategy_Test.m in Sources */,
 				D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
