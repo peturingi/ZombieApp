@@ -10,6 +10,8 @@
 #import "ZombieAIState.h"
 
 // This is an example of an implementation of a ZombieAIState
-@interface ZombieAIRoam : NSObject <ZombieAIState>
+@interface ZombieAIRoam : NSObject <ZombieAIState>{
+    NSArray* _roamPath;
+}
 
 @end

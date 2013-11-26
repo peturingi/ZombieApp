@@ -9,16 +9,17 @@
 #import "GameControllerDelegate.h"
 #import "User.h"
 #import "EngineTimer.h"
+#import "GridMap.h"
 
 // how often to update the game loop
-#define UPDATE_GAME_INTERVAL 0.1f
+#define UPDATE_GAME_INTERVAL 0.5f
 
 // how often to notify the UI that important game stats updated
-#define UPDATE_UI_INTERVAL 1.0f
+#define UPDATE_UI_INTERVAL 3.0f
 
 // This is the amount of zombies to spawn. As it is now, this number is constant
 // throughout the game.
-#define MAX_ZOMBIES 20
+#define MAX_ZOMBIES 3
 
 // Maximum distance from player which is allowed for zombies. Distances larger than this
 // results in generating a new location for the zombie in the vacinity of the player.
@@ -36,6 +37,9 @@
     // Game entities, the player and zombies
     User *_user;
     NSMutableArray* _zombies;
+    
+    // The game map grid system
+    GridMap* _gridMap;
 }
 
 /**

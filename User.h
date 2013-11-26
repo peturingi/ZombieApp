@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "GridCell.h"
 
 @interface User : NSObject{
     CLLocation* _previousLocation;
@@ -17,5 +18,6 @@
 @property (atomic) CLLocation* location;
 @property (atomic) CLLocationDistance distanceTravelledInMeters;
 @property (atomic) CLLocationSpeed speed;
+@property (atomic) GridCell* cellLocation;
 
 @end

@@ -28,7 +28,7 @@
 }
 
 -(void)update{
-    // CFAbsoluteTimeGetCurrent get the current system time. It is important that
+    // CFAbsoluteTimeGetCurrent get the current system time. It is not important that
     // this is accurate in relation to some specific moment in time - only the relative time
     // between two measurements are important. I have not been able to find any documentation
     // on the resolution, but I assume it's about 50-100ms, which is more that precise enough for

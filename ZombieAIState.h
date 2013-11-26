@@ -16,12 +16,13 @@
 
 @protocol ZombieAIState <NSObject>
 
--(void)processStateFor:(Zombie*)zombie otherZombies:(NSArray*)zombies andPlayer:(User*)user forDuration:(double)deltaTime;
-
+-(void)executeFor:(Zombie*)zombie withDelta:(double)deltaTime;
+-(void)resetState;
 @end
 
 enum {
+    IDLE,
     ROAM,
-    FOLLOW_ZOMBIE,
-    CHASE_PLAYER
+    WALK_TO_PLAYER,
+    RUN_TO_PLAYER
 };
