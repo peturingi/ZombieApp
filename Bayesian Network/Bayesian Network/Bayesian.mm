@@ -587,16 +587,15 @@ using namespace bayes_node_utils;
     [[NSFileManager defaultManager] createFileAtPath: @"table.csv" contents: [@"" dataUsingEncoding: NSUnicodeStringEncoding] attributes: nil];
     NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath: @"table.csv"];
     [file seekToEndOfFile];
-    NSString *header = @"soundLevel,distanceToPlayer,visibilityDistance,zombieFacingPercept,obstacleInBetween,dayOrNight,hearingSkill,visionSkill,energy,travlingDistanceToPercept,strategy";
+    NSString *header = @"soundLevel,distanceToPlayer,visibilityDistance,zombieFacingPercept,obstacleInBetween,dayOrNight,hearingSkill,visionSkill,energy,travlingDistanceToPercept,strategy\n";
     [file writeData:[header dataUsingEncoding:NSUTF8StringEncoding]];
     
-    typedef dlib::set<unsigned long>::compare_1b_c set_type;
-    typedef graph<set_type, set_type>::kernel_1a_c join_tree_type;
+
     join_tree_type join_tree;
     create_moral_graph(bn, join_tree);
     create_join_tree(join_tree, join_tree);
     
-    NSMutableArray *data;
+    NSMutableArray *data = [[NSMutableArray alloc] init];
     
      
     try{
@@ -632,17 +631,7 @@ using namespace bayes_node_utils;
                                         for (int travelingDistanceToPercept = 0; travelingDistanceToPercept < sizeof(node.travelingDistanceToPercept.states) / sizeof(NSInteger); travelingDistanceToPercept++) {
                                             set_node_value(bn, node.travelingDistanceToPercept.ident, travelingDistanceToPercept);
                                             set_node_as_evidence(bn, node.travelingDistanceToPercept.ident);
-                                            
-     
- 
 
-
-
-
-
- 
-                                            
-                  
                                             bayesian_network_join_tree solution_with_evidence(bn, join_tree);
                                             double probRoam = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.roam);
                                             double probWalk = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.walk);
@@ -660,10 +649,12 @@ using namespace bayes_node_utils;
                                             if (probSprint >= probIdle && probSprint >= probWalk && probSprint >= probRoam)
                                                 strategy = node.strategy.states.sprint;
                                             
-                                            [data addObject:[NSString stringWithFormat:@"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%ld\n", soundLevel, distanceToPlayer, visibilityDistance, zombieFacingPercept, obstacleInBetween, dayOrNight, hearingSkill, visionSkill, energy, travelingDistanceToPercept, (long)strategy]];
+                                            NSString *str = [NSString stringWithFormat:@"%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01ld\n", soundLevel, distanceToPlayer, visibilityDistance, zombieFacingPercept, obstacleInBetween, dayOrNight, hearingSkill, visionSkill, energy, travelingDistanceToPercept, (long)strategy];
+                                            [file writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
+                                            
                                             
                                             _process++;
-                                            if (_process % 100 == 0) NSLog(@"%ld", _process);
+                                            if (_process % 100 == 0) NSLog(@"Current: %ld, string: %@", _process, str);
                                         }
                                     }
                                 }
@@ -682,8 +673,6 @@ using namespace bayes_node_utils;
         cout << "hit enter to terminate" << endl;
         cin.get();
     }
-    for (NSString *s in data)
-    [file writeData:[s dataUsingEncoding:NSUTF8StringEncoding]];
     [file closeFile];
     
 }

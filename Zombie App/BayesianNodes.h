@@ -1,27 +1,18 @@
-
 //
-//  Created by Pétur Ingi Egilsson on 17/11/13.
-//  Copyright (c) 2013 Pétur Ingi Egilsson. All rights reserved.
+//  BayesianNodes.h
+//  Zombie App
+//
+//  Created by Pétur Ingi Egilsson on 26/11/13.
+//  Copyright (c) 2013 Aalborg Universitet. All rights reserved.
 //
 
-
-
-#include <Foundation/Foundation.h>
-
-#import "../dlib/bayes_utils.h"
-#import "../dlib/graph_utils.h"
-#import "../dlib/graph.h"
-#import "../dlib/directed_graph.h"
-using namespace dlib;
-using namespace std;
-using namespace bayes_node_utils;
-
-typedef dlib::set<unsigned long>::compare_1b_c set_type;
-typedef graph<set_type, set_type>::kernel_1a_c join_tree_type;
+/*
+    Convinence class. No corresponding implementation file.
+ */
 
 struct {
     struct {
-        NSInteger ident                     = 0;
+        NSInteger ident = 0;
         struct {
             NSInteger still                 = 0;
             NSInteger walking               = 1;
@@ -150,35 +141,3 @@ struct {
         } states;
     } travelingDistanceToPercept;
 } node;
-static NSInteger numberOfNodes = 15;
-
-//x,x,x,x,x,x,x,2,1,2,0
-/*
-still
-dist: close
-visib: far
- not facing
- no obstacle
- day
- deaf
- impaired
- med
- out of range
- 
- 
- 
- 
- 
-
-*/
-@interface Bayesian : NSObject {
-    assignment parent_state;
-    directed_graph<bayes_node>::kernel_1a_c bn;
-}
-
-- (void)createOfflineTable;
-
-// Store the number of processed entries.
-@property (atomic) NSUInteger process;
-
-@end
