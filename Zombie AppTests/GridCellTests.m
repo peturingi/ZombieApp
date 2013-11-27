@@ -38,10 +38,11 @@
     
 }
 
+// Distances are 
 -(void)testManhattanDistanceIsCorrect{
-    int expectedDistance = 10;
+    int expectedDistance = (5 + 22) * 10;
     GridCell* cell1 = [[GridCell alloc]initWithCoords:0 andY:0];
-    GridCell* cell2 = [[GridCell alloc]initWithCoords:5 andY:5];
+    GridCell* cell2 = [[GridCell alloc]initWithCoords:5 andY:22];
     int distance = [cell1 manhattanDistanceToCell:cell2];
     XCTAssertEqual(expectedDistance, distance, @"Distance was not as expected");
 }

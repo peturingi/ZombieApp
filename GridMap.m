@@ -134,6 +134,11 @@
 -(NSArray*)neighboursForCell:(GridCell *)cell{
     NSMutableArray* neighbourCells = [[NSMutableArray alloc]init];
     
+    // exit premature if cell is nil
+    if(cell == nil){
+        return neighbourCells;
+    }
+    
     // Add neighbours in all 8 directions. If current location is cell itself,
     // then dont add. Cells returned from cellAt:andY: can be nil if obstacle or
     // out of bounds. In that case, ignore it / do not add.
@@ -172,5 +177,129 @@
     return cell;
 }
 
+-(BOOL)unobstructedLineOfSightFrom:(GridCell*)cellA to:(GridCell*)cellB{
+    // use bresenham's line algorithm to determine the cells intersected by the line of sight
+    // between point A and B (cellA and cellB)
+    
+    // trivial cases
+    
+    // most trivial case - both points are the same
+    if([cellA isEqual:cellB]){
+        return YES;
+    }
+    
+    // line of sight is vertical
+    if([cellA xCoord] == [cellB xCoord]){
+        // flip cells if cellA has larger y component than cellB
+        if([cellA yCoord] > [cellB yCoord]){
+            GridCell* temp = cellA;
+            cellA = cellB;
+            cellB = temp;
+        }
+        int x = [cellA xCoord];
+        for(int y = [cellA yCoord]; y <= [cellB yCoord]; y++){
+            GridCell* cell = _grid_map[x][y];
+            if([cell isObstacle]){
+                return NO;
+            }
+        }
+        return YES;
+    }
+    
+    // line of sight is horizontal
+    if([cellA yCoord] == [cellB yCoord]){
+        // flip cells if cellA has larger x component than cellB
+        if([cellA xCoord] > [cellB xCoord]){
+            GridCell* temp = cellA;
+            cellA = cellB;
+            cellB = temp;
+        }
+        int y = [cellA yCoord];
+        for(int x = [cellA xCoord]; x <= [cellB xCoord]; x++){
+            GridCell* cell = _grid_map[x][y];
+            if([cell isObstacle]){
+                return NO;
+            }
+        }
+        return YES;
+        
+    }
+    
+    // trivial cases end
+    
+    // special cases
+    
+    // make sure cellA is the cell which is left-most (has smallest x component)
+    if([cellA xCoord] > [cellB xCoord]){
+        GridCell* temp = cellA;
+        cellA = cellB;
+        cellB = temp;
+    }
+    
+    // slope is positive
+    int deltaX = [cellB xCoord] - [cellA xCoord];
+    int deltaY = [cellB yCoord] - [cellA yCoord];
+    
+    double slope = (double)deltaY / (double)deltaX;
+    
+    // slope is greater than 1 (eg. 2.4)
+    if(slope > 1){
+        slope = (double)deltaX / (double)deltaY;
+        double x = [cellA xCoord];
+        for(int y = [cellA yCoord]; y <= [cellB yCoord]; y++){
+            GridCell* cell = _grid_map[(int)x][y];
+            if([cell isObstacle]){
+                return NO;
+            }
+            x += slope;
+        }
+        return YES;
+    }
+    
+    // slope is between 0 and 1(eg. 0.6)
+    if(slope <= 1 && slope > 0){
+        double y = [cellA yCoord];
+        for(int x = [cellA xCoord]; x <= [cellB xCoord]; x++){
+            GridCell* cell = _grid_map[x][(int)y];
+            if([cell isObstacle]){
+                return NO;
+            }
+            y += slope;
+        }
+        return YES;
+    }
+    
+    // slope is negative
+    // slope is between 0 and -1 (eg. -0.6)
+    if(slope <= 0 && slope >= -1){
+        double y = [cellA yCoord];
+        for(int x = [cellA xCoord]; x <= [cellB xCoord]; x++){
+            GridCell* cell = _grid_map[x][(int)y];
+            if([cell isObstacle]){
+                return NO;
+            }
+            y += slope;
+        }
+        return YES;
+    }
+    
+    // slope is less than -1 (eg. -1.6)
+    if(slope < -1){
+        slope = (double)deltaX / (double)deltaY;
+        slope = -slope;
+        double x = [cellA xCoord];
+        for(int y = [cellA yCoord]; y >= [cellB yCoord]; y--){
+            GridCell* cell = _grid_map[(int)x][y];
+            if([cell isObstacle]){
+                return NO;
+            }
+            x += slope;
+        }
+        return YES;
+    }
+    
+    // should never reach this point!
+    return YES;
+}
 @end
 
