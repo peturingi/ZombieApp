@@ -11,11 +11,11 @@
 @implementation GridCell
 
 
--(id)initWithCoords:(NSInteger)x andY:(NSInteger)y andIsObstacle:(BOOL)isObstacle{
+-(id)initWithCoords:(NSInteger)x andY:(NSInteger)y{
     self = [super init];
     _xCoord = x;
     _yCoord = y;
-    _obstacle = isObstacle;
+    [self setObstacle:NO];
     [self resetPathfindingInfo];
     
     return self;

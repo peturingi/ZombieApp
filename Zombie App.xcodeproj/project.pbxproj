@@ -13,6 +13,9 @@
 		6817CC041842890A00849768 /* GridCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC031842890A00849768 /* GridCellTests.m */; };
 		6817CC071842A35E00849768 /* PathfindingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC061842A35E00849768 /* PathfindingSystem.m */; };
 		6817CC091842B2AB00849768 /* PathfindingSystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC081842B2AB00849768 /* PathfindingSystemTests.m */; };
+		6817CC0C1844E38000849768 /* ZombieAIIdle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC0B1844E38000849768 /* ZombieAIIdle.m */; };
+		6817CC0F18461F8E00849768 /* ZombieAIRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC0E18461F8E00849768 /* ZombieAIRun.m */; };
+		6817CC12184623DC00849768 /* ZombieAISprint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6817CC11184623DC00849768 /* ZombieAISprint.m */; };
 		6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD05182C0F5F003E828C /* ZombieAIRoam.m */; };
 		6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0B182C1809003E828C /* NSString+stringFromTimeInterval.m */; };
 		6877AD0F182C6901003E828C /* MathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0E182C6901003E828C /* MathUtilities.m */; };
@@ -58,6 +61,12 @@
 		6817CC051842A35E00849768 /* PathfindingSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathfindingSystem.h; sourceTree = "<group>"; };
 		6817CC061842A35E00849768 /* PathfindingSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathfindingSystem.m; sourceTree = "<group>"; };
 		6817CC081842B2AB00849768 /* PathfindingSystemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathfindingSystemTests.m; sourceTree = "<group>"; };
+		6817CC0A1844E38000849768 /* ZombieAIIdle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieAIIdle.h; sourceTree = "<group>"; };
+		6817CC0B1844E38000849768 /* ZombieAIIdle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAIIdle.m; sourceTree = "<group>"; };
+		6817CC0D18461F8E00849768 /* ZombieAIRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieAIRun.h; sourceTree = "<group>"; };
+		6817CC0E18461F8E00849768 /* ZombieAIRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAIRun.m; sourceTree = "<group>"; };
+		6817CC10184623DC00849768 /* ZombieAISprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieAISprint.h; sourceTree = "<group>"; };
+		6817CC11184623DC00849768 /* ZombieAISprint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAISprint.m; sourceTree = "<group>"; };
 		6877AD03182C0D28003E828C /* ZombieAIState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZombieAIState.h; sourceTree = "<group>"; };
 		6877AD04182C0F5F003E828C /* ZombieAIRoam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieAIRoam.h; sourceTree = "<group>"; };
 		6877AD05182C0F5F003E828C /* ZombieAIRoam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieAIRoam.m; sourceTree = "<group>"; };
@@ -142,6 +151,12 @@
 				6877AD03182C0D28003E828C /* ZombieAIState.h */,
 				6877AD04182C0F5F003E828C /* ZombieAIRoam.h */,
 				6877AD05182C0F5F003E828C /* ZombieAIRoam.m */,
+				6817CC0A1844E38000849768 /* ZombieAIIdle.h */,
+				6817CC0B1844E38000849768 /* ZombieAIIdle.m */,
+				6817CC0D18461F8E00849768 /* ZombieAIRun.h */,
+				6817CC0E18461F8E00849768 /* ZombieAIRun.m */,
+				6817CC10184623DC00849768 /* ZombieAISprint.h */,
+				6817CC11184623DC00849768 /* ZombieAISprint.m */,
 			);
 			name = ZombieAI;
 			sourceTree = "<group>";
@@ -371,12 +386,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6877AD0C182C1809003E828C /* NSString+stringFromTimeInterval.m in Sources */,
+				6817CC0F18461F8E00849768 /* ZombieAIRun.m in Sources */,
 				6877AD06182C0F5F003E828C /* ZombieAIRoam.m in Sources */,
 				6817CBFD18422A9E00849768 /* GridMap.m in Sources */,
 				D884F3E9180D533500DC077A /* User.m in Sources */,
 				68926BBF1827B3BF00571313 /* Zombie.m in Sources */,
 				D8A9C442181017F10056698F /* StatsViewController.m in Sources */,
 				68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */,
+				6817CC0C1844E38000849768 /* ZombieAIIdle.m in Sources */,
+				6817CC12184623DC00849768 /* ZombieAISprint.m in Sources */,
 				68926C49182928D500571313 /* MapViewDelegate.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				6877AD0F182C6901003E828C /* MathUtilities.m in Sources */,

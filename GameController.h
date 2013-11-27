@@ -12,10 +12,10 @@
 #import "GridMap.h"
 
 // how often to update the game loop
-#define UPDATE_GAME_INTERVAL 0.5f
+#define UPDATE_GAME_INTERVAL 0.1f
 
 // how often to notify the UI that important game stats updated
-#define UPDATE_UI_INTERVAL 3.0f
+#define UPDATE_UI_INTERVAL 0.2f
 
 // This is the amount of zombies to spawn. As it is now, this number is constant
 // throughout the game.

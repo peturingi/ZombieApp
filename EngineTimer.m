@@ -38,6 +38,10 @@
     _lastTime = _newTime;
 }
 -(NSTimeInterval)currentDeltaInSeconds{
+    // sanetize deltatime
+    if(_deltaTime > 10){
+        return 0;
+    }
     return _deltaTime;
 }
 

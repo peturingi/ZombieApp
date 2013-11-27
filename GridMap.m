@@ -14,20 +14,97 @@
     if(self){
         for(NSUInteger x = 0; x < MAP_WIDTH; x++){
             for(NSUInteger y = 0; y < MAP_HEIGHT; y++){
-                // default all cell to be non-obstacles
-                BOOL isObstacle = NO;
-                // if the current location is within the bounds of some obstacle, mark it
-                // as an obstacle
-                if(x == 15 && y > 0 && y < 40){
-                    isObstacle = YES;
-                }
-                
+                // all cells default to be non-obstacles
                 // instantiate a cell in the current location
-                _grid_map[x][y] = [[GridCell alloc]initWithCoords:x andY:y andIsObstacle:isObstacle];
+                _grid_map[x][y] = [[GridCell alloc]initWithCoords:x andY:y];
             }
         }
     }
+    [self setupObstacles];
     return self;
+}
+
+-(void)setupObstacles{
+    /*
+     Obstacle rectangles
+        5,21 - 16,4
+        16,21 - 28,16
+        39,8 - 55,4
+        55,20 - 118,4
+        55,39 - 84,23
+        90,39 - 118,30
+        105,30 - 118,23
+        127,39 - 155,23
+        161,39 - 192,23
+        169,43 - 192,40
+        161,18 - 192,4
+    */
+    
+    // 5,21 - 16,4
+    GridCell* c1 = [self cellAt:5 andY:21];
+    GridCell* c2 = [self cellAt:16 andY:4];
+    [self markObstacleWithinCorners:c1 and:c2];
+    
+    // 16,21 - 28,16
+    GridCell* c3 = [self cellAt:16 andY:21];
+    GridCell* c4 = [self cellAt:28 andY:16];
+    [self markObstacleWithinCorners:c3 and:c4];
+    
+    // 39,8 - 55,4
+    GridCell* c5 = [self cellAt:39 andY:8];
+    GridCell* c6 = [self cellAt:55 andY:4];
+    [self markObstacleWithinCorners:c5 and:c6];
+    
+    // 55,20 - 118,4
+    GridCell* c7 = [self cellAt:55 andY:20];
+    GridCell* c8 = [self cellAt:118 andY:4];
+    [self markObstacleWithinCorners:c7 and:c8];
+    
+    // 55,39 - 84,23
+    GridCell* c9 = [self cellAt:55 andY:39];
+    GridCell* c10 = [self cellAt:84 andY:23];
+    [self markObstacleWithinCorners:c9 and:c10];
+    
+    // 90,39 - 118,30
+    GridCell* c11 = [self cellAt:90 andY:39];
+    GridCell* c12 = [self cellAt:118 andY:30];
+    [self markObstacleWithinCorners:c11 and:c12];
+    
+    // 105,30 - 118,23
+    GridCell* c13 = [self cellAt:105 andY:30];
+    GridCell* c14 = [self cellAt:118 andY:23];
+    [self markObstacleWithinCorners:c13 and:c14];
+    
+    // 127,39 - 155,23
+    GridCell* c15 = [self cellAt:127 andY:39];
+    GridCell* c16 = [self cellAt:155 andY:23];
+    [self markObstacleWithinCorners:c15 and:c16];
+    
+    // 161,39 - 192,23
+    GridCell* c17 = [self cellAt:161 andY:39];
+    GridCell* c18 = [self cellAt:192 andY:23];
+    [self markObstacleWithinCorners:c17 and:c18];
+    
+    // 169,43 - 192,40
+    GridCell* c19 = [self cellAt:169 andY:43];
+    GridCell* c20 = [self cellAt:192 andY:40];
+    [self markObstacleWithinCorners:c19 and:c20];
+    
+    // 161,18 - 192,4
+    GridCell* c21 = [self cellAt:161 andY:18];
+    GridCell* c22 = [self cellAt:192 andY:4];
+    [self markObstacleWithinCorners:c21 and:c22];
+    
+}
+
+-(void)markObstacleWithinCorners:(GridCell*)upRightCorner and:(GridCell*)downLeftCorner{
+    // maybe check to see up corners are correct
+    for(int x = [upRightCorner xCoord]; x <= [downLeftCorner xCoord]; x++){
+        for(int y = [downLeftCorner yCoord]; y <= [upRightCorner yCoord]; y++){
+            GridCell* cell = _grid_map[x][y];
+            [cell setObstacle:YES];
+        }
+    }
 }
 
 // Returns a cell at a specific location in the map.

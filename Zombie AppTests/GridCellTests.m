@@ -30,8 +30,8 @@
 - (void)testCellHasCorrectCoordsAndPassableProperty{
     int expectedX = 10;
     int expectedY = 12;
-    BOOL isObstacle = YES;
-    GridCell* cell = [[GridCell alloc]initWithCoords:expectedX andY:expectedY andIsObstacle:isObstacle];
+    BOOL isObstacle = NO;
+    GridCell* cell = [[GridCell alloc]initWithCoords:expectedX andY:expectedY];
     XCTAssertEqual(expectedX, [cell xCoord], @"X was not as expected");
     XCTAssertEqual(expectedY, [cell yCoord], @"Y was not as expected");
     XCTAssertEqual(isObstacle, [cell isObstacle], @"Was expecting obstacle, but was not");
@@ -40,8 +40,8 @@
 
 -(void)testManhattanDistanceIsCorrect{
     int expectedDistance = 10;
-    GridCell* cell1 = [[GridCell alloc]initWithCoords:0 andY:0 andIsObstacle:NO];
-    GridCell* cell2 = [[GridCell alloc]initWithCoords:5 andY:5 andIsObstacle:NO];
+    GridCell* cell1 = [[GridCell alloc]initWithCoords:0 andY:0];
+    GridCell* cell2 = [[GridCell alloc]initWithCoords:5 andY:5];
     int distance = [cell1 manhattanDistanceToCell:cell2];
     XCTAssertEqual(expectedDistance, distance, @"Distance was not as expected");
 }

@@ -12,10 +12,11 @@
 @class GridCell;
 
 @interface PathfindingSystem : NSObject{
-    GridMap* _gridMap;
+    //GridMap* _gridMap;
 }
 
 -(id)initWithMap:(GridMap*)map;
+@property GridMap* gridMap;
 
 -(NSArray*)pathFromCell:(GridCell*)start toCell:(GridCell*)goal;
 @end

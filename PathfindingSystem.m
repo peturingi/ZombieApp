@@ -17,7 +17,8 @@
     self = [super init];
     if(self){
         NSAssert(map, @"Map was null!");
-        _gridMap = map;
+        //_gridMap = map;
+        [self setGridMap:map];
     }
     return self;
 }

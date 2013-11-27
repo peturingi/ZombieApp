@@ -15,13 +15,13 @@
 @property (readonly) NSInteger yCoord;
 
 // a-star specific info
-@property (readonly, getter = isObstacle) BOOL obstacle;
+@property (getter = isObstacle) BOOL obstacle;
 @property GridCell* parent;
 @property int h_heu;
 @property int g_score;
 @property int f_score;
 
--(id)initWithCoords:(NSInteger)x andY:(NSInteger)y andIsObstacle:(BOOL)isObstacle;
+-(id)initWithCoords:(NSInteger)x andY:(NSInteger)y;
 
 
 -(NSUInteger)manhattanDistanceToCell:(GridCell*)cell;
