@@ -105,7 +105,9 @@
     GridCell* current = goal;
     NSMutableArray* path = [[NSMutableArray alloc]init];
     
-    while(current != nil){
+    // it is [current parent] we are interrested in, as we
+    // do not want to add our current location (start) to the path
+    while([current parent] != nil){
         [path insertObject:current atIndex:0];
         current = [current parent];
     }

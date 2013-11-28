@@ -27,32 +27,26 @@
 -(void)executeFor:(Zombie*)zombie withDelta:(double)deltaTime{
     // do something for this zombie when it roams
     
-    // if we have not requested a path yet
-    if(_roamPath == nil){
-        GridMap* map = [[zombie pathfindingSystem]gridMap];
-        GridCell* goal = [map cellAt:199 andY:0];
-        NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:goal];
-        _roamPath = path;
-        NSLog(@"new path requested");
-        _roamPathIndex = 0;
-    }
+    // 3 lines below is ONLY for debugging and simple testing
+    static BOOL alternate = YES;
+    if([[zombie cellLocation] xCoord] == 199) alternate = NO;
+    if([[zombie cellLocation] xCoord] == 0) alternate = YES;
     
-    // if we depleted the path
-    if(_roamPathIndex == [_roamPath count]){
+    // if we have not requested a path yet
+    if(_roamPath == nil || _roamPathIndex == [_roamPath count]){
         GridMap* map = [[zombie pathfindingSystem]gridMap];
-        NSArray* path = nil;
         GridCell* goal = nil;
-        if([[zombie cellLocation] xCoord] == 199){
+        if(alternate == NO){
             goal = [map cellAt:0 andY:42];
         }else{
             goal = [map cellAt:199 andY:0];
         }
-        path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:goal];
+        NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:goal];
         _roamPath = path;
         _roamPathIndex = 0;
-        NSLog(@"Path depleted, requesting new");
+        NSLog(@"new path requested");
+        
     }
-    
     
     _roamInterval -= deltaTime;
     if(_roamInterval < 0){

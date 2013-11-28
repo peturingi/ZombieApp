@@ -15,6 +15,17 @@
 #define THINK_INTERVAL 5.0f
 #define ZOMBIE_ENERGY 1000
 
+enum{
+    LEFT = 1,
+    RIGHT = 2,
+    UP = 10,
+    UP_LEFT = 11,
+    UP_RIGHT = 12,
+    DOWN = 20,
+    DOWN_LEFT = 21,
+    DOWM_RIGHT = 22
+};
+
 @implementation Zombie
 
 
@@ -86,6 +97,26 @@
 
 -(void)moveToLocation:(GridCell*)cellLocation{
     NSAssert(cellLocation, @"Cannot move to a nil location");
+    
+    // determine the direction the zombie will be facing after moving
+    int xDirection = [cellLocation xCoord] - [_cellLocation xCoord];
+    int yDirection = [cellLocation yCoord] - [_cellLocation yCoord];
+    
+    int direction = 0;
+    // if moving right
+    if(xDirection > 0)
+        direction += RIGHT;
+    // if moving left
+    if(xDirection < 0)
+        direction += LEFT;
+    // if moving up
+    if(yDirection > 0)
+        direction += UP;
+    // if moving down
+    if(yDirection < 0)
+        direction += DOWN;
+    
+    _direction = direction;
     _cellLocation = cellLocation;
 }
 

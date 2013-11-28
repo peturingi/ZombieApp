@@ -29,7 +29,9 @@
 @property (readonly) GridCell* cellLocation;
 @property (readonly) PathfindingSystem* pathfindingSystem;
 @property (readonly) int energy;
+@property (readonly) NSUInteger direction;
 @property GridCell* perceptLocation;
+
 
 -(id)initWithCellLocation:(GridCell*)cellLocation
                identifier:(NSInteger)identifier andPathfindingSystem:(PathfindingSystem*)pathfindingSystem;
