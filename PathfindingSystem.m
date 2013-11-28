@@ -31,13 +31,12 @@
     if(start == nil || goal == nil){
         return nil;
     }
-    // Cells which have been checked
-    NSMutableArray* closedSet = [[NSMutableArray alloc]init];
-    // Cells currently in the frontier
-    NSMutableArray* openSet = [[NSMutableArray alloc]init];
+    
+    // initialize our lists
+    [self initializeLists];
     
     // initially, add the start node to the openSet
-    [openSet addObject:start];
+    [self addToOpenSet:start];
     
     // g() for the start cell is 0, as there is no cost associated
     // with traveling to the start cell
@@ -47,53 +46,47 @@
     [start setF_score:[start g_score] + [start euclideanDistanceToCell:goal]];
     
     // while openSet is not empty
-    while([openSet count] > 0){
-        openSet = [self sortOpenSet:openSet];
-        GridCell* current = [openSet firstObject];
+    while(![self openSetIsEmpty]){
+        GridCell* current = [self cellWithLowestFScoreInOpenSet];
         
         // goal check
-        /*
-        if([current isEqual:goal]){
-            // construct path and return
-            return [self constructPath:current];
-        }
-         */
-        if([closedSet containsObject:goal]){
+        if([self closedSetContains:goal]){
             return [self constructPath:goal];
         }
         
-        
         // remove current cell from the frontier
-        [openSet removeObject:current];
+        [self removeFromOpenSet:current];
+        
         // add the current cell to the list of checked cells
-        [closedSet addObject:current];
+        [self addToClosedSet:current];
         
         
         
-        int tentative_g_score = 0;
-        int tentative_f_score = 0;
+        NSUInteger tentative_g_score = 0;
+        NSUInteger tentative_f_score = 0;
         // Evaluate each neighbour and add it to the open list.
         // If a neighbour is in the closed list, ignore it, unless an smaller f() can be achieved
         // from the current cell.
         for(GridCell* neighbour in [_gridMap neighboursForCell:current]){
-            // if neighbour is not present in any of the lists, reset it for reentrancy
-            if(![closedSet containsObject:neighbour] && ![openSet containsObject:neighbour]){
+            // if neighbour is not present in any of the lists, reset so that the pathfinding is idempotent
+            if(![self closedSetContains:neighbour] && ![self openSetContains:neighbour]){
                 [neighbour resetPathfindingInfo];
             }
+            
             tentative_g_score = [current g_score] + [current travelCostToNeighbourCell:neighbour];
             tentative_f_score = tentative_g_score + [neighbour euclideanDistanceToCell:goal];
             
-            if([closedSet containsObject:neighbour] && tentative_f_score >= [neighbour f_score]){
+            if([self closedSetContains:neighbour] && tentative_f_score >= [neighbour f_score]){
                 continue;
             }
             
-            if(![openSet containsObject:neighbour] || tentative_f_score < [neighbour f_score]){
+            if(![self openSetContains:neighbour] || tentative_f_score < [neighbour f_score]){
                 [neighbour setParent:current];
                 [neighbour setG_score:tentative_g_score];
                 [neighbour setF_score:tentative_f_score];
                 
-                if(![openSet containsObject:neighbour]){
-                    [openSet addObject:neighbour];
+                if(![self openSetContains:neighbour]){
+                    [self addToOpenSet:neighbour];
                 }
             }
         }
@@ -114,15 +107,74 @@
     return path;
 }
 
+-(void)initializeLists{
+    _openSetDict = [[NSMutableDictionary alloc]init];
+    _closedSetDict = [[NSMutableDictionary alloc]init];
+    _openSetSize = 0;
+}
 
--(NSMutableArray*)sortOpenSet:(NSMutableArray*)openSet{
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"f_score"
-                                                 ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    NSArray *sortedArray;
-    sortedArray = [openSet sortedArrayUsingDescriptors:sortDescriptors];
-    NSMutableArray* newSet = [NSMutableArray arrayWithArray:sortedArray];
-    return newSet;
+-(void)addToOpenSet:(GridCell*)cell{
+    NSAssert(cell, @"cannot add nil cell");
+    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    //[_openSetDict setValue:cell forKey:[cell stringEncoding]];
+    [_openSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+    _openSetSize++;
+}
+
+-(void)removeFromOpenSet:(GridCell*)cell{
+    NSAssert(cell, @"cannot add nil cell");
+    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    [_openSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    _openSetSize--;
+}
+
+-(void)addToClosedSet:(GridCell*)cell{
+    NSAssert(cell, @"cannot add nil cell");
+    NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
+    [_closedSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+}
+
+-(void)removeFromClosedSet:(GridCell*)cell{
+    NSAssert(cell, @"cannot add nil cell");
+    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    [_closedSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+}
+
+
+
+-(BOOL)closedSetContains:(GridCell*)cell{
+    NSAssert(cell, @"cannot add nil cell");
+    NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
+    GridCell* obj = [_closedSetDict objectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    if(obj) return YES;
+    return NO;
+}
+
+-(BOOL)openSetContains:(GridCell*)cell{
+    NSAssert(cell, @"cannot add nil cell");
+    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    GridCell* obj = [_openSetDict objectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    if(obj) return YES;
+    return NO;
+}
+
+-(BOOL)openSetIsEmpty{
+    return _openSetSize <= 0 ? YES : NO;
+}
+
+// this method is called instead of sorting the array each iteration.
+// This resulted in an enormeous performance increase.
+// Whether the list is sorted or not is not important - getting the element with
+// the highes f score is!
+-(GridCell*)cellWithLowestFScoreInOpenSet{
+    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    NSArray* openSet = [_openSetDict allValues];
+    GridCell* cell = [openSet firstObject];
+    for(GridCell* cellIt in openSet){
+        if([cellIt f_score] < [cell f_score]){
+            cell = cellIt;
+        }
+    }
+    return cell;
 }
 @end
