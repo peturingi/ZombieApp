@@ -23,6 +23,6 @@
 enum {
     IDLE,
     ROAM,
-    WALK_TO_PLAYER,
-    RUN_TO_PLAYER
+    RUN,
+    SPRINT
 };

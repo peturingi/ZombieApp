@@ -12,7 +12,7 @@
 #import "GridCell.h"
 #import "PathfindingSystem.h"
 
-#define THINK_INTERVAL 5.0f
+
 
 @class User;
 
@@ -22,15 +22,16 @@
     NSMutableDictionary* _zombieStates;
     // This is the current state. State changes should preferebly happend throught the changeToState: method
     id<ZombieAIState> _currentState;
-    
-    double _thinkCountdown;
+    double _thinkInterval;
 }
 
-//@property CLLocation* location;
 @property NSInteger identifier;
 @property (readonly) GridCell* cellLocation;
 @property (readonly) PathfindingSystem* pathfindingSystem;
+@property (readonly) int energy;
+@property (readonly) NSUInteger direction;
 @property GridCell* perceptLocation;
+
 
 -(id)initWithCellLocation:(GridCell*)cellLocation
                identifier:(NSInteger)identifier andPathfindingSystem:(PathfindingSystem*)pathfindingSystem;
@@ -43,5 +44,14 @@
 // eg. zombie is currently roaming and sees the player - it should then change state to chasing player (as well
 // as alarming other zombies and so on.)
 -(void)changeToStrategy:(NSInteger)strategyIdentifier;
+
+
+-(void)moveToLocation:(GridCell*)cellLocation;
+
+// decrease energy is used by actions performed by strategies, ie. moving, turning and standing still.
+-(void)decreaseEnergyBy:(int)amount;
+
+// increase energy whenever the zombie 'touches' the player
+-(void)increaseEnergyBy:(int)amount;
 
 @end

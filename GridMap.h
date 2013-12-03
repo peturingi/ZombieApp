@@ -53,4 +53,5 @@
 // returns the cell in the grid map corrosponding to a real-world location
 -(GridCell*)cellForCoreLocation:(CLLocation*)coreLocation;
 
+-(BOOL)unobstructedLineOfSightFrom:(GridCell*)cellA to:(GridCell*)cellB;
 @end

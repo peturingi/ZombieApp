@@ -9,9 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "ZombieAIState.h"
 
+
+
 // This is an example of an implementation of a ZombieAIState
 @interface ZombieAIRoam : NSObject <ZombieAIState>{
     NSArray* _roamPath;
+    int _roamPathIndex;
+    double _roamInterval;
 }
 
 @end

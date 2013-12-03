@@ -15,13 +15,13 @@
 @property (readonly) NSInteger yCoord;
 
 // a-star specific info
-@property (readonly, getter = isObstacle) BOOL obstacle;
+@property (getter = isObstacle) BOOL obstacle;
 @property GridCell* parent;
-@property int h_heu;
-@property int g_score;
-@property int f_score;
+@property NSUInteger h_heu;
+@property NSUInteger g_score;
+@property NSUInteger f_score;
 
--(id)initWithCoords:(NSInteger)x andY:(NSInteger)y andIsObstacle:(BOOL)isObstacle;
+-(id)initWithCoords:(NSInteger)x andY:(NSInteger)y;
 
 
 -(NSUInteger)manhattanDistanceToCell:(GridCell*)cell;
@@ -29,4 +29,9 @@
 -(NSUInteger)travelCostToNeighbourCell:(GridCell*)neighbourCell;
 
 -(void)resetPathfindingInfo;
+
+// An integer identifier for the cell. Used in optimization
+// of the pathfinding algorithm
+-(NSUInteger)identifier;
+
 @end

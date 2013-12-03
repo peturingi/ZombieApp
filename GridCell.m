@@ -11,11 +11,11 @@
 @implementation GridCell
 
 
--(id)initWithCoords:(NSInteger)x andY:(NSInteger)y andIsObstacle:(BOOL)isObstacle{
+-(id)initWithCoords:(NSInteger)x andY:(NSInteger)y{
     self = [super init];
     _xCoord = x;
     _yCoord = y;
-    _obstacle = isObstacle;
+    [self setObstacle:NO];
     [self resetPathfindingInfo];
     
     return self;
@@ -30,15 +30,15 @@
 
 -(NSUInteger)euclideanDistanceToCell:(GridCell*)cell{
     float distance = 0;
-    int xTot = ([self xCoord] - [cell xCoord]) * ([self xCoord] - [cell xCoord]);
-    int yTot = ([self yCoord] - [cell yCoord]) * ([self yCoord] - [cell yCoord]);
+    NSUInteger xTot = ([self xCoord] - [cell xCoord]) * ([self xCoord] - [cell xCoord]);
+    NSUInteger yTot = ([self yCoord] - [cell yCoord]) * ([self yCoord] - [cell yCoord]);
     distance = sqrt(xTot + yTot);
     return (distance * DISTANCE_FACTOR);
 }
 
 -(NSUInteger)travelCostToNeighbourCell:(GridCell*)neighbourCell{
     // be sure it is indeed a neighbour
-    int distance = [self euclideanDistanceToCell:neighbourCell];
+    NSUInteger distance = [self euclideanDistanceToCell:neighbourCell];
     if(distance >= (2 * DISTANCE_FACTOR)){
         NSAssert(false, @"distance was too great for it to be a neighbour!");
     }
@@ -50,5 +50,9 @@
     [self setF_score:0];
     [self setG_score:0];
     [self setH_heu:0];
+}
+
+-(NSUInteger)identifier{
+    return (_xCoord * 100) + _yCoord;
 }
 @end
