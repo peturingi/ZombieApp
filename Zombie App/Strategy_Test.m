@@ -33,6 +33,7 @@
 {
     _strategy = [[Strategy alloc] init];
 
+    NSLog(@"go");
     //0,0,0,0,1,1,3,1,1,0,3
     NSInteger strategy2 = [_strategy selectStrategyForSoundLevel:0 distanceToPlayer:0 visibilutyDistance:0 zombieFacingPercept:0 obstacleInBetween:1 dayOrNight:1 hearingSkill:3 visionSkill:1 energy:1 travelingDistanceToPercept:0];
     NSAssert(strategy2 == 3, @"Wrong strategy selected");
@@ -43,6 +44,7 @@
     NSLog(@"Expecting 1, got %d", strategy);
     NSAssert(strategy == 1, @"Wrong strategy selected");
     NSLog(@"%d", strategy);
+    NSLog(@"stop");
     
 
     
