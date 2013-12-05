@@ -97,6 +97,10 @@
     
 }
 
+/**
+ *  The corners are 2 points of a rectangle -- its diagonal.
+ *  Mark all of the cells within the rectangle as obstacles.
+ */
 -(void)markObstacleWithinCorners:(GridCell*)upRightCorner and:(GridCell*)downLeftCorner{
     // maybe check to see up corners are correct
     for(int x = [upRightCorner xCoord]; x <= [downLeftCorner xCoord]; x++){
@@ -132,7 +136,7 @@
 // Cells counting as neighbours are thos immediatly:
 // north, south, east and west of the cell given as parameter
 -(NSArray*)neighboursForCell:(GridCell *)cell{
-    NSMutableArray* neighbourCells = [[NSMutableArray alloc]init];
+    NSMutableArray* neighbourCells = [[NSMutableArray alloc]initWithCapacity:8];
     
     // exit premature if cell is nil
     if(cell == nil){

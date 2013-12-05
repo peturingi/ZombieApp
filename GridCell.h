@@ -11,8 +11,8 @@
 #define DISTANCE_FACTOR 10
 
 @interface GridCell : NSObject
-@property (readonly) NSInteger xCoord;
-@property (readonly) NSInteger yCoord;
+@property (readonly) NSUInteger xCoord;
+@property (readonly) NSUInteger yCoord;
 
 // a-star specific info
 @property (getter = isObstacle) BOOL obstacle;
@@ -20,6 +20,9 @@
 @property NSUInteger h_heu;
 @property NSUInteger g_score;
 @property NSUInteger f_score;
+// An integer identifier for the cell. Used in optimization
+// of the pathfinding algorithm
+@property (readonly) NSUInteger identifier;
 
 -(id)initWithCoords:(NSInteger)x andY:(NSInteger)y;
 
@@ -30,8 +33,6 @@
 
 -(void)resetPathfindingInfo;
 
-// An integer identifier for the cell. Used in optimization
-// of the pathfinding algorithm
--(NSUInteger)identifier;
+
 
 @end

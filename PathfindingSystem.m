@@ -17,7 +17,7 @@
     self = [super init];
     if(self){
         NSAssert(map, @"Map was null!");
-        //_gridMap = map;
+
         [self setGridMap:map];
     }
     return self;
@@ -166,6 +166,7 @@
 // This resulted in an enormeous performance increase.
 // Whether the list is sorted or not is not important - getting the element with
 // the highes f score is!
+#warning takes 10% of CPU.
 -(GridCell*)cellWithLowestFScoreInOpenSet{
     NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
     NSArray* openSet = [_openSetDict allValues];

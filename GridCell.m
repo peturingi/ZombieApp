@@ -17,6 +17,7 @@
     _yCoord = y;
     [self setObstacle:NO];
     [self resetPathfindingInfo];
+    _identifier = (_xCoord * 100) + _yCoord;
     
     return self;
 }
@@ -52,7 +53,4 @@
     [self setH_heu:0];
 }
 
--(NSUInteger)identifier{
-    return (_xCoord * 100) + _yCoord;
-}
 @end
