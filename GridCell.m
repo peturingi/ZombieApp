@@ -30,9 +30,10 @@
 
 -(NSUInteger)euclideanDistanceToCell:(GridCell*)cell{
     float distance = 0;
-    NSUInteger xTot = ([self xCoord] - [cell xCoord]) * ([self xCoord] - [cell xCoord]);
-    NSUInteger yTot = ([self yCoord] - [cell yCoord]) * ([self yCoord] - [cell yCoord]);
+    NSInteger xTot = ([self xCoord] - [cell xCoord]) * ([self xCoord] - [cell xCoord]);
+    NSInteger yTot = ([self yCoord] - [cell yCoord]) * ([self yCoord] - [cell yCoord]);
     distance = sqrt(xTot + yTot);
+    NSAssert(distance >= 0, @"Distance was negative!");
     return (distance * DISTANCE_FACTOR);
 }
 
@@ -54,5 +55,9 @@
 
 -(NSUInteger)identifier{
     return (_xCoord * 100) + _yCoord;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"x:%d, y:%d", _xCoord, _yCoord];
 }
 @end

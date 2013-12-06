@@ -32,11 +32,14 @@
         return nil;
     }
     
+
+    
     // initialize our lists
     [self initializeLists];
     
     // initially, add the start node to the openSet
     [self addToOpenSet:start];
+    openSetContains[start.xCoord][start.yCoord] = YES;
     
     // g() for the start cell is 0, as there is no cost associated
     // with traveling to the start cell
@@ -111,6 +114,12 @@
     _openSetDict = [[NSMutableDictionary alloc]init];
     _closedSetDict = [[NSMutableDictionary alloc]init];
     _openSetSize = 0;
+    
+    for (NSUInteger row = 0; row < 200; row++)
+        for (NSUInteger column = 0; column < 43; column++) {
+            openSetContains[row][column]=NO;
+            closedSetContains[row][column]=NO;
+        }
 }
 
 -(void)addToOpenSet:(GridCell*)cell{
@@ -118,6 +127,7 @@
     NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
     //[_openSetDict setValue:cell forKey:[cell stringEncoding]];
     [_openSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+    openSetContains[cell.xCoord][cell.yCoord] = YES;
     _openSetSize++;
 }
 
@@ -125,6 +135,7 @@
     NSAssert(cell, @"cannot add nil cell");
     NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
     [_openSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    openSetContains[cell.xCoord][cell.yCoord] = NO;
     _openSetSize--;
 }
 
@@ -132,30 +143,34 @@
     NSAssert(cell, @"cannot add nil cell");
     NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
     [_closedSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+    closedSetContains[cell.xCoord][cell.yCoord] = YES;
 }
 
 -(void)removeFromClosedSet:(GridCell*)cell{
     NSAssert(cell, @"cannot add nil cell");
     NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
     [_closedSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    closedSetContains[cell.xCoord][cell.yCoord] = NO;
 }
 
 
 
 -(BOOL)closedSetContains:(GridCell*)cell{
     NSAssert(cell, @"cannot add nil cell");
-    NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
-    GridCell* obj = [_closedSetDict objectForKey:[NSNumber numberWithInteger:[cell identifier]]];
-    if(obj) return YES;
-    return NO;
+    //NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
+    //GridCell* obj = [_closedSetDict objectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    //if(obj) return YES;
+    //return NO;
+    return closedSetContains[cell.xCoord][cell.yCoord];
 }
 
 -(BOOL)openSetContains:(GridCell*)cell{
     NSAssert(cell, @"cannot add nil cell");
-    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
-    GridCell* obj = [_openSetDict objectForKey:[NSNumber numberWithInteger:[cell identifier]]];
-    if(obj) return YES;
-    return NO;
+    //NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    //GridCell* obj = [_openSetDict objectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    //if(obj) return YES;
+    //return NO;
+    return openSetContains[cell.xCoord][cell.yCoord];
 }
 
 -(BOOL)openSetIsEmpty{
