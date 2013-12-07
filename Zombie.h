@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "GameEnvironment.h"
 #import "ZombieAIState.h"
 #import "GridCell.h"
 #import "PathfindingSystem.h"
@@ -22,6 +23,7 @@
     NSMutableDictionary* _zombieStates;
     // This is the current state. State changes should preferebly happend throught the changeToState: method
     id<ZombieAIState> _currentState;
+    id<GameEnvironment> _gameEnvironment;
     double _thinkInterval;
 }
 
@@ -34,7 +36,7 @@
 
 
 -(id)initWithCellLocation:(GridCell*)cellLocation
-               identifier:(NSInteger)identifier andPathfindingSystem:(PathfindingSystem*)pathfindingSystem;
+               identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem*)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment;
 
 // 'think' method invoked by the game controller.
 // This chooses the correct strategy based on the current percept.

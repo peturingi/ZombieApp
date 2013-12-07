@@ -43,8 +43,9 @@
         }
         NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:goal];
         _roamPath = path;
+        NSAssert(_roamPath, @"_roamPath is nil");
         _roamPathIndex = 0;
-        NSLog(@"new path requested");
+        //NSLog(@"new path requested");
         
     }
     
@@ -52,6 +53,7 @@
     if(_roamInterval < 0){
         // find next location in path
         GridCell* location = _roamPath[_roamPathIndex];
+        NSAssert(location, @"Location was nil");
         _roamPathIndex++;
         GridCell* currentLocation = [zombie cellLocation];
         

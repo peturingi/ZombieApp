@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GameControllerDelegate.h"
+#import "GameEnvironment.h"
 #import "User.h"
 #import "EngineTimer.h"
 #import "GridMap.h"
@@ -27,7 +28,7 @@
 /**
 *   Manages agents and game logic.
 */
-@interface GameController : NSObject
+@interface GameController : NSObject <GameEnvironment>
 {
     // scheduled game loop thread
     NSTimer* _gameloopThread;

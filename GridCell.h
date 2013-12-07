@@ -11,8 +11,8 @@
 #define DISTANCE_FACTOR 10
 
 @interface GridCell : NSObject
-@property (readonly) NSUInteger xCoord;
-@property (readonly) NSUInteger yCoord;
+@property (readonly) NSInteger xCoord;
+@property (readonly) NSInteger yCoord;
 
 // a-star specific info
 @property (getter = isObstacle) BOOL obstacle;

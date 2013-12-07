@@ -30,7 +30,7 @@ enum{
 
 
 -(id)initWithCellLocation:(GridCell*)cellLocation
-               identifier:(NSInteger)identifier andPathfindingSystem:(PathfindingSystem *)pathfindingSystem{
+               identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem *)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment{
     self = [super init];
     if(self){
         _zombieStates = [[NSMutableDictionary alloc]init];
@@ -42,8 +42,10 @@ enum{
         [self changeToStrategy:IDLE];
         
         _pathfindingSystem = pathfindingSystem;
-        _thinkInterval = THINK_INTERVAL;
+        _thinkInterval = 0.0f;
         _energy = ZOMBIE_ENERGY;
+        NSAssert(gameEnvironment, @"fskdfh");
+        _gameEnvironment = gameEnvironment;
     }
     return self;
 }
@@ -54,10 +56,16 @@ enum{
     int choosenStrategyIdentifier = ROAM;
     // if it is time to think, do so
     _thinkInterval -= deltaTime;
+    
+    // blocks game engine, cuz not own thread.
     if(_thinkInterval < 0){
         // time to think again
         // ask bayesian network for a strategy
-        NSLog(@"thinking...");
+        //NSLog(@"thinking...");
+        //NSLog(@"can we see player?");
+        if([_gameEnvironment canSeePlayer:self]){
+            NSLog(@"Iam zombie number %d, and I saw the player!", [self identifier]);
+        }
         // choose strategy
         [self changeToStrategy:choosenStrategyIdentifier];
         

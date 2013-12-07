@@ -29,6 +29,8 @@
 -(NSArray*)pathFromCell:(GridCell*)start toCell:(GridCell*)goal{
     // sane check to see if either start or goal are valid cell locations
     if(start == nil || goal == nil){
+        NSAssert(start, @"Was nil");
+        NSAssert(goal, @"Was nil");
         return nil;
     }
     
@@ -36,13 +38,16 @@
     
     // initialize our lists
     [self initializeLists];
-    
+        NSAssert(openSetEmpty, @"not empty");
     // initially, add the start node to the openSet
     [self addToOpenSet:start];
+    NSAssert(openSetIndex > 0, @"open set was 0 or lower");
+
     
     // g() for the start cell is 0, as there is no cost associated
     // with traveling to the start cell
     [start resetPathfindingInfo];
+    
     
     // the effective cost is f() = g() + h(). In this case 0 + heuristic cost to the goal cell.
     [start setF_score:[start g_score] + [start euclideanDistanceToCell:goal]];
@@ -50,6 +55,7 @@
     // while openSet is not empty
     while(![self openSetIsEmpty]){
         GridCell* current = [self cellWithLowestFScoreInOpenSet];
+        NSAssert(current, @"nil");
         
         // goal check
         if([self closedSetContains:goal]){
@@ -70,6 +76,7 @@
         // If a neighbour is in the closed list, ignore it, unless an smaller f() can be achieved
         // from the current cell.
         for(GridCell* neighbour in [_gridMap neighboursForCell:current]){
+
             // if neighbour is not present in any of the lists, reset so that the pathfinding is idempotent
             if(![self closedSetContains:neighbour] && ![self openSetContains:neighbour]){
                 [neighbour resetPathfindingInfo];
@@ -145,7 +152,7 @@
         if (openSet[index].identifier == cell.identifier) {
             openSet[index] = openSet[openSetIndex-1];
             openSetIndex--;
-            if (openSetIndex == -1) {
+            if (openSetIndex <= 0) {
                 openSetIndex = 0;
                 openSetEmpty = YES;
             }
@@ -160,16 +167,16 @@
 }
 
 -(void)addToClosedSet:(GridCell*)cell{
-    NSAssert(cell, @"cannot add nil cell");
-    NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
-    [_closedSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+    //NSAssert(cell, @"cannot add nil cell");
+    //NSAssert(_closedSetDict, @"the openset was not instantiated before calling this function!");
+    //[_closedSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
     closedSetContains[cell.xCoord][cell.yCoord] = YES;
 }
 
 -(void)removeFromClosedSet:(GridCell*)cell{
-    NSAssert(cell, @"cannot add nil cell");
-    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
-    [_closedSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    //NSAssert(cell, @"cannot add nil cell");
+    //NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    //[_closedSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
     closedSetContains[cell.xCoord][cell.yCoord] = NO;
 }
 
@@ -194,7 +201,7 @@
 }
 
 -(BOOL)openSetIsEmpty{
-    return _openSetSize <= 0 ? YES : NO;
+    return openSetEmpty;
 }
 
 // this method is called instead of sorting the array each iteration.

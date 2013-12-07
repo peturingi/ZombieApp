@@ -55,7 +55,7 @@
          */
         GridCell* cell = [_gridMap cellAt:0+(index*40)+1 andY:0+(index*10)+1];
         Zombie* zombie = [[Zombie alloc]initWithCellLocation:cell
-                                                  identifier:index+1 andPathfindingSystem:pathfindingSystem];
+                                                  identifier:index+1 pathfindingSystem:pathfindingSystem andGameEnvironment:self];
         [_zombies addObject:zombie];
     }
      
@@ -118,8 +118,8 @@
     
     // update player position in cell map
     CLLocation* location = [_user location];
-    GridCell* cell = [_gridMap cellForCoreLocation:location];
-    [_user setCellLocation:cell];
+    GridCell* playerLoc = [_gridMap cellForCoreLocation:location];
+    [_user setCellLocation:playerLoc];
     
     // update percepts for zombies
     for(Zombie* zombie in _zombies){
@@ -191,6 +191,10 @@
     // stop the internal timer and thread
     [_gameloopThread invalidate];
     [_engineTimer stop];
+}
+
+-(BOOL)canSeePlayer:(id)sender{
+    return [_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]];
 }
 
 
