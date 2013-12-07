@@ -236,5 +236,9 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     [self displayZombiesOnMap];
 }
 
+- (CLLocation *)playerLocation {
+    return _mapView.userLocation.location;
+}
+
 
 @end

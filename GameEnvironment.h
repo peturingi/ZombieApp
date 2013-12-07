@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class Zombie; // replace with id
 @protocol GameEnvironment <NSObject>
 
 -(NSInteger)canSeePlayer:(id)sender;
@@ -16,6 +16,7 @@
 -(BOOL)isDay;
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender;
 -(NSInteger)soundLevel;
+-(BOOL)facingPlayer:(Zombie*)sender;
 
 - (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel
                         distanceToPlayer:(NSInteger)distanceToPlayer

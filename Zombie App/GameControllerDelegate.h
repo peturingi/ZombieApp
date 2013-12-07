@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+@class CLLocation;
+@class Zombie;
 
 @protocol GameControllerDelegate <NSObject>
 
@@ -16,4 +18,5 @@
 
 -(void)didUpdateGameInfo:(NSDictionary*)infoDictionary;
 -(void)renderZombies:(NSDictionary*)zombies;
+-(CLLocation *)playerLocation;
 @end

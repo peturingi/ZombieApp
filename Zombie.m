@@ -12,7 +12,7 @@
 #import "ZombieAIRun.h"
 #import "ZombieAISprint.h"
 
-#define THINK_INTERVAL 5.0f
+#define THINK_INTERVAL 2.0f
 #define ZOMBIE_ENERGY 1000
 
 enum{
@@ -65,7 +65,7 @@ enum{
         
         
         BOOL obstacles;
-        BOOL facingPercept = NO; // intialized to silence a compiler warning.
+        BOOL facingPercept = [_gameEnvironment facingPlayer:self];
         NSInteger visibilityDistance = [_gameEnvironment canSeePlayer:self];
         if (visibilityDistance == -1) {
             visibilityDistance = 0;
@@ -94,7 +94,7 @@ enum{
 
         // using can hear player as distance to player to not have to execute A* each time this is called.
         NSInteger choosenStrategyIdentifier = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
-        NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
+        //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
         
         if (choosenStrategyIdentifier == 0) choosenStrategyIdentifier=1; // never idle.
         
