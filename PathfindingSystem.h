@@ -20,6 +20,11 @@
     NSMutableDictionary* _openSetDict;
     NSMutableDictionary* _closedSetDict;
     
+    BOOL openSetEmpty;
+    NSInteger openSetIndex;
+    GridCell *openSet[200*43];
+    
+    
     BOOL openSetContains[200][43];
     BOOL closedSetContains[200][43];
     

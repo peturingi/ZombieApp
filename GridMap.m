@@ -132,7 +132,7 @@
 // Cells counting as neighbours are thos immediatly:
 // north, south, east and west of the cell given as parameter
 -(NSArray*)neighboursForCell:(GridCell *)cell{
-    NSMutableArray* neighbourCells = [[NSMutableArray alloc]init];
+    NSMutableArray* neighbourCells = [[NSMutableArray alloc]initWithCapacity:8];
     
     // exit premature if cell is nil
     if(cell == nil){

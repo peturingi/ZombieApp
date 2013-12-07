@@ -39,7 +39,6 @@
     
     // initially, add the start node to the openSet
     [self addToOpenSet:start];
-    openSetContains[start.xCoord][start.yCoord] = YES;
     
     // g() for the start cell is 0, as there is no cost associated
     // with traveling to the start cell
@@ -111,7 +110,10 @@
 }
 
 -(void)initializeLists{
-    _openSetDict = [[NSMutableDictionary alloc]init];
+    //_openSetDict = [[NSMutableDictionary alloc]init];
+    openSetIndex = 0;
+    openSetEmpty = YES;
+    
     _closedSetDict = [[NSMutableDictionary alloc]init];
     _openSetSize = 0;
     
@@ -124,19 +126,37 @@
 
 -(void)addToOpenSet:(GridCell*)cell{
     NSAssert(cell, @"cannot add nil cell");
-    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    //NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
     //[_openSetDict setValue:cell forKey:[cell stringEncoding]];
-    [_openSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+    //[_openSetDict setObject:cell forKey:[NSNumber numberWithInteger:[cell identifier]]];
+    openSet[openSetIndex] = cell;
+    openSetIndex++;
+    openSetEmpty = NO;
+    
     openSetContains[cell.xCoord][cell.yCoord] = YES;
     _openSetSize++;
 }
 
 -(void)removeFromOpenSet:(GridCell*)cell{
     NSAssert(cell, @"cannot add nil cell");
-    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
-    [_openSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
-    openSetContains[cell.xCoord][cell.yCoord] = NO;
-    _openSetSize--;
+    //NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    //[_openSetDict removeObjectForKey:[NSNumber numberWithInteger:[cell identifier]]];
+    for (NSUInteger index = 0; index < openSetIndex; index++) {
+        if (openSet[index].identifier == cell.identifier) {
+            openSet[index] = openSet[openSetIndex-1];
+            openSetIndex--;
+            if (openSetIndex == -1) {
+                openSetIndex = 0;
+                openSetEmpty = YES;
+            }
+            openSetContains[cell.xCoord][cell.yCoord] = NO;
+            _openSetSize--;
+            return;
+        }
+
+    }
+    @throw [NSException exceptionWithName:@"Tried to remove a nonexcisting cell" reason:@"Cell not found" userInfo:nil];
+
 }
 
 -(void)addToClosedSet:(GridCell*)cell{
@@ -182,14 +202,23 @@
 // Whether the list is sorted or not is not important - getting the element with
 // the highes f score is!
 -(GridCell*)cellWithLowestFScoreInOpenSet{
-    NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
-    NSArray* openSet = [_openSetDict allValues];
-    GridCell* cell = [openSet firstObject];
-    for(GridCell* cellIt in openSet){
-        if([cellIt f_score] < [cell f_score]){
-            cell = cellIt;
-        }
-    }
+    //NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
+    //NSArray* openSet = [_openSetDict allValues];
+    //GridCell* cell = [openSet firstObject];
+    //for(GridCell* cellIt in openSet){
+    //    if([cellIt f_score] < [cell f_score]){
+    //        cell = cellIt;
+    //    }
+    //}
+    if (openSetEmpty) return nil;
+    
+    GridCell *cell = openSet[0];
+    for (NSUInteger index = 0; index < openSetIndex; index++)
+        if (openSet[index].f_score < cell.f_score)
+            cell = openSet[index];
+    
+    NSAssert(cell, @"Cell was nil");
+    
     return cell;
 }
 @end
