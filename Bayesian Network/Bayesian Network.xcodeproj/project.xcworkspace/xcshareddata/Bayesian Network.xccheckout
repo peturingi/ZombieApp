@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>206232C2-E4BD-45A1-89E4-09DE9F0E0FBE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Bayesian Network</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5D4DC3AC-C689-46B5-8BFE-95C5C0A10A46</key>
+		<string>https://bitbucket.org/peturingi/zombie-app.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Bayesian Network/Bayesian Network.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5D4DC3AC-C689-46B5-8BFE-95C5C0A10A46</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/peturingi/zombie-app.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5D4DC3AC-C689-46B5-8BFE-95C5C0A10A46</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5D4DC3AC-C689-46B5-8BFE-95C5C0A10A46</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Zombie App</string>
+		</dict>
+	</array>
+</dict>
+</plist>

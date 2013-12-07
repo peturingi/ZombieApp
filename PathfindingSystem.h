@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class GridMap;
+#import "GridMap.h"
 @class GridCell;
 
 @interface PathfindingSystem : NSObject{
@@ -19,6 +19,14 @@
     // is more often O(1), thus often faster than linear array search O(n).
     NSMutableDictionary* _openSetDict;
     NSMutableDictionary* _closedSetDict;
+    
+    BOOL openSetEmpty;
+    NSInteger openSetIndex;
+    GridCell *openSet[200*43];
+    
+    
+    BOOL openSetContains[200][43];
+    BOOL closedSetContains[200][43];
     
     int _openSetSize;
 }
