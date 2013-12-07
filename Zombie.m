@@ -64,7 +64,10 @@ enum{
         //NSLog(@"thinking...");
         //NSLog(@"can we see player?");
         if([_gameEnvironment canSeePlayer:self]){
-            NSLog(@"Iam zombie number %d, and I saw the player!", [self identifier]);
+            NSLog(@"Iam zombie number %ld, and I saw the player!", [self identifier]);
+        }
+        if([_gameEnvironment canHearPlayer:self]){
+            NSLog(@"I am zombie %ld, and I can hear the player!", [self identifier]);
         }
         // choose strategy
         [self changeToStrategy:choosenStrategyIdentifier];

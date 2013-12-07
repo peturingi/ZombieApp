@@ -11,6 +11,7 @@
 
 @protocol GameEnvironment <NSObject>
 
--(BOOL)canSeePlayer:(id)sender;
+-(NSInteger)canSeePlayer:(id)sender;
+-(NSInteger)canHearPlayer:(id)sender;
 
 @end

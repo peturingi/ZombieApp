@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "Zombie.h"
 #import "MathUtilities.h"
+#import "PerceptConstants.h"
 
 
 
@@ -193,8 +194,50 @@
     [_engineTimer stop];
 }
 
--(BOOL)canSeePlayer:(id)sender{
+-(NSInteger)canSeePlayer:(id)sender{
+    NSInteger distanceFromPercept = [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
+    
+    if (distanceFromPercept <= 5 * 10)
+        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
+            return CLOSE;
+        }
+    
+    
+    if (distanceFromPercept <= 10 * 10)
+        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
+            return MEDIUM;
+        }
+    
+    if (distanceFromPercept <= 25 * 10)
+        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
+            return FAR;
+        }
+
+    return OUT_OF_RANGE;
+}
+
+-(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender {
     return [_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]];
+}
+
+-(NSInteger)canHearPlayer:(id)sender{
+    NSInteger distanceFromPercept = [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
+    
+    if (distanceFromPercept <= 10)
+        return CLOSE;
+    
+    if (distanceFromPercept <= 2 * 10)
+        return MEDIUM;
+    
+    if (distanceFromPercept <= 3 * 10)
+        return FAR;
+    
+    return OUT_OF_RANGE;
+}
+
+-(BOOL)isDay {
+    
+    return NO;
 }
 
 

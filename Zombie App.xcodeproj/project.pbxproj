@@ -101,6 +101,7 @@
 		D8340F23180D4955004B6679 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8340F25180D4955004B6679 /* Zombie_AppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zombie_AppTests.m; sourceTree = "<group>"; };
 		D873695618536529006EECFE /* GameEnvironment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameEnvironment.h; sourceTree = "<group>"; };
+		D873695718538243006EECFE /* PerceptConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerceptConstants.h; sourceTree = "<group>"; };
 		D884F3E0180D4ABC00DC077A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = "Zombie App/MapViewController.h"; sourceTree = "<group>"; };
 		D884F3E1180D4ABC00DC077A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = "Zombie App/MapViewController.m"; sourceTree = "<group>"; };
 		D884F3E7180D533500DC077A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 		D8340EEE180D4955004B6679 = {
 			isa = PBXGroup;
 			children = (
+				D873695718538243006EECFE /* PerceptConstants.h */,
 				D884F3E5180D504D00DC077A /* GameLogic */,
 				D884F3E4180D4FF900DC077A /* LocationComponent */,
 				D8340F00180D4955004B6679 /* Zombie App */,
