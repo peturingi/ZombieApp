@@ -29,6 +29,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        _strategySelectionMechanism = [[Strategy alloc] init];
         // initialize game entities
         _user = [[User alloc] init];
         _zombies = [[NSMutableArray alloc] init];
@@ -236,8 +237,36 @@
 }
 
 -(BOOL)isDay {
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setDateFormat:@"HH"];
+    NSString *theTime = [timeFormat stringFromDate:[NSDate date]];
+    NSLog(@"time, %@",theTime);
     
-    return NO;
+    NSInteger hour = [theTime integerValue];
+    if (hour > 8 && hour < 20) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
+- (NSInteger)soundLevel{
+    //todo finish implementation
+    return 2; // running
+}
+
+- (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel
+                        distanceToPlayer:(NSInteger)distanceToPlayer
+                      visibilutyDistance:(NSInteger)visibilityDistance
+                     zombieFacingPercept:(NSInteger)zombieFacingPercept
+                       obstacleInBetween:(NSInteger)obstacleInBetween
+                              dayOrNight:(NSInteger)dayOrNight
+                            hearingSkill:(NSInteger)hearingSkill
+                             visionSkill:(NSInteger)visionSkill
+                                  energy:(NSInteger)energy
+              travelingDistanceToPercept:(NSInteger)travelingDistanceToPercept {
+    return [self.strategySelectionMechanism selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:zombieFacingPercept obstacleInBetween:obstacleInBetween dayOrNight:dayOrNight hearingSkill:hearingSkill visionSkill:visionSkill energy:energy travelingDistanceToPercept:travelingDistanceToPercept];
 }
 
 

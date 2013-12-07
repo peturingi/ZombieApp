@@ -52,8 +52,7 @@ enum{
 
 
 -(void)think:(double)deltaTime{
-    // variable below is for debugging
-    int choosenStrategyIdentifier = ROAM;
+
     // if it is time to think, do so
     _thinkInterval -= deltaTime;
     
@@ -63,12 +62,44 @@ enum{
         // ask bayesian network for a strategy
         //NSLog(@"thinking...");
         //NSLog(@"can we see player?");
-        if([_gameEnvironment canSeePlayer:self]){
-            NSLog(@"Iam zombie number %ld, and I saw the player!", [self identifier]);
+        
+        
+        BOOL obstacles;
+        BOOL facingPercept = NO; // intialized to silence a compiler warning.
+        NSInteger visibilityDistance = [_gameEnvironment canSeePlayer:self];
+        if (visibilityDistance == -1) {
+            visibilityDistance = 0;
+            obstacles = YES;
+            facingPercept = NO;
+        } else {
+            obstacles = [_gameEnvironment obstaclesBetweenZombieAndPlayer:self];
+            if (!obstacles) {
+                // check if facing percept.
+            }
         }
-        if([_gameEnvironment canHearPlayer:self]){
-            NSLog(@"I am zombie %ld, and I can hear the player!", [self identifier]);
+        NSInteger distanceToPlayer = [_gameEnvironment canHearPlayer:self]; // Hearing distance to percept.
+        if (distanceToPlayer == -1) distanceToPlayer = 2;
+        BOOL isDay = [_gameEnvironment isDay];
+        NSInteger soundLevel = [_gameEnvironment soundLevel];
+        
+        NSInteger energyLevel;
+        if (self.energy >= 0 && self.energy < 333) {
+            energyLevel = 0;
         }
+        if (self.energy >= 333 && self.energy < 666)
+            energyLevel = 1;
+        else
+            energyLevel = 2;
+        
+
+        // using can hear player as distance to player to not have to execute A* each time this is called.
+        NSInteger choosenStrategyIdentifier = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
+        NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
+        
+        if (choosenStrategyIdentifier == 0) choosenStrategyIdentifier=1; // never idle.
+        
+        NSAssert(choosenStrategyIdentifier > -1, @"Error");
+        
         // choose strategy
         [self changeToStrategy:choosenStrategyIdentifier];
         

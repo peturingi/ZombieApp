@@ -13,5 +13,20 @@
 
 -(NSInteger)canSeePlayer:(id)sender;
 -(NSInteger)canHearPlayer:(id)sender;
+-(BOOL)isDay;
+-(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender;
+-(NSInteger)soundLevel;
+
+- (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel
+                        distanceToPlayer:(NSInteger)distanceToPlayer
+                      visibilutyDistance:(NSInteger)visibilityDistance
+                     zombieFacingPercept:(NSInteger)zombieFacingPercept
+                       obstacleInBetween:(NSInteger)obstacleInBetween
+                              dayOrNight:(NSInteger)dayOrNight
+                            hearingSkill:(NSInteger)hearingSkill
+                             visionSkill:(NSInteger)visionSkill
+                                  energy:(NSInteger)energy
+              travelingDistanceToPercept:(NSInteger)travelingDistanceToPercept;
+
 
 @end
