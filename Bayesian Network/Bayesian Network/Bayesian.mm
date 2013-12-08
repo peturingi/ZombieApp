@@ -587,15 +587,15 @@ using namespace bayes_node_utils;
     [[NSFileManager defaultManager] createFileAtPath: @"table.csv" contents: [@"" dataUsingEncoding: NSUnicodeStringEncoding] attributes: nil];
     NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath: @"table.csv"];
     [file seekToEndOfFile];
-    NSString *header = @"soundLevel,distanceToPlayer,visibilityDistance,zombieFacingPercept,obstacleInBetween,dayOrNight,hearingSkill,visionSkill,energy,travlingDistanceToPercept,strategy\n";
-    [file writeData:[header dataUsingEncoding:NSUTF8StringEncoding]];
+    //NSString *header = @"soundLevel,distanceToPlayer,visibilityDistance,zombieFacingPercept,obstacleInBetween,dayOrNight,hearingSkill,visionSkill,energy,travlingDistanceToPercept,strategy\n";
+    //[file writeData:[header dataUsingEncoding:NSUTF8StringEncoding]];
     
 
     join_tree_type join_tree;
     create_moral_graph(bn, join_tree);
     create_join_tree(join_tree, join_tree);
     
-    NSMutableArray *data = [[NSMutableArray alloc] init];
+    //NSMutableArray *data = [[NSMutableArray alloc] init];
     
      
     try{
@@ -633,13 +633,14 @@ using namespace bayes_node_utils;
                                             set_node_as_evidence(bn, node.travelingDistanceToPercept.ident);
 
                                             bayesian_network_join_tree solution_with_evidence(bn, join_tree);
-                                            double probRoam = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.roam);
-                                            double probWalk = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.walk);
-                                            double probIdle = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.idle);
-                                            double probSprint = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.sprint);
+                                            double probRoam = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.roam) * 100;
+                                            double probWalk = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.walk) * 100;
+                                            double probIdle = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.idle) * 100;
+                                            double probSprint = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.sprint) * 100;
                                             
-                                            NSInteger strategy = -1;
-                                            // Return the highest probability.
+                                            //NSInteger strategy = -1;
+                                            
+                                            /*// Return the highest probability.
                                             if (probRoam >= probWalk && probRoam >= probIdle && probRoam >= probSprint)
                                                 strategy = node.strategy.states.roam;
                                             if (probWalk >= probIdle && probWalk >= probSprint && probWalk >= probRoam)
@@ -647,9 +648,9 @@ using namespace bayes_node_utils;
                                             if (probIdle >= probSprint && probIdle >= probWalk && probIdle >= probRoam)
                                                 strategy = node.strategy.states.idle;
                                             if (probSprint >= probIdle && probSprint >= probWalk && probSprint >= probRoam)
-                                                strategy = node.strategy.states.sprint;
+                                                strategy = node.strategy.states.sprint;*/
                                             
-                                            NSString *str = [NSString stringWithFormat:@"%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01ld\n", soundLevel, distanceToPlayer, visibilityDistance, zombieFacingPercept, obstacleInBetween, dayOrNight, hearingSkill, visionSkill, energy, travelingDistanceToPercept, (long)strategy];
+                                            NSString *str = [NSString stringWithFormat:@"%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01.0f,%01.0f,%01.0f,%01.0f\n", soundLevel, distanceToPlayer, visibilityDistance, zombieFacingPercept, obstacleInBetween, dayOrNight, hearingSkill, visionSkill, energy, travelingDistanceToPercept, probIdle, probRoam, probWalk, probSprint];
                                             [file writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
                                             
                                             

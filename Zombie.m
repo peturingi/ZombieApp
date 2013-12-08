@@ -95,7 +95,8 @@ enum{
         // using can hear player as distance to player to not have to execute A* each time this is called.
         NSInteger choosenStrategyIdentifier = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
         //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
-        
+        NSLog(@"Strategy choosen: %ld", choosenStrategyIdentifier);
+#warning remove before final release
         if (choosenStrategyIdentifier == 0) choosenStrategyIdentifier=1; // never idle.
         
         NSAssert(choosenStrategyIdentifier > -1, @"Error");
