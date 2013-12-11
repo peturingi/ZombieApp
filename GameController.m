@@ -135,7 +135,9 @@
         [zombie think:deltaTime];
     }
     
+    [self renderZombies];
     // update UI stat labels
+    
     [self updateUI:deltaTime];
     
 }
@@ -172,7 +174,6 @@
     timeTillUpdate -= deltaTime;
     if (timeTillUpdate < 0) {
         [_delegate didUpdateGameInfo:[self stats]];
-        [self renderZombies];
         timeTillUpdate = UPDATE_UI_INTERVAL;
     }
 }
