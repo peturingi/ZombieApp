@@ -11,6 +11,7 @@
 #import "User.h"
 #import "EngineTimer.h"
 #import "GridMap.h"
+#import "Strategy.h"
 
 // how often to update the game loop
 #define UPDATE_GAME_INTERVAL 0.05f
@@ -42,6 +43,8 @@
     // The game map grid system
     GridMap* _gridMap;
 }
+
+@property (readonly) Strategy *strategySelectionMechanism;
 
 /**
  *  Creates a new GameController if one does not already exist.

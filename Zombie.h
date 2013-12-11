@@ -30,9 +30,11 @@
 @property NSInteger identifier;
 @property (readonly) GridCell* cellLocation;
 @property (readonly) PathfindingSystem* pathfindingSystem;
-@property (readonly) int energy;
+@property (readonly) NSInteger energy;
 @property (readonly) NSUInteger direction;
 @property GridCell* perceptLocation;
+@property (readonly) NSInteger visionSkill;
+@property (readonly) NSInteger hearingSkill;
 
 
 -(id)initWithCellLocation:(GridCell*)cellLocation

@@ -10,6 +10,7 @@
 #import "Zombie.h"
 #import "MathUtilities.h"
 #import "PerceptConstants.h"
+#import <math.h>
 
 
 
@@ -29,6 +30,7 @@
 -(id)init{
     self = [super init];
     if (self) {
+        _strategySelectionMechanism = [[Strategy alloc] init];
         // initialize game entities
         _user = [[User alloc] init];
         _zombies = [[NSMutableArray alloc] init];
@@ -236,7 +238,127 @@
 }
 
 -(BOOL)isDay {
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setDateFormat:@"HH"];
+    NSString *theTime = [timeFormat stringFromDate:[NSDate date]];
+    NSLog(@"time, %@",theTime);
     
+    NSInteger hour = [theTime integerValue];
+    if (hour > 8 && hour < 20) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
+- (NSInteger)soundLevel{
+    //todo finish implementation
+    return 2; // running
+}
+
+- (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel
+                        distanceToPlayer:(NSInteger)distanceToPlayer
+                      visibilutyDistance:(NSInteger)visibilityDistance
+                     zombieFacingPercept:(NSInteger)zombieFacingPercept
+                       obstacleInBetween:(NSInteger)obstacleInBetween
+                              dayOrNight:(NSInteger)dayOrNight
+                            hearingSkill:(NSInteger)hearingSkill
+                             visionSkill:(NSInteger)visionSkill
+                                  energy:(NSInteger)energy
+              travelingDistanceToPercept:(NSInteger)travelingDistanceToPercept {
+    return [self.strategySelectionMechanism selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:zombieFacingPercept obstacleInBetween:obstacleInBetween dayOrNight:dayOrNight hearingSkill:hearingSkill visionSkill:visionSkill energy:energy travelingDistanceToPercept:travelingDistanceToPercept];
+}
+
+- (BOOL)facingPlayer:(Zombie*)sender {
+    const double sixtyDegAsRadians = 1.047;
+    
+    //NSLog(@"going %d", sender.direction);
+    CLLocation *playerLocation = [self.delegate playerLocation];
+    GridCell *playerCell = [_gridMap cellForCoreLocation:playerLocation];
+    
+    NSInteger playerX = 199;//playerCell.xCoord;
+    NSInteger playerY = 0;//playerCell.yCoord;
+    
+    NSInteger zombieX = sender.cellLocation.xCoord;
+    NSInteger zombieY = sender.cellLocation.yCoord;
+    
+    // Player and Zombie on same cell
+    if (playerX == zombieX && playerY == zombieY) {
+        NSLog(@"Same square, see player");
+        return YES;
+    }
+    
+    
+    // Zombie facing east
+    if (sender.direction == 2) {
+        if (playerX < zombieX) return NO; //behind
+        NSInteger opposite = playerY-zombieY;
+        if (opposite < 0) opposite *= -1;
+        double hypotenuse = sqrt(pow(zombieX-playerX,2)+pow(zombieY-playerY,2));
+        double radians = asin(opposite / hypotenuse);
+        if (radians < sixtyDegAsRadians && radians > -sixtyDegAsRadians) return YES;
+    }
+    
+    // Zombie facing west
+    if (sender.direction == 1) {
+        if (playerX > zombieX) return NO; //behind
+        NSInteger opposite = playerY-zombieY;
+        if (opposite < 0) opposite *= -1;
+        double hypotenuse = sqrt(pow(zombieX-playerX,2)+pow(zombieY-playerY,2));
+        double radians = asin(opposite / hypotenuse);
+        if (radians < sixtyDegAsRadians && radians > -sixtyDegAsRadians) return YES;
+    }
+    
+    // Zombie facing north
+    if (sender.direction == 10) {
+        NSInteger distance = zombieY - playerY;
+        if (distance <= 0) return NO; // behind
+        
+        NSInteger xmax = 2 * ceil(sqrt(3) * distance);
+        NSInteger xmin = -xmax;
+        
+        if (playerX <= xmax && playerX >= xmin) {
+            NSLog(@"%ld can see player to north", sender.identifier);
+            return YES;
+        }
+    }
+    
+    // Zombie facing south
+    if (sender.direction == 20) {
+        NSInteger distance = playerY - zombieY;
+        if (distance <= 0) return NO; // behind
+        
+        NSInteger xmax = 2 * ceil(sqrt(3) * distance);
+        NSInteger xmin = -xmax;
+        
+        if (playerX <= xmax && playerX >= xmin) {
+            NSLog(@"%ld can see player to north", sender.identifier);
+            return YES;
+        }
+    }
+    
+    // Zombie facing north east
+    if (sender.direction == 12) {
+        if (playerX < zombieX) // 
+            return NO;
+    }
+    
+    /*
+     
+     
+     enum{
+     LEFT = 1,
+     RIGHT = 2,
+     UP = 10,
+     UP_LEFT = 11,
+     UP_RIGHT = 12,
+     DOWN = 20,
+     DOWN_LEFT = 21,
+     DOWM_RIGHT = 22
+     };
+     
+     */
     return NO;
 }
 
