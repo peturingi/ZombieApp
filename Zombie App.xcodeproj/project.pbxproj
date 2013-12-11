@@ -35,6 +35,7 @@
 		D8340F1C180D4955004B6679 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFE180D4955004B6679 /* UIKit.framework */; };
 		D8340F24180D4955004B6679 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8340F22180D4955004B6679 /* InfoPlist.strings */; };
 		D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F25180D4955004B6679 /* Zombie_AppTests.m */; };
+		D849E3EC1857CA52003C4377 /* Los.m in Sources */ = {isa = PBXBuildFile; fileRef = D849E3EB1857CA52003C4377 /* Los.m */; };
 		D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E1180D4ABC00DC077A /* MapViewController.m */; };
 		D884F3E9180D533500DC077A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E8180D533500DC077A /* User.m */; };
 		D884F3EC180D537700DC077A /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3EB180D537700DC077A /* GameController.m */; };
@@ -101,6 +102,8 @@
 		D8340F21180D4955004B6679 /* Zombie AppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zombie AppTests-Info.plist"; sourceTree = "<group>"; };
 		D8340F23180D4955004B6679 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8340F25180D4955004B6679 /* Zombie_AppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zombie_AppTests.m; sourceTree = "<group>"; };
+		D849E3EA1857CA52003C4377 /* Los.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Los.h; sourceTree = "<group>"; };
+		D849E3EB1857CA52003C4377 /* Los.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Los.m; sourceTree = "<group>"; };
 		D873695618536529006EECFE /* GameEnvironment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameEnvironment.h; sourceTree = "<group>"; };
 		D873695718538243006EECFE /* PerceptConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerceptConstants.h; sourceTree = "<group>"; };
 		D884F3E0180D4ABC00DC077A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = "Zombie App/MapViewController.h"; sourceTree = "<group>"; };
@@ -160,6 +163,8 @@
 		6877AD07182C11EC003E828C /* ZombieAI */ = {
 			isa = PBXGroup;
 			children = (
+				D849E3EA1857CA52003C4377 /* Los.h */,
+				D849E3EB1857CA52003C4377 /* Los.m */,
 				6877AD03182C0D28003E828C /* ZombieAIState.h */,
 				D88DF1551844D2E000F711C4 /* Strategy.h */,
 				D88DF1561844D2E000F711C4 /* Strategy.m */,
@@ -415,6 +420,7 @@
 				D8A9C442181017F10056698F /* StatsViewController.m in Sources */,
 				68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */,
 				6817CC0C1844E38000849768 /* ZombieAIIdle.m in Sources */,
+				D849E3EC1857CA52003C4377 /* Los.m in Sources */,
 				6817CC12184623DC00849768 /* ZombieAISprint.m in Sources */,
 				68926C49182928D500571313 /* MapViewDelegate.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,

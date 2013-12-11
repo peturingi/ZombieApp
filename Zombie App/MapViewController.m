@@ -130,9 +130,23 @@
 void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     CGRect viewFrame = view.frame;
     viewFrame.origin = pointInMapView;
-    viewFrame.origin.x -= viewFrame.size.width / 2;
-    viewFrame.origin.y -= viewFrame.size.height / 2;
-    view.frame = viewFrame;
+    
+    [UIView animateWithDuration:0.23
+                          delay:0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         CGRect targetFrame = viewFrame;
+                         targetFrame.origin.x -= viewFrame.size.width / 2;
+                         targetFrame.origin.y -= viewFrame.size.height / 2;
+                         view.frame = targetFrame;
+                     }
+                     completion:^(BOOL finished){
+                        // NSLog(@"Done!");
+                     }];
+    
+    //viewFrame.origin.x -= viewFrame.size.width / 2;
+    //viewFrame.origin.y -= viewFrame.size.height / 2;
+    //view.frame = viewFrame;
 }
 
 #pragma mark - game controller delegate methods
