@@ -16,7 +16,6 @@
 -(BOOL)isDay;
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender;
 -(NSInteger)soundLevel;
--(BOOL)facingPlayer:(Zombie*)sender;
 
 - (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel
                         distanceToPlayer:(NSInteger)distanceToPlayer
@@ -29,5 +28,6 @@
                                   energy:(NSInteger)energy
               travelingDistanceToPercept:(NSInteger)travelingDistanceToPercept;
 
+- (BOOL)isPlayerInMyLineOfSight:(NSInteger)myXCoordinate andMyYCoordinate:(NSInteger)myYcoordinate myDirection:(double)directionAsRadian myFieldOfView:(double)fieldOfView;
 
 @end

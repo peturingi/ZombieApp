@@ -105,7 +105,7 @@
     NSInteger lowerBound = 0;
     NSInteger allowedRoundingOffsetPercisionLoss = 10; // Used in case there are rounding errors for randomValueBetween method.
     NSInteger randomNumber = [self randomValueBetween:lowerBound and:upperBound];
-    
+   /*
 #ifdef DEBUG
     NSLog(@"idle: %ld", idle);
     NSLog(@"roam: %ld", roam);
@@ -113,7 +113,7 @@
     NSLog(@"sprint: %ld", sprint);
     NSLog(@"random: %ld", randomNumber);
 #endif
-    
+    */
     // < instead of <=, so we dont choose idle whenever random number is 0.
     if (randomNumber < idle)
         return 0; // idle

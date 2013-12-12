@@ -35,6 +35,7 @@
 @property GridCell* perceptLocation;
 @property (readonly) NSInteger visionSkill;
 @property (readonly) NSInteger hearingSkill;
+@property BOOL facingPercept;
 
 
 -(id)initWithCellLocation:(GridCell*)cellLocation
@@ -57,5 +58,7 @@
 
 // increase energy whenever the zombie 'touches' the player
 -(void)increaseEnergyBy:(int)amount;
+
+-(double)directionAsRadian;
 
 @end

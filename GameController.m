@@ -11,6 +11,7 @@
 #import "MathUtilities.h"
 #import "PerceptConstants.h"
 #import <math.h>
+#import "GridCell.h"
 
 
 
@@ -200,18 +201,18 @@
 -(NSInteger)canSeePlayer:(id)sender{
     NSInteger distanceFromPercept = [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
     
-    if (distanceFromPercept <= 5 * 10)
+    if (distanceFromPercept <= 50 * 10)
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return CLOSE;
         }
     
     
-    if (distanceFromPercept <= 10 * 10)
+    if (distanceFromPercept <= 60 * 10)
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return MEDIUM;
         }
     
-    if (distanceFromPercept <= 25 * 10)
+    if (distanceFromPercept <= 70 * 10)
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return FAR;
         }
@@ -220,7 +221,7 @@
 }
 
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender {
-    return [_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]];
+    return ![_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]];
 }
 
 -(NSInteger)canHearPlayer:(id)sender{
@@ -268,99 +269,64 @@
                              visionSkill:(NSInteger)visionSkill
                                   energy:(NSInteger)energy
               travelingDistanceToPercept:(NSInteger)travelingDistanceToPercept {
+    
+    
+    
     return [self.strategySelectionMechanism selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:zombieFacingPercept obstacleInBetween:obstacleInBetween dayOrNight:dayOrNight hearingSkill:hearingSkill visionSkill:visionSkill energy:energy travelingDistanceToPercept:travelingDistanceToPercept];
 }
 
-- (BOOL)facingPlayer:(Zombie*)sender {
-    const double sixtyDegAsRadians = 1.047;
+- (BOOL)isPlayerInMyLineOfSight:(NSInteger)myXCoordinate andMyYCoordinate:(NSInteger)myYcoordinate myDirection:(double)directionAsRadian myFieldOfView:(double)fieldOfView {
     
-    //NSLog(@"going %d", sender.direction);
-    CLLocation *playerLocation = [self.delegate playerLocation];
-    GridCell *playerCell = [_gridMap cellForCoreLocation:playerLocation];
+    GridCell *playerCell = [_gridMap cellForCoreLocation:_user.location];
+    NSAssert(playerCell, @"Failed to get player cell");
     
-    NSInteger playerX = 199;//playerCell.xCoord;
-    NSInteger playerY = 0;//playerCell.yCoord;
+    BOOL value = [self playerIsInLineOfSight:myXCoordinate zombieY:myYcoordinate playerX:playerCell.xCoord playerY:playerCell.yCoord directionAsRadian:directionAsRadian fieldOfViewAsRadian:fieldOfView];
     
-    NSInteger zombieX = sender.cellLocation.xCoord;
-    NSInteger zombieY = sender.cellLocation.yCoord;
+    return value;
+}
+
+- (BOOL)playerIsInLineOfSight:(double)zombieX zombieY:(double)zombieY playerX:(double)playerX playerY:(double)playerY directionAsRadian:(double)direction fieldOfViewAsRadian:(double)fieldOfView{
     
-    // Player and Zombie on same cell
-    if (playerX == zombieX && playerY == zombieY) {
-        NSLog(@"Same square, see player");
+    // Error checking.
+    if (direction > 2.0 * M_PI || direction < 0) @throw [NSException exceptionWithName:@"Invalid argument" reason:@"Direction must be between 0 and 2PI" userInfo:nil];
+    if (fieldOfView > 2.0 * M_PI || fieldOfView < 0) @throw [NSException exceptionWithName:@"Invalid argument" reason:@"Field of view must between 0 and 2PI" userInfo:nil];
+    
+    // Trivial case. Can always see zombie if in same location.
+    if (zombieX == playerX && zombieY == playerY) {
         return YES;
     }
     
+    // Create two radians. Each representing the a point on the unit circle. The visual field of view spans between the two points.
+    double leftMostPoint = direction + fieldOfView / 2.0;
+    double rightMostPoint = direction - fieldOfView / 2.0;
     
-    // Zombie facing east
-    if (sender.direction == 2) {
-        if (playerX < zombieX) return NO; //behind
-        NSInteger opposite = playerY-zombieY;
-        if (opposite < 0) opposite *= -1;
-        double hypotenuse = sqrt(pow(zombieX-playerX,2)+pow(zombieY-playerY,2));
-        double radians = asin(opposite / hypotenuse);
-        if (radians < sixtyDegAsRadians && radians > -sixtyDegAsRadians) return YES;
-    }
+    // Math stuff.
+    double hypotenuse = sqrt( pow((zombieX-playerX),2.0) + pow((zombieY-playerY),2.0) ); // Eucledian distance
+    double adjacent = (double)playerX-zombieX;
+    double opposite = (double)playerY-zombieY;
+    double playerCosine = adjacent / hypotenuse; // Range -1 to 1
+    double playerSine = opposite / hypotenuse; // Range -1 to 1
     
-    // Zombie facing west
-    if (sender.direction == 1) {
-        if (playerX > zombieX) return NO; //behind
-        NSInteger opposite = playerY-zombieY;
-        if (opposite < 0) opposite *= -1;
-        double hypotenuse = sqrt(pow(zombieX-playerX,2)+pow(zombieY-playerY,2));
-        double radians = asin(opposite / hypotenuse);
-        if (radians < sixtyDegAsRadians && radians > -sixtyDegAsRadians) return YES;
-    }
-    
-    // Zombie facing north
-    if (sender.direction == 10) {
-        NSInteger distance = zombieY - playerY;
-        if (distance <= 0) return NO; // behind
-        
-        NSInteger xmax = 2 * ceil(sqrt(3) * distance);
-        NSInteger xmin = -xmax;
-        
-        if (playerX <= xmax && playerX >= xmin) {
-            NSLog(@"%ld can see player to north", sender.identifier);
-            return YES;
+    // Where on the unit circle is the player?
+    // Represent the angle towards the player, from the zombie, as a radiain.
+    double playerRadian = 0;
+    if (playerSine >= 0) {
+        // Upper part of the unit circle
+        playerRadian = acos(playerCosine);
+    } else {
+        if (playerSine <= 0) {
+            // Lower part of the unit circle
+            playerRadian = 2 * M_PI - acos(playerCosine);
         }
     }
     
-    // Zombie facing south
-    if (sender.direction == 20) {
-        NSInteger distance = playerY - zombieY;
-        if (distance <= 0) return NO; // behind
-        
-        NSInteger xmax = 2 * ceil(sqrt(3) * distance);
-        NSInteger xmin = -xmax;
-        
-        if (playerX <= xmax && playerX >= xmin) {
-            NSLog(@"%ld can see player to north", sender.identifier);
-            return YES;
-        }
+    // Is the player within the zombies visual field?
+    if (leftMostPoint >= playerRadian && playerRadian >= rightMostPoint) {
+        NSLog(@"I see the player!");
+        return YES;
+    } else {
+        return NO;
     }
-    
-    // Zombie facing north east
-    if (sender.direction == 12) {
-        if (playerX < zombieX) // 
-            return NO;
-    }
-    
-    /*
-     
-     
-     enum{
-     LEFT = 1,
-     RIGHT = 2,
-     UP = 10,
-     UP_LEFT = 11,
-     UP_RIGHT = 12,
-     DOWN = 20,
-     DOWN_LEFT = 21,
-     DOWM_RIGHT = 22
-     };
-     
-     */
-    return NO;
 }
 
 

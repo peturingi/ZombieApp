@@ -12,7 +12,7 @@
 #import "ZombieAIRun.h"
 #import "ZombieAISprint.h"
 
-#define THINK_INTERVAL 2.0f
+#define THINK_INTERVAL 0.5f
 #define ZOMBIE_ENERGY 1000
 
 enum{
@@ -23,7 +23,7 @@ enum{
     UP_RIGHT = 12,
     DOWN = 20,
     DOWN_LEFT = 21,
-    DOWM_RIGHT = 22
+    DOWN_RIGHT = 22
 };
 
 @implementation Zombie
@@ -65,20 +65,19 @@ enum{
         
         
         BOOL obstacles;
-        BOOL facingPercept = [_gameEnvironment facingPlayer:self];
         NSInteger visibilityDistance = [_gameEnvironment canSeePlayer:self];
         if (visibilityDistance == -1) {
             visibilityDistance = 0;
             obstacles = YES;
-            facingPercept = NO;
+            self.facingPercept = NO;
         } else {
             obstacles = [_gameEnvironment obstaclesBetweenZombieAndPlayer:self];
             if (!obstacles) {
-                // check if facing percept.
+                self.facingPercept = [_gameEnvironment isPlayerInMyLineOfSight:self.cellLocation.xCoord andMyYCoordinate:self.cellLocation.yCoord myDirection:[self directionAsRadian] myFieldOfView:M_PI / 3.0];
             }
         }
         NSInteger distanceToPlayer = [_gameEnvironment canHearPlayer:self]; // Hearing distance to percept.
-        if (distanceToPlayer == -1) distanceToPlayer = 2;
+        // never out of range : if (distanceToPlayer == -1) distanceToPlayer = 2;
         BOOL isDay = [_gameEnvironment isDay];
         NSInteger soundLevel = [_gameEnvironment soundLevel];
         
@@ -93,17 +92,21 @@ enum{
         
 
         // using can hear player as distance to player to not have to execute A* each time this is called.
-        NSInteger choosenStrategyIdentifier = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
+        // Safe to assume player is out of sight if I cannot hear the player.
+        NSInteger choosenStrategyIdentifier = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
         //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
-        NSLog(@"Strategy choosen: %ld", choosenStrategyIdentifier);
+        NSLog(@"Strategy choosen: %d", choosenStrategyIdentifier);
 #warning remove before final release
         if (choosenStrategyIdentifier == 0) choosenStrategyIdentifier=1; // never idle.
         
-        NSAssert(choosenStrategyIdentifier > -1, @"Error");
+        NSAssert(choosenStrategyIdentifier > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
         
         // choose strategy
+#ifndef DEBUG
         [self changeToStrategy:choosenStrategyIdentifier];
-        
+#else
+        [self changeToStrategy:ROAM];
+#endif
         // reset counter
         _thinkInterval = THINK_INTERVAL;
     }
@@ -178,4 +181,31 @@ enum{
         _energy = ZOMBIE_ENERGY;
     }
 }
+
+- (double)directionAsRadian {
+    
+    switch (_direction){
+        case LEFT:
+            return M_PI;
+        case RIGHT:
+            return 0.0;
+        case UP:
+            return M_PI / 2.0;
+        case UP_LEFT:
+            return 3.0 * M_PI / 4.0;
+        case UP_RIGHT:
+            return M_PI / 4.0;
+        case DOWN:
+            return 6.0 * M_PI / 4.0;
+        case DOWN_LEFT:
+            return 5.0 * M_PI / 4.0;
+        case DOWN_RIGHT:
+            return 7 * M_PI / 4.0;
+        default:
+            @throw [NSException exceptionWithName:@"Failed to determine zombie direction" reason:[NSString stringWithFormat:@"Value of direction was %ld", (unsigned long)_direction] userInfo:nil];
+            
+    }
+
+}
+
 @end
