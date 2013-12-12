@@ -38,8 +38,10 @@
 @property (readonly) NSInteger hearingSkill;
 @property BOOL facingPercept;
 @property NSInteger currentStrategy;
-
-
+#ifdef DEV_TOUCH_MODE
+@property BOOL seesPlayer;
+@property BOOL lineOfSight;
+#endif
 -(id)initWithCellLocation:(GridCell*)cellLocation
                identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem*)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment;
 

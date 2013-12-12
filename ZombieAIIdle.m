@@ -29,7 +29,7 @@
     // if enough time has passed, reduce energy levels
     _idleInterval -= deltaTime;
     if(_idleInterval < 0){
-        // decrease energy by a bit
+        // decrease energy by a bitŒ
         [zombie decreaseEnergyBy:IDLE_COST];
         // reset countdown
         _idleInterval = IDLE_INTERVAL;

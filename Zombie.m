@@ -65,18 +65,19 @@ enum{
         //NSLog(@"can we see player?");
         
         
-        BOOL obstacles;
-        NSInteger visibilityDistance = [_gameEnvironment canSeePlayer:self];
-        if (visibilityDistance == -1) {
-            visibilityDistance = 0;
-            obstacles = YES;
-            self.facingPercept = NO;
-        } else {
+        BOOL obstacles = NO;
+        NSInteger visibilityDistance = [_gameEnvironment visualRangeToPlayer:self];
+
+
             obstacles = [_gameEnvironment obstaclesBetweenZombieAndPlayer:self];
-            if (!obstacles) {
-                self.facingPercept = [_gameEnvironment isPlayerInMyLineOfSight:self.cellLocation.xCoord andMyYCoordinate:self.cellLocation.yCoord myDirection:[self directionAsRadian] myFieldOfView:M_PI / 3.0];
-            }
-        }
+        self.lineOfSight = !obstacles;
+                self.facingPercept = [_gameEnvironment isPlayerWithinFieldOfView:self.cellLocation.xCoord andMyYCoordinate:self.cellLocation.yCoord myDirection:[self directionAsRadian] myFieldOfView:2.0 * M_PI / 3.0];
+                //if (self.facingPercept) NSLog(@"%d is facing the player", self.identifier);
+        if (!obstacles && self.facingPercept)
+            self.seesPlayer = YES;
+        else
+            self.seesPlayer = NO;
+        
         NSInteger distanceToPlayer = [_gameEnvironment canHearPlayer:self]; // Hearing distance to percept.
         // never out of range : if (distanceToPlayer == -1) distanceToPlayer = 2;
         BOOL isDay = [_gameEnvironment isDay];
@@ -96,9 +97,9 @@ enum{
         // Safe to assume player is out of sight if I cannot hear the player.
         self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
         //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
+#ifdef VERBOSE
         NSLog(@"Strategy choosen: %d", self.currentStrategy);
-#warning remove before final release
-        //if (self.currentStrategy == 0) self.currentStrategy=1; // never idle.
+#endif
         
         NSAssert(self.currentStrategy > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
         

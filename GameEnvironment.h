@@ -11,7 +11,7 @@
 @class Zombie; // replace with id
 @protocol GameEnvironment <NSObject>
 
--(NSInteger)canSeePlayer:(id)sender;
+-(NSInteger)visualRangeToPlayer:(id)sender;
 -(NSInteger)canHearPlayer:(id)sender;
 -(BOOL)isDay;
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender;
@@ -28,6 +28,6 @@
                                   energy:(NSInteger)energy
               travelingDistanceToPercept:(NSInteger)travelingDistanceToPercept;
 
-- (BOOL)isPlayerInMyLineOfSight:(NSInteger)myXCoordinate andMyYCoordinate:(NSInteger)myYcoordinate myDirection:(double)directionAsRadian myFieldOfView:(double)fieldOfView;
+- (BOOL)isPlayerWithinFieldOfView:(NSInteger)myXCoordinate andMyYCoordinate:(NSInteger)myYcoordinate myDirection:(double)directionAsRadian myFieldOfView:(double)fieldOfView;
 
 @end

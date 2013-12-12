@@ -44,6 +44,7 @@
     
     _sprintInterval -= deltaTime;
     if(_sprintInterval < 0){
+#ifndef ZOMBIES_NEVER_MOVE
         // find next location in path
         GridCell* location = _sprintPath[_sprintPathIndex];
         _sprintPathIndex++;
@@ -56,7 +57,7 @@
         
         // move to the location
         [zombie moveToLocation:location];
-        
+#endif
         // reset countdown
         _sprintInterval = SPRINT_INTERVAL;
     }

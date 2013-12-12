@@ -44,7 +44,9 @@
 
 -(void)generateZombies:(int)amount{
     PathfindingSystem* pathfindingSystem = [[PathfindingSystem alloc]initWithMap:_gridMap];
-    
+#ifdef SINGLE_ZOMBIE
+    amount = 1;
+#endif
     for (int index = 0; index < amount; index++) {
         /*
         CLLocation* newLoc = [self generateLocationNearPlayer];
@@ -57,7 +59,11 @@
         
         [_zombies addObject:zomb];
          */
-        GridCell* cell = [_gridMap cellAt:0+(index*40)+1 andY:0+(index*10)+1];
+        GridCell* cell;
+        while (!cell || cell.isObstacle) {
+            cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:0 and:199] andY:[MathUtilities randomNumberBetween:0 and:41]];
+
+        }
         Zombie* zombie = [[Zombie alloc]initWithCellLocation:cell
                                                   identifier:index+1 pathfindingSystem:pathfindingSystem andGameEnvironment:self];
         [_zombies addObject:zombie];
@@ -116,6 +122,7 @@
  *  This is the main gameloop.
  */
 -(void)gameloop{
+    
     // update time
     [_engineTimer update];
     double deltaTime = [_engineTimer currentDeltaInSeconds];
@@ -125,15 +132,12 @@
     GridCell* playerLoc = [_gridMap cellForCoreLocation:location];
     [_user setCellLocation:playerLoc];
     
-    // update percepts for zombies
-    for(Zombie* zombie in _zombies){
-        [zombie setPerceptLocation:[_user cellLocation]];
-    }
-    
+    if (playerLoc) {
     // think for the zombies
     for(Zombie* zombie in _zombies){
-// todo: according to AI book, the agent himself must be able to determine for how long he wants to think. Maby this is also ok, I dont know.
+        [zombie setPerceptLocation:[_user cellLocation]];
         [zombie think:deltaTime];
+    }
     }
     
     [self renderZombies];
@@ -200,8 +204,12 @@
     [_engineTimer stop];
 }
 
--(NSInteger)canSeePlayer:(id)sender{
+-(NSInteger)visualRangeToPlayer:(id)sender{
     NSInteger distanceFromPercept = [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
+    
+#ifdef DEV_TOUCH_MODE
+    distanceFromPercept = [[_gridMap cellForCoreLocation:[_user location]] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
+#endif
     
     if (distanceFromPercept <= 50 * 10)
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
@@ -219,10 +227,13 @@
             return FAR;
         }
 
-    return OUT_OF_RANGE;
+    return FAR;
 }
 
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender {
+#ifdef DEV_TOUCH_MODE
+    return ![_gridMap unobstructedLineOfSightFrom:[_user cellLocation] to:[(Zombie*)sender cellLocation]];
+#endif
     return ![_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]];
 }
 
@@ -275,7 +286,7 @@
     return [self.strategySelectionMechanism selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:zombieFacingPercept obstacleInBetween:obstacleInBetween dayOrNight:dayOrNight hearingSkill:hearingSkill visionSkill:visionSkill energy:energy travelingDistanceToPercept:travelingDistanceToPercept];
 }
 
-- (BOOL)isPlayerInMyLineOfSight:(NSInteger)myXCoordinate andMyYCoordinate:(NSInteger)myYcoordinate myDirection:(double)directionAsRadian myFieldOfView:(double)fieldOfView {
+- (BOOL)isPlayerWithinFieldOfView:(NSInteger)myXCoordinate andMyYCoordinate:(NSInteger)myYcoordinate myDirection:(double)directionAsRadian myFieldOfView:(double)fieldOfView {
     
     GridCell *playerCell = [_gridMap cellForCoreLocation:_user.location];
     NSAssert(playerCell, @"Failed to get player cell");
@@ -299,6 +310,7 @@
     // Create two radians. Each representing the a point on the unit circle. The visual field of view spans between the two points.
     double leftMostPoint = direction + fieldOfView / 2.0;
     double rightMostPoint = direction - fieldOfView / 2.0;
+
     
     // Math stuff.
     double hypotenuse = sqrt( pow((zombieX-playerX),2.0) + pow((zombieY-playerY),2.0) ); // Eucledian distance
@@ -319,6 +331,12 @@
             playerRadian = 2 * M_PI - acos(playerCosine);
         }
     }
+    if (rightMostPoint < 0.0) {
+        rightMostPoint += 2.0 * M_PI;
+        leftMostPoint += 2.0 * M_PI;
+    }
+    if ((rightMostPoint > 2.0 * M_PI || leftMostPoint > 2.0 * M_PI) && playerRadian < M_PI)
+        playerRadian += 2.0 * M_PI;
     
     // Is the player within the zombies visual field?
     if (leftMostPoint >= playerRadian && playerRadian >= rightMostPoint) {

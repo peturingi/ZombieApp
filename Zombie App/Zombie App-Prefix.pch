@@ -14,3 +14,10 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+
+#define ZOMBIES_NEVER_MOVE
+#define DEV_TOUCH_MODE
+#define SINGLE_ZOMBIE
+//#define NEVER_DRAW_ZOMBIES
+//#define DRAW_CELLS

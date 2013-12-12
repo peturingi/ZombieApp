@@ -14,13 +14,13 @@
 #define TILE_WIDTH 29
 
 // the height of each tile
-#define TILE_HEIGHT 29
+#define TILE_HEIGHT 15
 
 // the width of the map in terms of tiles
 #define MAP_WIDTH 200
 
 // the height of the map in terms of tiles
-#define MAP_HEIGHT 43
+#define MAP_HEIGHT 86
 
 // the origin of the map in terms of latitude and longitude
 // multiplied by the conversion factor

@@ -21,6 +21,13 @@
     __weak IBOutlet UILabel *_elapsedtimeLabel;
     __weak IBOutlet UILabel *_speedLabel;
     __weak IBOutlet UILabel *_distanceLabel;
+    
+    __weak IBOutlet UITextField *dev_fieldOfView;
+    __weak IBOutlet UITextField *dev_lineOfSight;
+    __weak IBOutlet UITextField *dev_seesPlayer;
+#ifdef DEV_TOUCH_ZOMBIE
+    
+#endif
 }
 
 /** Zombie identifiers and their coordinates.

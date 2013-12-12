@@ -51,6 +51,7 @@
     
     _roamInterval -= deltaTime;
     if(_roamInterval < 0){
+#ifndef ZOMBIES_NEVER_MOVE
         // find next location in path
         GridCell* location = _roamPath[_roamPathIndex];
         NSAssert(location, @"Location was nil");
@@ -61,10 +62,10 @@
         // cost will be 10 if horizontal or vertical move, 14 if diagonal
         int cost = [currentLocation travelCostToNeighbourCell:location];
         [zombie decreaseEnergyBy:cost];
-        
+
         // move to the location
         [zombie moveToLocation:location];
-        
+#endif
         // reset countdown
         _roamInterval = ROAM_INTERVAL;
     }

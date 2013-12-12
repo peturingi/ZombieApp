@@ -37,16 +37,6 @@
     NSAssert(location, @"location cannot be nil!");
     // update location
     [self setLocation:location];
-    
-#warning not needed. The speed is already stored as part of self.location. Remove?
-    // update speed
-    CLLocationSpeed speed = [location speed];
-    // Make sure the user does not see a negative value due to inaccuracy.
-    if(speed < 0){
-        [self setSpeed:0];
-    }else{
-        [self setSpeed:speed];
-    }
         
     // update distance travelled
     if (!_previousLocation) {

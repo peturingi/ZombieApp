@@ -29,7 +29,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
+
     // Get a reference to the game controller and set this view controller as its delegate.
     _gameController = [GameController sharedInstance];
     [_gameController setDelegate:self];
@@ -39,6 +40,11 @@
     [super viewWillAppear:animated];
     // Start the game loop.
     [_gameController start];
+#ifdef DEV_TOUCH_ZOMBIE
+    dev_fieldOfView.hidden = NO;
+    dev_seesPlayer.hidden = NO;
+    dev_lineOfSight.hidden = NO;
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,6 +59,10 @@
  *  @remark Not the most efficient code but it is very readable. Uses less than 1% cpu on iPhone 4s.
  */
 - (void)displayZombiesOnMap {
+#ifdef NEVER_DRAW_ZOMBIES
+    return;
+#endif
+    
     // 1. Ensure the zombies have a pairing uiimageview, if not create one.
     // 2. Detect if zombie has been deleted, then remove his uiimageview.
     // DevMode: Show adjust zombie image to be of correct color.
@@ -94,6 +104,7 @@
             }
         }
         if (!zombieHasAView) {
+
             // Convert the zombies GPS coordinates into coordinates within the MapView.
             
             // Create the zombie view
@@ -147,6 +158,26 @@
                     @throw [NSException exceptionWithName:@"Invalid strategy" reason:@"Could not find image for selected strategy" userInfo:nil];
             }
             view.image = state;
+            
+            // Also update dev labels.
+            if (zombie.facingPercept) {
+                dev_fieldOfView.text = @"FOV";
+            } else {
+                dev_fieldOfView.text = @"";
+            }
+            
+            if (zombie.seesPlayer) {
+                dev_seesPlayer.text = @"Sees player";
+            } else {
+                dev_seesPlayer.text = @"";
+            }
+            
+            if (zombie.lineOfSight) {
+                dev_lineOfSight.text = @"No obstacles to player";
+            } else {
+                dev_lineOfSight.text = @"";
+            }
+            
 #endif
              view.image = [view.image imageRotatedByRadians:-zombie.directionAsRadian];
             
@@ -243,6 +274,9 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     if (self.zombiesData) {
         [self displayZombiesOnMap];
     }
+#ifdef DRAW_CELLS
+    [self drawCells];
+#endif
 }
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
@@ -251,6 +285,7 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     // Zoom in on the map, once - the first time the users location is received.
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         const NSInteger mapLongMeters = 100;
         const NSInteger mapLatMeters = 100;
         MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(currentCoordinate,
@@ -260,6 +295,7 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     });
     
     [mapView setCenterCoordinate:currentCoordinate animated:NO];
+
     
 #pragma mark post a notification that the user location has changed.
     
@@ -308,6 +344,30 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 
 #endif
 }
+
+#ifdef DRAW_CELLS
+- (void)drawCells {
+    for (UIImageView *img in _mapView.subviews) {
+        if (img.tag == 100) [img removeFromSuperview];
+    }
+    
+
+    for (int x = 0; x < 200; x++)
+        for (int y = 0; y < 86; y++) {
+            UIImage *img = [UIImage imageNamed:@"cell"];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
+            imageView.tag = 100; // fake its a zombie so not deleted by zombie update.
+            GridCell *cell = [[_gameController gridMap] cellAt:x andY:y];
+            CLLocation *cellLocation = [[_gameController gridMap] coreLocationForCell:cell];
+            CLLocationCoordinate2D location = cellLocation.coordinate;
+            CGPoint pointInMapView = [_mapView convertCoordinate:location toPointToView:_mapView];
+            centerViewAtPoint(imageView, pointInMapView);
+            
+            [_mapView addSubview:imageView];
+
+        }
+}
+#endif
 
 
 @end

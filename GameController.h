@@ -41,8 +41,10 @@
     NSMutableArray* _zombies;
     
     // The game map grid system
-    GridMap* _gridMap;
+    
 }
+
+@property GridMap* gridMap;
 
 @property (readonly) Strategy *strategySelectionMechanism;
 

@@ -125,6 +125,24 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tgq-r3-QCB" userLabel="z1 in FOV">
+                                <rect key="frame" x="43" y="373" width="119" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mHu-u3-VUD" userLabel="z1 in LOS">
+                                <rect key="frame" x="43" y="403" width="119" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oq8-yo-kzi" userLabel="z1 sees">
+                                <rect key="frame" x="43" y="344" width="119" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -139,6 +157,9 @@
                         <outlet property="_elapsedtimeLabel" destination="CCC-Zf-uRQ" id="rVe-vP-NbT"/>
                         <outlet property="_mapView" destination="0yT-K7-Ylb" id="GUl-Ij-mYB"/>
                         <outlet property="_speedLabel" destination="DUJ-VA-RRI" id="AUr-3s-T42"/>
+                        <outlet property="dev_fieldOfView" destination="Tgq-r3-QCB" id="Loc-G0-whj"/>
+                        <outlet property="dev_lineOfSight" destination="mHu-u3-VUD" id="dsc-fr-uef"/>
+                        <outlet property="dev_seesPlayer" destination="Oq8-yo-kzi" id="aR9-OS-i4y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dl2-tF-RWu" userLabel="First Responder" sceneMemberID="firstResponder"/>
