@@ -147,12 +147,16 @@
  *  Sends the list of zombies and their current location over to the view controller.
  */
 -(void)renderZombies{
-    NSMutableDictionary* zombiesLocations = [NSMutableDictionary dictionary];
+    NSMutableDictionary* zombiesData = [NSMutableDictionary dictionary];
     for(Zombie* zombie in _zombies){
+        NSInteger currentStrategy = zombie.currentStrategy;
+        NSNumber *currentStrategyAsNumber = [NSNumber numberWithInteger:currentStrategy];
         CLLocation* location = [_gridMap coreLocationForCell:[zombie cellLocation]];
-        [zombiesLocations setObject:location forKey:[NSNumber numberWithInteger:[zombie identifier]]];
+        NSArray *data = [NSArray arrayWithObjects:currentStrategyAsNumber,location, nil];
+        
+        [zombiesData setObject:data forKey:[NSNumber numberWithInteger:[zombie identifier]]];
     }
-    [[self delegate] renderZombies:zombiesLocations];
+    [[self delegate] renderZombies:zombiesData];
 }
 
 // check for each zombie
@@ -233,17 +237,15 @@
     if (distanceFromPercept <= 2 * 10)
         return MEDIUM;
     
-    if (distanceFromPercept <= 3 * 10)
-        return FAR;
-    
-    return OUT_OF_RANGE;
+    // else far.
+    return FAR;
 }
 
 -(BOOL)isDay {
     NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
     [timeFormat setDateFormat:@"HH"];
     NSString *theTime = [timeFormat stringFromDate:[NSDate date]];
-    NSLog(@"time, %@",theTime);
+    //NSLog(@"time, %@",theTime);
     
     NSInteger hour = [theTime integerValue];
     if (hour > 8 && hour < 20) {

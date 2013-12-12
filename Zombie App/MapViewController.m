@@ -8,7 +8,7 @@
 
 #import "MapViewController.h"
 #import "StatsViewController.h"
-#import "MapViewDelegate.h"
+// #import "MapViewDelegate.h"
 #import "NSString+stringFromTimeInterval.h"
 
 @implementation MapViewController
@@ -54,12 +54,13 @@
 - (void)displayZombiesOnMap {
     // 1. Ensure the zombies have a pairing uiimageview, if not create one.
     // 2. Detect if zombie has been deleted, then remove his uiimageview.
+    // DevMode: Show adjust zombie image to be of correct color.
     // 3. Redraw at correct coordinates.
     
     NSAssert(_mapView != nil, @"Map was nil!");
-    NSAssert(self.zombiesCoordinates != nil, @"zombieCoordinates dictionary was nil");
+    NSAssert(self.zombiesData != nil, @"zombieCoordinates dictionary was nil");
 #ifdef DEBUG
-    if (self.zombiesCoordinates.count == 0) {
+    if (self.zombiesData.count == 0) {
         NSLog(@"%@ : Warning, dictionary empty", NSStringFromSelector(_cmd));
     }
 #endif
@@ -67,7 +68,8 @@
     // Handle deletion of zombies, by removing UIImageViews which do not belong to any zombie identifier.
     for (UIImageView *view in _mapView.subviews) {
         NSNumber *tagOfView = [NSNumber numberWithInteger:view.tag];
-        CLLocation *coordinates = [self.zombiesCoordinates objectForKey:tagOfView];
+        NSArray *data = [self.zombiesData objectForKey:tagOfView];
+        CLLocation *coordinates = [data objectAtIndex:1];
         // Map can have multiple subviews. Only concern those of UIImageView class as its used to draw the images.
         if (coordinates == nil && [view isKindOfClass:[UIImageView class]]) {
             [view removeFromSuperview];
@@ -76,7 +78,7 @@
     
     // 2.
     // Create a new UIImageView for new zombies, add it to the map.
-    NSEnumerator *zombiesKeyEnumerator = self.zombiesCoordinates.keyEnumerator;
+    NSEnumerator *zombiesKeyEnumerator = self.zombiesData.keyEnumerator;
     id key;
     while ((key = zombiesKeyEnumerator.nextObject)) {
         BOOL zombieHasAView = FALSE;
@@ -91,7 +93,8 @@
         // Create a UIImageView if one does not excist for the current zombie.
         if (!zombieHasAView) {
             // Convert the zombies GPS coordinates into coordinates within the MapView.
-            CLLocation *geoCoords = [self.zombiesCoordinates objectForKey:key];
+            NSArray *data = [self.zombiesData objectForKey:key];
+            CLLocation *geoCoords = [data objectAtIndex:1];
             NSAssert (geoCoords != nil, @"geoCoords are nil!");
             
             // Create the zombie view
@@ -114,9 +117,33 @@
             NSNumber *zombieID = [NSNumber numberWithInteger:view.tag];
             NSAssert (zombieID != nil, @"zombieID is nil");
         
-            CLLocation *geoCoords = [self.zombiesCoordinates objectForKey:zombieID];
+            NSArray *data = [self.zombiesData objectForKey:zombieID];
+            CLLocation *geoCoords = [data objectAtIndex:1];
             NSAssert(geoCoords != nil, @"geoCoords are nil!");
-        
+            
+            //Devmode, adjust the photo
+#ifdef DEBUG
+            NSNumber *zombiesStrategyAsNumber = [data objectAtIndex:0];
+            NSInteger zombiesStrategy = [zombiesStrategyAsNumber integerValue];
+            UIImage *state;
+            switch (zombiesStrategy) {
+                case 0: // idle
+                    state = [UIImage imageNamed:@"zombieIdle"];
+                    break;
+                case 1: // Roam
+                    state = [UIImage imageNamed:@"zombieRoam"];
+                    break;
+                case 2: // WAlk
+                    state = [UIImage imageNamed:@"zombieWalk"];
+                    break;
+                case 3: // Sprint
+                    state = [UIImage imageNamed:@"zombieSprint"];
+                    break;
+                default:
+                    @throw [NSException exceptionWithName:@"Invalid strategy" reason:@"Could not find image for selected strategy" userInfo:nil];
+            }
+            view.image = state;
+#endif
             CGPoint pointInMapView = [_mapView convertCoordinate:geoCoords.coordinate toPointToView:_mapView];
             centerViewAtPoint(view, pointInMapView);
         }
@@ -201,12 +228,12 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
 #ifdef DEBUG
-    if (!self.zombiesCoordinates)
+    if (!self.zombiesData)
         NSLog(@"%@ - verbose debugging: zombiesCoordinates is nil.", NSStringFromSelector(_cmd));
 #endif
     
     // Redraw zombies.
-    if (self.zombiesCoordinates) {
+    if (self.zombiesData) {
         [self displayZombiesOnMap];
     }
 }
@@ -227,9 +254,14 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     
     [mapView setCenterCoordinate:currentCoordinate animated:NO];
     
-    // post a notification that the user location has changed.
+#pragma mark post a notification that the user location has changed.
+    
+    // Only execute on real device. DEBUG indicates dev mode in simulator.
+#ifndef DEBUG
     CLLocation *location = [userLocation location];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:location];
+#endif
+
 }
 
 
@@ -239,19 +271,35 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 }
 
 #pragma mark - Setters & Getters
-- (void)setZombiesCoordinates:(NSDictionary *)zombiesCoordinates {
-    _zombiesCoordinates = zombiesCoordinates;
+- (void)setZombiesData:(NSDictionary *)zombiesCoordinates {
+    _zombiesData = zombiesCoordinates;
     
     [self displayZombiesOnMap];
 }
 
 -(void)renderZombies:(NSDictionary*)zombies{
-    [self setZombiesCoordinates:zombies];
+    [self setZombiesData:zombies];
     [self displayZombiesOnMap];
 }
 
 - (CLLocation *)playerLocation {
     return _mapView.userLocation.location;
+}
+- (IBAction)dev_placePlayerWithTouch:(id)sender {
+#ifdef DEBUG
+    
+    // Get the GPS coordinates where the press occured.
+    UILongPressGestureRecognizer *gr = sender;
+    if (gr.state == UIGestureRecognizerStateBegan) { // Only act on first press. This is a continious event.
+        MKMapView *grMapView = (MKMapView *)gr.view;
+        CGPoint location = [gr locationInView:grMapView];
+        CLLocationCoordinate2D location2d = [grMapView convertPoint:location toCoordinateFromView:grMapView];
+        CLLocation *gestureLocation = [[CLLocation alloc] initWithLatitude:location2d.latitude longitude:location2d.longitude];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:gestureLocation];
+        NSLog(@"Dev mode: notification posted: didUpdatePlayerPosition");
+    }
+
+#endif
 }
 
 

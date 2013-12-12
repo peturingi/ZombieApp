@@ -28,6 +28,6 @@
     value: coordinates for the given key as a CLLocation
  *  @note Change strong to weak if another class should be responsible for the property.
  */
-@property (strong, nonatomic) NSDictionary *zombiesCoordinates;
+@property (strong, nonatomic) NSDictionary *zombiesData;
 
 @end

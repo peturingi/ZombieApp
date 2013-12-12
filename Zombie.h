@@ -36,6 +36,7 @@
 @property (readonly) NSInteger visionSkill;
 @property (readonly) NSInteger hearingSkill;
 @property BOOL facingPercept;
+@property NSInteger currentStrategy;
 
 
 -(id)initWithCellLocation:(GridCell*)cellLocation

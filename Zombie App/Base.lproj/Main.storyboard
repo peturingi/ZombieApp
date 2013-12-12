@@ -86,6 +86,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="Qfk-ho-7n5" id="qdV-iB-O7f"/>
+                                    <outletCollection property="gestureRecognizers" destination="RKT-0K-zUM" appends="YES" id="9p9-oR-qtW"/>
                                 </connections>
                             </mapView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CCC-Zf-uRQ" userLabel="elapsed time">
@@ -141,6 +142,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dl2-tF-RWu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.99999999999999989" id="RKT-0K-zUM">
+                    <connections>
+                        <action selector="dev_placePlayerWithTouch:" destination="Qfk-ho-7n5" id="iIY-Tf-on4"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="429" y="89"/>
         </scene>

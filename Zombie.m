@@ -93,20 +93,18 @@ enum{
 
         // using can hear player as distance to player to not have to execute A* each time this is called.
         // Safe to assume player is out of sight if I cannot hear the player.
-        NSInteger choosenStrategyIdentifier = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
+        self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
         //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
-        NSLog(@"Strategy choosen: %d", choosenStrategyIdentifier);
+        NSLog(@"Strategy choosen: %d", self.currentStrategy);
 #warning remove before final release
-        if (choosenStrategyIdentifier == 0) choosenStrategyIdentifier=1; // never idle.
+        //if (self.currentStrategy == 0) self.currentStrategy=1; // never idle.
         
-        NSAssert(choosenStrategyIdentifier > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
+        NSAssert(self.currentStrategy > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
         
         // choose strategy
-#ifndef DEBUG
-        [self changeToStrategy:choosenStrategyIdentifier];
-#else
-        [self changeToStrategy:ROAM];
-#endif
+
+        [self changeToStrategy:self.currentStrategy];
+
         // reset counter
         _thinkInterval = THINK_INTERVAL;
     }
