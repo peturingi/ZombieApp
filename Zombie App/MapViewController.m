@@ -10,6 +10,7 @@
 #import "StatsViewController.h"
 // #import "MapViewDelegate.h"
 #import "NSString+stringFromTimeInterval.h"
+#import "UIImage+UIImage_Extension_h.h"
 
 @implementation MapViewController
 
@@ -109,7 +110,6 @@
         }
     }
     
-
     
     
     // 3.
@@ -127,6 +127,7 @@
             }
             
             //Devmode, adjust the photo
+           
 #ifdef DEBUG
             UIImage *state;
             switch (zombie.currentStrategy) {
@@ -147,6 +148,9 @@
             }
             view.image = state;
 #endif
+             view.image = [view.image imageRotatedByRadians:-zombie.directionAsRadian];
+            
+            
             CGPoint pointInMapView = [_mapView convertCoordinate:zombie.gpsLocation.coordinate toPointToView:_mapView];
             centerViewAtPoint(view, pointInMapView);
         }

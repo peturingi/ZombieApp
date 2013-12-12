@@ -21,6 +21,7 @@
 		6877AD0F182C6901003E828C /* MathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 6877AD0E182C6901003E828C /* MathUtilities.m */; };
 		68926BBC1827ADAF00571313 /* EngineTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926BBB1827ADAF00571313 /* EngineTimer.m */; };
 		68926BBF1827B3BF00571313 /* Zombie.m in Sources */ = {isa = PBXBuildFile; fileRef = 68926BBE1827B3BF00571313 /* Zombie.m */; };
+		D8321575185A0A500006C7A3 /* UIImage+UIImage_Extension_h.m in Sources */ = {isa = PBXBuildFile; fileRef = D8321574185A0A500006C7A3 /* UIImage+UIImage_Extension_h.m */; };
 		D8340EFB180D4955004B6679 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFA180D4955004B6679 /* Foundation.framework */; };
 		D8340EFD180D4955004B6679 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFC180D4955004B6679 /* CoreGraphics.framework */; };
 		D8340EFF180D4955004B6679 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8340EFE180D4955004B6679 /* UIKit.framework */; };
@@ -82,6 +83,8 @@
 		68926BBB1827ADAF00571313 /* EngineTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineTimer.m; sourceTree = "<group>"; };
 		68926BBD1827B3BF00571313 /* Zombie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zombie.h; sourceTree = "<group>"; };
 		68926BBE1827B3BF00571313 /* Zombie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zombie.m; sourceTree = "<group>"; };
+		D8321573185A0A500006C7A3 /* UIImage+UIImage_Extension_h.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImage_Extension_h.h"; sourceTree = "<group>"; };
+		D8321574185A0A500006C7A3 /* UIImage+UIImage_Extension_h.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIImage_Extension_h.m"; sourceTree = "<group>"; };
 		D8340EF7180D4955004B6679 /* Zombie App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zombie App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8340EFA180D4955004B6679 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8340EFC180D4955004B6679 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -206,6 +209,8 @@
 		D8340EEE180D4955004B6679 = {
 			isa = PBXGroup;
 			children = (
+				D8321573185A0A500006C7A3 /* UIImage+UIImage_Extension_h.h */,
+				D8321574185A0A500006C7A3 /* UIImage+UIImage_Extension_h.m */,
 				D873695718538243006EECFE /* PerceptConstants.h */,
 				D884F3E5180D504D00DC077A /* GameLogic */,
 				D884F3E4180D4FF900DC077A /* LocationComponent */,
@@ -417,6 +422,7 @@
 				6817CC0C1844E38000849768 /* ZombieAIIdle.m in Sources */,
 				D849E3EC1857CA52003C4377 /* Los.m in Sources */,
 				6817CC12184623DC00849768 /* ZombieAISprint.m in Sources */,
+				D8321575185A0A500006C7A3 /* UIImage+UIImage_Extension_h.m in Sources */,
 				D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */,
 				6877AD0F182C6901003E828C /* MathUtilities.m in Sources */,
 				D884F3EC180D537700DC077A /* GameController.m in Sources */,

@@ -33,6 +33,7 @@ enum{
                identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem *)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment{
     self = [super init];
     if(self){
+        _direction = RIGHT;
         _zombieStates = [[NSMutableDictionary alloc]init];
         _cellLocation = cellLocation;
         [self initializeAIStates];
@@ -204,6 +205,10 @@ enum{
             
     }
 
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Identifier: %ld\nDirection: %u\nRadians: %.2lf", (long)self.identifier, self.direction, self.directionAsRadian];
 }
 
 @end
