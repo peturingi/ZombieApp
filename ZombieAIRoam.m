@@ -9,6 +9,7 @@
 #import "ZombieAIRoam.h"
 #import "Zombie.h"
 #import "GridMap.h"
+#import "MathUtilities.h"
 
 #define ROAM_INTERVAL 0.2f
 
@@ -36,11 +37,22 @@
     if(_roamPath == nil || _roamPathIndex == [_roamPath count]){
         GridMap* map = [[zombie pathfindingSystem]gridMap];
         GridCell* goal = nil;
+        
+        /*
         if(alternate == NO){
             goal = [map cellAt:0 andY:42];
         }else{
             goal = [map cellAt:199 andY:0];
+        }*/
+        
+        // Find random cell to roam to
+        NSInteger xCoord = [[zombie cellLocation] xCoord];
+        NSInteger yCoord = [[zombie cellLocation] yCoord];
+        NSInteger roamDistance = 20;
+        while (!goal || goal.obstacle) {
+            goal = [map cellAt:[MathUtilities randomNumberBetween:xCoord-roamDistance and:xCoord+roamDistance] andY:[MathUtilities randomNumberBetween:yCoord-roamDistance and:yCoord+roamDistance]];
         }
+        
         NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:goal];
         _roamPath = path;
         NSAssert(_roamPath, @"_roamPath is nil");

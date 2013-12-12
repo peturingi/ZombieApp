@@ -39,7 +39,7 @@
         169,43 - 192,40
         161,18 - 192,4
     */
-    
+    /*
     // 5,21 - 16,4
     GridCell* c1 = [self cellAt:5 andY:21];
     GridCell* c2 = [self cellAt:16 andY:4];
@@ -94,7 +94,43 @@
     GridCell* c21 = [self cellAt:161 andY:18];
     GridCell* c22 = [self cellAt:192 andY:4];
     [self markObstacleWithinCorners:c21 and:c22];
+    */
     
+    // used for finetuning overlay when marking areas, 1 point is equal to 1 cell up (as vicualized in red dot if DRAW_CELLS is defined)
+    double pointUp = 0.00001;
+    double pointRight = pointUp / 2.0;
+    
+    CLLocation *c01 = [[CLLocation alloc] initWithLatitude:57.014767+pointUp longitude:9.986791];
+    CLLocation *c02 = [[CLLocation alloc] initWithLatitude:57.014651+2*pointUp  longitude:9.987445-pointRight];
+    [self markObstacleWithCordners:c01 and:c02];
+    
+    CLLocation *c03 = [[CLLocation alloc] initWithLatitude:57.014633+2*pointUp longitude:9.987223];
+    CLLocation *c04 = [[CLLocation alloc] initWithLatitude:57.014574 longitude:9.987625];
+    [self markObstacleWithCordners:c03 and:c04];
+    
+    CLLocation *c05 = [[CLLocation alloc] initWithLatitude:57.014397+3*pointUp longitude:9.987221];
+    CLLocation *c06 = [[CLLocation alloc] initWithLatitude:57.014296+3*pointUp longitude:9.987466-4*pointRight];
+    [self markObstacleWithCordners:c05 and:c06];
+    
+    CLLocation *c07 = [[CLLocation alloc] initWithLatitude:57.014552+pointUp longitude:9.987418];
+    CLLocation *c08 = [[CLLocation alloc] initWithLatitude: 57.014285+3.0*pointUp longitude:9.987623];
+    [self markObstacleWithCordners:c07 and:c08];
+    
+    CLLocation *c09 = [[CLLocation alloc] initWithLatitude:57.014750+3.0*pointUp longitude:9.985802];
+    CLLocation *c10 = [[CLLocation alloc] initWithLatitude:57.014392+3.0*pointUp longitude:9.986626];
+    [self markObstacleWithCordners:c09 and:c10];
+    
+    CLLocation *c11 = [[CLLocation alloc] initWithLatitude:57.014219 longitude: 9.985776];
+    CLLocation *c12 = [[CLLocation alloc] initWithLatitude:57.013742 longitude:9.987606];
+    [self markObstacleWithCordners:c11 and:c12];
+    
+}
+
+- (void)markObstacleWithCordners:(CLLocation*)upLeftCorner and:(CLLocation*)downRight {
+    GridCell *upRight = [self cellForCoreLocation:upLeftCorner];
+    GridCell *downLeft = [self cellForCoreLocation:downRight
+                          ];
+    [self markObstacleWithinCorners:upRight and:downLeft];
 }
 
 /**

@@ -103,8 +103,9 @@ enum{
         
         NSAssert(self.currentStrategy > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
         
-        // choose strategy
-
+        // always roam
+        self.currentStrategy = 1;
+        
         [self changeToStrategy:self.currentStrategy];
 
         // reset counter
