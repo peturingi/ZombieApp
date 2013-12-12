@@ -29,6 +29,7 @@
 
 @property NSInteger identifier;
 @property (readonly) GridCell* cellLocation;
+@property (readwrite) CLLocation *gpsLocation;
 @property (readonly) PathfindingSystem* pathfindingSystem;
 @property (readonly) NSInteger energy;
 @property (readonly) NSUInteger direction;

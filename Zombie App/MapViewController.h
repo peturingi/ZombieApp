@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "GameController.h"
+#import "Zombie.h"
 
 #define IMAGE_ZOMBIE [UIImage imageNamed:@"Zombie"];
 
@@ -28,6 +29,6 @@
     value: coordinates for the given key as a CLLocation
  *  @note Change strong to weak if another class should be responsible for the property.
  */
-@property (strong, nonatomic) NSDictionary *zombiesData;
+@property (strong, nonatomic) NSArray *zombiesData;
 
 @end

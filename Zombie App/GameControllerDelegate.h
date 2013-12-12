@@ -17,6 +17,6 @@
  */
 
 -(void)didUpdateGameInfo:(NSDictionary*)infoDictionary;
--(void)renderZombies:(NSDictionary*)zombies;
+-(void)renderZombies:(NSArray*)zombies;
 -(CLLocation *)playerLocation;
 @end

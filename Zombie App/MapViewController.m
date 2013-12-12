@@ -67,9 +67,15 @@
     // 1.
     // Handle deletion of zombies, by removing UIImageViews which do not belong to any zombie identifier.
     for (UIImageView *view in _mapView.subviews) {
-        NSNumber *tagOfView = [NSNumber numberWithInteger:view.tag];
-        NSArray *data = [self.zombiesData objectForKey:tagOfView];
-        CLLocation *coordinates = [data objectAtIndex:1];
+        NSInteger tag = view.tag;
+        Zombie *zombie;
+        for (Zombie *z in self.zombiesData) {
+            if (z.identifier == tag) {
+                zombie = z;
+                break;
+            }
+        }
+        CLLocation *coordinates = zombie.gpsLocation;
         // Map can have multiple subviews. Only concern those of UIImageView class as its used to draw the images.
         if (coordinates == nil && [view isKindOfClass:[UIImageView class]]) {
             [view removeFromSuperview];
@@ -78,55 +84,52 @@
     
     // 2.
     // Create a new UIImageView for new zombies, add it to the map.
-    NSEnumerator *zombiesKeyEnumerator = self.zombiesData.keyEnumerator;
-    id key;
-    while ((key = zombiesKeyEnumerator.nextObject)) {
+    for (Zombie *z in self.zombiesData) {
         BOOL zombieHasAView = FALSE;
-        NSInteger zombieID = [key integerValue];
         for (UIImageView *view in _mapView.subviews) {
-            if (view.tag == zombieID) {
+            if (view.tag == z.identifier) {
                 zombieHasAView = YES;
                 break;
             }
         }
-        
-        // Create a UIImageView if one does not excist for the current zombie.
         if (!zombieHasAView) {
             // Convert the zombies GPS coordinates into coordinates within the MapView.
-            NSArray *data = [self.zombiesData objectForKey:key];
-            CLLocation *geoCoords = [data objectAtIndex:1];
-            NSAssert (geoCoords != nil, @"geoCoords are nil!");
             
             // Create the zombie view
             UIImage *zombieImage = IMAGE_ZOMBIE
             NSAssert(zombieImage != nil, @"Image not found!");
-            UIImageView *view = [[UIImageView alloc] initWithImage:zombieImage];
-            view.tag = zombieID;
             
-            CGPoint pointInMapView = [_mapView convertCoordinate:geoCoords.coordinate toPointToView:_mapView];
+            UIImageView *view = [[UIImageView alloc] initWithImage:zombieImage];
+            view.tag = z.identifier;
+        
+            CGPoint pointInMapView = [_mapView convertCoordinate:z.gpsLocation.coordinate toPointToView:_mapView];
             centerViewAtPoint(view, pointInMapView);
             
             [_mapView addSubview:view];
         }
     }
     
+
+    
+    
     // 3.
     // Move views to new locations, to match the new location of zombies.
     for (UIImageView *view in _mapView.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
-            NSNumber *zombieID = [NSNumber numberWithInteger:view.tag];
-            NSAssert (zombieID != nil, @"zombieID is nil");
-        
-            NSArray *data = [self.zombiesData objectForKey:zombieID];
-            CLLocation *geoCoords = [data objectAtIndex:1];
-            NSAssert(geoCoords != nil, @"geoCoords are nil!");
+            
+            // Find zombie mathcing the view.
+            Zombie *zombie;
+            for (Zombie *z in self.zombiesData) {
+                if (z.identifier == view.tag) {
+                    zombie = z;
+                    break;
+                }
+            }
             
             //Devmode, adjust the photo
 #ifdef DEBUG
-            NSNumber *zombiesStrategyAsNumber = [data objectAtIndex:0];
-            NSInteger zombiesStrategy = [zombiesStrategyAsNumber integerValue];
             UIImage *state;
-            switch (zombiesStrategy) {
+            switch (zombie.currentStrategy) {
                 case 0: // idle
                     state = [UIImage imageNamed:@"zombieIdle"];
                     break;
@@ -144,7 +147,7 @@
             }
             view.image = state;
 #endif
-            CGPoint pointInMapView = [_mapView convertCoordinate:geoCoords.coordinate toPointToView:_mapView];
+            CGPoint pointInMapView = [_mapView convertCoordinate:zombie.gpsLocation.coordinate toPointToView:_mapView];
             centerViewAtPoint(view, pointInMapView);
         }
     }
@@ -271,13 +274,13 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 }
 
 #pragma mark - Setters & Getters
-- (void)setZombiesData:(NSDictionary *)zombiesCoordinates {
-    _zombiesData = zombiesCoordinates;
+- (void)setZombiesData:(NSArray *)zombiesData {
+    _zombiesData = zombiesData;
     
     [self displayZombiesOnMap];
 }
 
--(void)renderZombies:(NSDictionary*)zombies{
+-(void)renderZombies:(NSArray*)zombies{
     [self setZombiesData:zombies];
     [self displayZombiesOnMap];
 }

@@ -147,16 +147,14 @@
  *  Sends the list of zombies and their current location over to the view controller.
  */
 -(void)renderZombies{
-    NSMutableDictionary* zombiesData = [NSMutableDictionary dictionary];
-    for(Zombie* zombie in _zombies){
-        NSInteger currentStrategy = zombie.currentStrategy;
-        NSNumber *currentStrategyAsNumber = [NSNumber numberWithInteger:currentStrategy];
-        CLLocation* location = [_gridMap coreLocationForCell:[zombie cellLocation]];
-        NSArray *data = [NSArray arrayWithObjects:currentStrategyAsNumber,location, nil];
-        
-        [zombiesData setObject:data forKey:[NSNumber numberWithInteger:[zombie identifier]]];
+    [self updateGPSLocationOfEveryZombie];
+    [[self delegate] renderZombies:_zombies];
+}
+
+- (void)updateGPSLocationOfEveryZombie {
+    for (Zombie *z in _zombies) {
+        z.gpsLocation = [_gridMap coreLocationForCell:z.cellLocation];
     }
-    [[self delegate] renderZombies:zombiesData];
 }
 
 // check for each zombie
