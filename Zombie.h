@@ -39,9 +39,14 @@
 @property BOOL facingPercept;
 @property NSInteger currentStrategy;
 @property BOOL isExecutingStrategy;
+@property BOOL obstaclesBetweenZombieAndPlayer;
+@property (nonatomic) NSInteger distanceToHearingPercept;
+@property (nonatomic) NSInteger soundLevelOfHearingPercept;
+@property NSInteger distanceToVisualPercept;
 #ifdef DEV_TOUCH_MODE
-@property BOOL seesPlayer;
+@property (nonatomic) BOOL seesPlayer;
 @property BOOL lineOfSight;
+@property double speed;
 #endif
 -(id)initWithCellLocation:(GridCell*)cellLocation
                identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem*)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment;

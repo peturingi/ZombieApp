@@ -136,6 +136,13 @@
     // think for the zombies
     for(Zombie* zombie in _zombies){
         [zombie setPerceptLocation:[_user cellLocation]];
+        zombie.facingPercept = [self isPlayerWithinFieldOfView:zombie.cellLocation.xCoord andMyYCoordinate:zombie.cellLocation.yCoord myDirection:zombie.directionAsRadian myFieldOfView:2.0 * M_PI / 3.0];
+        zombie.obstaclesBetweenZombieAndPlayer = [self obstaclesBetweenZombieAndPlayer:zombie];
+        zombie.lineOfSight = !zombie.obstaclesBetweenZombieAndPlayer;
+        zombie.distanceToHearingPercept = [self canHearPlayer:zombie];
+        zombie.soundLevelOfHearingPercept = [self soundLevel];
+        zombie.distanceToVisualPercept = [self visualRangeToPlayer:zombie];
+        
         [zombie think:deltaTime];
         
         if (playerLoc == zombie.cellLocation)
@@ -244,12 +251,12 @@
 }
 
 -(NSInteger)canHearPlayer:(id)sender{
-    NSInteger distanceFromPercept = [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
+    NSInteger distanceFromPercept = [[_user cellLocation] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
     
-    if (distanceFromPercept <= 10)
+    if (distanceFromPercept <= 100)
         return CLOSE;
     
-    if (distanceFromPercept <= 2 * 10)
+    if (distanceFromPercept <= 2 * 200)
         return MEDIUM;
     
     // else far.

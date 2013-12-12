@@ -66,22 +66,15 @@ enum{
         
         
         BOOL obstacles = NO;
-        NSInteger visibilityDistance = [_gameEnvironment visualRangeToPlayer:self];
 
 
-            obstacles = [_gameEnvironment obstaclesBetweenZombieAndPlayer:self];
-        self.lineOfSight = !obstacles;
-                self.facingPercept = [_gameEnvironment isPlayerWithinFieldOfView:self.cellLocation.xCoord andMyYCoordinate:self.cellLocation.yCoord myDirection:[self directionAsRadian] myFieldOfView:2.0 * M_PI / 3.0];
-                //if (self.facingPercept) NSLog(@"%d is facing the player", self.identifier);
         if (!obstacles && self.facingPercept)
             self.seesPlayer = YES;
         else
             self.seesPlayer = NO;
         
-        NSInteger distanceToPlayer = [_gameEnvironment canHearPlayer:self]; // Hearing distance to percept.
         // never out of range : if (distanceToPlayer == -1) distanceToPlayer = 2;
         BOOL isDay = [_gameEnvironment isDay];
-        NSInteger soundLevel = [_gameEnvironment soundLevel];
         
         NSInteger energyLevel;
         if (self.energy >= 0 && self.energy < 333) {
@@ -96,7 +89,7 @@ enum{
         // using can hear player as distance to player to not have to execute A* each time this is called.
         // Safe to assume player is out of sight if I cannot hear the player.
         if (!self.isExecutingStrategy) {
-            self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
+            self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:self.soundLevelOfHearingPercept distanceToPlayer:self.distanceToHearingPercept visibilutyDistance:self.distanceToVisualPercept zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:self.distanceToHearingPercept];
             // always run
             self.currentStrategy = 2;
             
@@ -217,5 +210,21 @@ enum{
 - (NSString *)description {
     return [NSString stringWithFormat:@"Identifier: %ld\nDirection: %u\nRadians: %.2lf", (long)self.identifier, self.direction, self.directionAsRadian];
 }
+
+- (void)setSeesPlayer:(BOOL)seesPlayer {
+    if (_seesPlayer == NO && seesPlayer == YES) {
+        self.isExecutingStrategy = NO;
+    }
+    _seesPlayer = seesPlayer;
+}
+
+- (void)setDistanceToHearingPercept:(NSInteger)distanceToHearingPercept {
+    if (_distanceToHearingPercept > distanceToHearingPercept) { // if player came closer.
+        self.isExecutingStrategy = NO;
+    }
+    _distanceToHearingPercept = distanceToHearingPercept;
+}
+
+
 
 @end

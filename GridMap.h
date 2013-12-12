@@ -11,16 +11,16 @@
 #import <CoreLocation/CoreLocation.h>
 
 // the width of each tile
-#define TILE_WIDTH 29
+#define TILE_WIDTH 56
 
 // the height of each tile
-#define TILE_HEIGHT 15
+#define TILE_HEIGHT 30
 
 // the width of the map in terms of tiles
-#define MAP_WIDTH 200
+#define MAP_WIDTH 100
 
 // the height of the map in terms of tiles
-#define MAP_HEIGHT 86
+#define MAP_HEIGHT 43
 
 // the origin of the map in terms of latitude and longitude
 // multiplied by the conversion factor

@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import "GridMap.h"
 @class GridCell;
+#import "GridMap.h"
+
 
 @interface PathfindingSystem : NSObject{
     // these are the open and closed sets
@@ -22,11 +22,11 @@
     
     BOOL openSetEmpty;
     NSInteger openSetIndex;
-    GridCell *openSet[200*43];
+    GridCell *openSet[MAP_HEIGHT * MAP_WIDTH];
+
     
-    
-    BOOL openSetContains[200][43];
-    BOOL closedSetContains[200][43];
+    BOOL openSetContains[MAP_WIDTH][MAP_HEIGHT];
+    BOOL closedSetContains[MAP_WIDTH][MAP_HEIGHT];
     
     int _openSetSize;
 }

@@ -20,6 +20,9 @@
             }
         }
     }
+    GridCell *a = _grid_map[0][0];
+    GridCell *b = _grid_map[0][1];
+    NSLog(@"%lf", [[self coreLocationForCell:a] distanceFromLocation:[self coreLocationForCell:b]]);
     [self setupObstacles];
     return self;
 }

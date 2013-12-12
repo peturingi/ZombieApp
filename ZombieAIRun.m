@@ -11,7 +11,7 @@
 
 @implementation ZombieAIRun
 
-#define RUN_INTERVAL 0.5f
+#define RUN_INTERVAL 1.5f
 
 -(id)init{
     self = [super init];

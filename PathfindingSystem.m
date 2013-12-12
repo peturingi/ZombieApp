@@ -124,8 +124,8 @@
     _closedSetDict = [[NSMutableDictionary alloc]init];
     _openSetSize = 0;
     
-    for (NSUInteger row = 0; row < 200; row++)
-        for (NSUInteger column = 0; column < 43; column++) {
+    for (NSUInteger row = 0; row < MAP_WIDTH; row++)
+        for (NSUInteger column = 0; column < MAP_HEIGHT; column++) {
             openSetContains[row][column]=NO;
             closedSetContains[row][column]=NO;
         }

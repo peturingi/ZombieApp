@@ -197,7 +197,7 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     CGRect viewFrame = view.frame;
     viewFrame.origin = pointInMapView;
     
-    [UIView animateWithDuration:0.23
+    [UIView animateWithDuration:1.5
                           delay:0
                         options: UIViewAnimationOptionTransitionNone
                      animations:^{
@@ -353,8 +353,8 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     }
     
 
-    for (int x = 0; x < 200; x++)
-        for (int y = 0; y < 86; y++) {
+    for (int x = 0; x < MAP_WIDTH; x++)
+        for (int y = 0; y < MAP_HEIGHT; y++) {
             UIImage *img = [UIImage imageNamed:@"cell"];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
             imageView.tag = 100; // fake its a zombie so not deleted by zombie update.
