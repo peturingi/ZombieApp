@@ -59,9 +59,9 @@
     PathfindingSystem* pathfindingSystem = [[PathfindingSystem alloc]initWithMap:map];
     GridCell* start1 = [map cellAt:0 andY:0];
     GridCell* goal1 = [map cellAt:199 andY:42];
-    GridCell* start2 = [map cellAt:0 andY:42];
-    GridCell* goal2 = [map cellAt:199 andY:0];
-    for(int i = 0; i < 10; i++){
+    //GridCell* start2 = [map cellAt:0 andY:42];
+    //GridCell* goal2 = [map cellAt:199 andY:0];
+    for(int i = 0; i < 50; i++){
         NSArray* path1 = [pathfindingSystem pathFromCell:start1 toCell:goal1];
         //NSArray* path2 = [pathfindingSystem pathFromCell:start2 toCell:goal2];
     }
