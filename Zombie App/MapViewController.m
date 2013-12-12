@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameOver) name:@"Game Over" object:nil];
 
 
     // Get a reference to the game controller and set this view controller as its delegate.
@@ -369,5 +370,8 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 }
 #endif
 
+- (void)gameOver{
+    [self performSegueWithIdentifier:@"endGame" sender:self];
+}
 
 @end

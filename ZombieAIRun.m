@@ -25,13 +25,17 @@
 }
 
 -(void)executeFor:(Zombie *)zombie withDelta:(double)deltaTime{
+    GridCell* player = [zombie perceptLocation];
+    
+
     // if we have not requested a path yet, get a path to the player
-    if(_runPath == nil || _runPathIndex == [_runPath count]){
-        GridCell* player = [zombie perceptLocation];
+    if(_runPath == nil || _runPathIndex >= [_runPath count]){
+        
         // in the case the player is nil (player is outside map bounds), do nothing,
         // return, and hope for another strategy to be choosen, or that the player enters the map
         // again at some point.
         if(player == nil){
+            zombie.isExecutingStrategy = NO;
             return;
         }
         

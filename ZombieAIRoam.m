@@ -29,9 +29,9 @@
     // do something for this zombie when it roams
     
     // 3 lines below is ONLY for debugging and simple testing
-    static BOOL alternate = YES;
-    if([[zombie cellLocation] xCoord] == 199) alternate = NO;
-    if([[zombie cellLocation] xCoord] == 0) alternate = YES;
+    //static BOOL alternate = YES;
+    //if([[zombie cellLocation] xCoord] == 199) alternate = NO;
+    //if([[zombie cellLocation] xCoord] == 0) alternate = YES;
     
     // if we have not requested a path yet
     if(_roamPath == nil || _roamPathIndex == [_roamPath count]){
@@ -77,6 +77,9 @@
 
         // move to the location
         [zombie moveToLocation:location];
+        if (_roamPathIndex == _roamPath.count) {
+            zombie.isExecutingStrategy = NO; // Finished, goal reached.
+        }
 #endif
         // reset countdown
         _roamInterval = ROAM_INTERVAL;

@@ -38,6 +38,7 @@
 @property (readonly) NSInteger hearingSkill;
 @property BOOL facingPercept;
 @property NSInteger currentStrategy;
+@property BOOL isExecutingStrategy;
 #ifdef DEV_TOUCH_MODE
 @property BOOL seesPlayer;
 @property BOOL lineOfSight;

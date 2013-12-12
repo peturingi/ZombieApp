@@ -38,4 +38,6 @@
  */
 @property (strong, nonatomic) NSArray *zombiesData;
 
+- (void)gameOver;
+
 @end

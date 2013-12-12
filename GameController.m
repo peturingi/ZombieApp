@@ -137,6 +137,12 @@
     for(Zombie* zombie in _zombies){
         [zombie setPerceptLocation:[_user cellLocation]];
         [zombie think:deltaTime];
+        
+        if (playerLoc == zombie.cellLocation)
+        {
+            // Game over!
+            [_delegate gameOver];
+        }
     }
     }
     

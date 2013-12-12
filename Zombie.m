@@ -95,7 +95,15 @@ enum{
 
         // using can hear player as distance to player to not have to execute A* each time this is called.
         // Safe to assume player is out of sight if I cannot hear the player.
-        self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
+        if (!self.isExecutingStrategy) {
+            self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:soundLevel distanceToPlayer:distanceToPlayer visibilutyDistance:visibilityDistance zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:distanceToPlayer];
+            // always run
+            self.currentStrategy = 2;
+            
+            [self changeToStrategy:self.currentStrategy];
+            self.isExecutingStrategy = YES;
+            NSLog(@"Started executing a strategy");
+        }
         //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
 #ifdef VERBOSE
         NSLog(@"Strategy choosen: %d", self.currentStrategy);
@@ -103,10 +111,7 @@ enum{
         
         NSAssert(self.currentStrategy > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
         
-        // always roam
-        self.currentStrategy = 1;
-        
-        [self changeToStrategy:self.currentStrategy];
+
 
         // reset counter
         _thinkInterval = THINK_INTERVAL;
