@@ -29,6 +29,8 @@
 {
     self = [super init];
     if(self){
+        self.hasMovedSinceLastTimeHeThought = YES; // init to YES so he is drawn as soon as game starts.
+        self.isExecutingStrategy = NO;
         _visionSkill = visionSkill;
         _hearingSkill = hearingSkill;
         self.alive = YES;
@@ -159,6 +161,7 @@
     
     _direction = direction;
     _cellLocation = cellLocation;
+    self.hasMovedSinceLastTimeHeThought = YES;
 }
 
 -(void)decreaseEnergyBy:(int)amount{

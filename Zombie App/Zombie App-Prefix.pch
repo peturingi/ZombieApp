@@ -16,11 +16,11 @@
 #endif
 
 
-//#define ZOMBIES_NEVER_MOVE
+#define ZOMBIES_NEVER_MOVE
 #define DEV_TOUCH_MODE
-//#define SINGLE_ZOMBIE
-//#define NEVER_DRAW_ZOMBIES
-//#define DRAW_CELLS
+#define SINGLE_ZOMBIE
+#define NEVER_DRAW_ZOMBIES
+#define DRAW_CELLS
 #define VERBOSE_STRATEGY
 #define VERBOSE_ZOMBIES
 

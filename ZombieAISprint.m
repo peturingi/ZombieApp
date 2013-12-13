@@ -68,7 +68,6 @@
         // move to the location
         [zombie moveToLocation:location];
 #endif
-        
         // Timer is set based on zombies speed. He moves faster in diagonal.
         switch (zombie.direction) {
             case UP:
@@ -88,6 +87,7 @@
             default:
                 @throw [NSException exceptionWithName:@"Could not set new run interval" reason:[NSString stringWithFormat:@"Invalid Direction %d", zombie.direction] userInfo:nil];
         }
+        zombie.secondsToMoveToTargetCell = _runInterval;
     }
 }
 

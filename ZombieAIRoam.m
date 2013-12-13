@@ -101,6 +101,7 @@
             default:
                 @throw [NSException exceptionWithName:@"Could not set new roam interval" reason:[NSString stringWithFormat:@"Invalid Direction %d", zombie.direction] userInfo:nil];
         }
+        zombie.secondsToMoveToTargetCell = _roamInterval;
     }
 }
 

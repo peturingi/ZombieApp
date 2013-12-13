@@ -121,7 +121,7 @@
             view.tag = z.identifier;
         
             CGPoint pointInMapView = [_mapView convertCoordinate:z.gpsLocation.coordinate toPointToView:_mapView];
-            centerViewAtPoint(view, pointInMapView);
+            centerViewAtPointWithAnimationSpeed(view, pointInMapView, 0.0);
             
             [_mapView addSubview:view];
         }
@@ -189,7 +189,7 @@
             
             
             CGPoint pointInMapView = [_mapView convertCoordinate:zombie.gpsLocation.coordinate toPointToView:_mapView];
-            centerViewAtPoint(view, pointInMapView);
+            centerViewAtPointWithAnimationSpeed(view, pointInMapView, zombie.secondsToMoveToTargetCell);
         }
     }
 }
@@ -198,13 +198,12 @@
  *  @param view UIImageView
  *  @param pointInMap CGPoint
  */
-void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
+void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapView, double animationSpeed) {
     CGRect viewFrame = view.frame;
     viewFrame.origin = pointInMapView;
-    
-    [UIView animateWithDuration:1.5
+    [UIView animateWithDuration:animationSpeed
                           delay:0
-                        options: UIViewAnimationOptionTransitionNone
+                        options: UIViewAnimationOptionCurveLinear
                      animations:^{
                          CGRect targetFrame = viewFrame;
                          targetFrame.origin.x -= viewFrame.size.width / 2;
@@ -384,7 +383,7 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
             CLLocation *cellLocation = [[_gameController gridMap] coreLocationForCell:cell];
             CLLocationCoordinate2D location = cellLocation.coordinate;
             CGPoint pointInMapView = [_mapView convertCoordinate:location toPointToView:_mapView];
-            centerViewAtPoint(imageView, pointInMapView);
+            centerViewAtPointWithAnimationSpeed(imageView, pointInMapView,0.0);
             
             [_mapView addSubview:imageView];
 

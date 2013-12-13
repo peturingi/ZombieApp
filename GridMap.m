@@ -116,7 +116,7 @@
     [self markObstacleWithCordners:c05 and:c06];
     
     CLLocation *c07 = [[CLLocation alloc] initWithLatitude:57.014552+pointUp longitude:9.987418];
-    CLLocation *c08 = [[CLLocation alloc] initWithLatitude: 57.014285+3.0*pointUp longitude:9.987623];
+    CLLocation *c08 = [[CLLocation alloc] initWithLatitude:57.014285+3.0*pointUp longitude:9.987623];
     [self markObstacleWithCordners:c07 and:c08];
     
     CLLocation *c09 = [[CLLocation alloc] initWithLatitude:57.014750+3.0*pointUp longitude:9.985802];
@@ -126,6 +126,25 @@
     CLLocation *c11 = [[CLLocation alloc] initWithLatitude:57.014219 longitude: 9.985776];
     CLLocation *c12 = [[CLLocation alloc] initWithLatitude:57.013742 longitude:9.987606];
     [self markObstacleWithCordners:c11 and:c12];
+    
+    CLLocation *c13 = [[CLLocation alloc] initWithLatitude:57.014669+10.0*pointUp longitude:9.987815];
+    CLLocation *c14 = [[CLLocation alloc] initWithLatitude:57.014201+10.0*pointUp longitude:9.988630];
+    [self markObstacleWithCordners:c13 and:c14];
+    
+    CLLocation *c15 = [[CLLocation alloc] initWithLatitude:57.014735 longitude:9.988840];
+    CLLocation *c16 = [[CLLocation alloc] initWithLatitude:57.014243 longitude:9.989720];
+    [self markObstacleWithCordners:c15 and:c16];
+    
+    CLLocation *c17 = [[CLLocation alloc] initWithLatitude:57.014168 longitude:9.988790];
+    CLLocation *c18 = [[CLLocation alloc] initWithLatitude:57.013713 longitude:9.989700];
+    [self markObstacleWithCordners:c17 and:c18];
+    
+    CLLocation *c19 = [[CLLocation alloc] initWithLatitude:57.014268 longitude:9.984416];
+    CLLocation *c20 = [[CLLocation alloc] initWithLatitude:57.014115 longitude:9.984954];
+    [self markObstacleWithCordners:c19 and:c20];
+    CLLocation *c21 = [[CLLocation alloc] initWithLatitude:57.013776 longitude:9.984629];
+    CLLocation *c22 = [[CLLocation alloc] initWithLatitude:57.014098-2*pointUp longitude:9.984383];
+    [self markObstacleWithCordners:c22 and:c21];
     
 }
 

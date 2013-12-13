@@ -44,9 +44,9 @@ enum{
 @property (readonly) PathfindingSystem* pathfindingSystem;
 @property (readonly) NSInteger energy;
 @property (readonly) NSUInteger direction;
-
+@property (nonatomic) BOOL hasMovedSinceLastTimeHeThought;
 @property (nonatomic)GridCell* perceptLocation;
-
+@property (nonatomic) double secondsToMoveToTargetCell;
 @property (readonly) NSInteger visionSkill;
 @property (readonly) NSInteger hearingSkill;
 @property BOOL facingPercept;
@@ -59,7 +59,6 @@ enum{
 #ifdef DEV_TOUCH_MODE
 @property (nonatomic) BOOL seesPlayer;
 @property BOOL lineOfSight;
-@property double speed;
 @property BOOL alive;
 #endif
 -(id)initWithCellLocation:(GridCell*)cellLocation
@@ -89,5 +88,7 @@ enum{
 -(void)increaseEnergyBy:(int)amount;
 
 -(double)directionAsRadian;
+
+
 
 @end

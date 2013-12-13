@@ -173,6 +173,11 @@
         
         [zombie think:deltaTime];
         
+        if (zombie.hasMovedSinceLastTimeHeThought) {
+            zombie.hasMovedSinceLastTimeHeThought = NO;
+            [self renderZombies];
+        }
+        
         if (playerLoc == zombie.cellLocation)
         {
             // Game over!
@@ -181,7 +186,6 @@
     }
     }
     
-    [self renderZombies];
     // update UI stat labels
     
     [self updateUI:deltaTime];
