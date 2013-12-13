@@ -12,6 +12,7 @@
 #import "MathUtilities.h"
 
 #define ROAM_INTERVAL 3.0f
+#define ROAM_INTERVAL_DIAGONAL sqrt(2.0*pow(ROAM_INTERVAL,2))
 
 @implementation ZombieAIRoam
 
@@ -81,8 +82,25 @@
             zombie.isExecutingStrategy = NO; // Finished, goal reached.
         }
 #endif
-        // reset countdown
-        _roamInterval = ROAM_INTERVAL;
+        // Timer is set based on zombies speed. He moves faster in diagonal.
+        switch (zombie.direction) {
+            case UP:
+            case DOWN:
+            case RIGHT:
+            case LEFT:
+                _roamInterval = ROAM_INTERVAL;
+                break;
+                
+            case UP_RIGHT:
+            case UP_LEFT:
+            case DOWN_RIGHT:
+            case DOWN_LEFT:
+                _roamInterval = ROAM_INTERVAL_DIAGONAL;
+                break;
+                
+            default:
+                @throw [NSException exceptionWithName:@"Could not set new roam interval" reason:[NSString stringWithFormat:@"Invalid Direction %d", zombie.direction] userInfo:nil];
+        }
     }
 }
 

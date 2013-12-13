@@ -13,8 +13,6 @@
 #import <math.h>
 #import "GridCell.h"
 
-
-
 @implementation GameController
 
 +(id)sharedInstance
@@ -304,8 +302,22 @@
 }
 
 - (NSInteger)soundLevel{
-    //todo finish implementation
-    return 2; // running
+    
+#define SPEED_IDLE  1 // KM/H
+#define SPEED_WALK  6 // KM/H
+//Run is all values above walk.
+    
+    NSInteger userSpeed = (_user.speed + 0.5);
+    if (userSpeed < 0) @throw [NSException exceptionWithName:@"Invalid speed" reason:[NSString stringWithFormat:@"User speed was interpreted as %d", userSpeed] userInfo:nil];
+    
+    if (userSpeed <= SPEED_IDLE)
+        return 0; // idle
+    else
+    if (userSpeed <= SPEED_WALK)
+        return 1; // walk
+    else
+        return 2; // Running
+        
 }
 
 - (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel

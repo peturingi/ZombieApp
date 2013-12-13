@@ -15,16 +15,7 @@
 #define THINK_INTERVAL 0.5f
 #define ZOMBIE_ENERGY 100000
 
-enum{
-    LEFT = 1,
-    RIGHT = 2,
-    UP = 10,
-    UP_LEFT = 11,
-    UP_RIGHT = 12,
-    DOWN = 20,
-    DOWN_LEFT = 21,
-    DOWN_RIGHT = 22
-};
+
 
 @implementation Zombie
 

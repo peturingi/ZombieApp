@@ -12,7 +12,16 @@
 #import "ZombieAIState.h"
 #import "GridCell.h"
 #import "PathfindingSystem.h"
-
+enum{
+    LEFT = 1,
+    RIGHT = 2,
+    UP = 10,
+    UP_LEFT = 11,
+    UP_RIGHT = 12,
+    DOWN = 20,
+    DOWN_LEFT = 21,
+    DOWN_RIGHT = 22
+};
 
 
 @class User;

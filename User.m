@@ -24,6 +24,7 @@
     self = [super init];
     if(self){
         [self registerObservers];
+        self.speed = 0.0f;
     }
     return self;
 }
@@ -35,6 +36,14 @@
     
     CLLocation* location = [aNotification object];
     NSAssert(location, @"location cannot be nil!");
+    
+    CLLocationDistance distanceTraveled = [self.location distanceFromLocation:location];
+    NSTimeInterval travelDuration = [location.timestamp timeIntervalSinceDate:self.location.timestamp];
+    
+    // Speed in KM/H
+    NSInteger speed = distanceTraveled*0.001 / travelDuration * 3600.0;
+    if (speed >= 0) self.speed = speed;
+    
     // update location
     [self setLocation:location];
         
@@ -45,6 +54,8 @@
         self.distanceTravelledInMeters += [_previousLocation distanceFromLocation:location];
         _previousLocation = location;
     }
+    
+
 }
 
 

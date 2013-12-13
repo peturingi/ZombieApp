@@ -8,8 +8,10 @@
 
 #import "ZombieAISprint.h"
 #import "Zombie.h"
+#import <math.h>
 
-#define SPRINT_INTERVAL 0.7f
+#define SPRINT_INTERVAL 0.7f //seconds
+#define SPRINT_INTERVAL_DIAGONAL sqrt(2.0*pow(SPRINT_INTERVAL,2)) //Pythagoras.
 
 @implementation ZombieAISprint
 
@@ -66,8 +68,26 @@
         // move to the location
         [zombie moveToLocation:location];
 #endif
-        // reset countdown
-        _runInterval = SPRINT_INTERVAL;
+        
+        // Timer is set based on zombies speed. He moves faster in diagonal.
+        switch (zombie.direction) {
+            case UP:
+            case DOWN:
+            case RIGHT:
+            case LEFT:
+                _runInterval = SPRINT_INTERVAL;
+                break;
+                
+            case UP_RIGHT:
+            case UP_LEFT:
+            case DOWN_RIGHT:
+            case DOWN_LEFT:
+                _runInterval = SPRINT_INTERVAL_DIAGONAL;
+                break;
+                
+            default:
+                @throw [NSException exceptionWithName:@"Could not set new run interval" reason:[NSString stringWithFormat:@"Invalid Direction %d", zombie.direction] userInfo:nil];
+        }
     }
 }
 
