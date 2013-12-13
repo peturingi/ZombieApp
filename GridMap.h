@@ -26,13 +26,17 @@
 // multiplied by the conversion factor
 // Latitude is y-axis
 // Longitude is x-axis
-
+#ifndef AAU_PARKING
 // longitude
 #define MAP_X_ORIGIN 9984137
 
 // latitude
 #define MAP_Y_ORIGIN 57013643
-
+#endif
+#ifdef AAU_PARKING
+#define MAP_X_ORIGIN 9991867
+#define MAP_Y_ORIGIN 57011608
+#endif
 // conversion factor. This is to get rid of floating-point numbers
 #define COORD_CONV_FACTOR 1000000
 

@@ -102,7 +102,7 @@
     // used for finetuning overlay when marking areas, 1 point is equal to 1 cell up (as vicualized in red dot if DRAW_CELLS is defined)
     double pointUp = 0.00001;
     double pointRight = pointUp / 2.0;
-    
+#ifndef AAU_PARKING
     CLLocation *c01 = [[CLLocation alloc] initWithLatitude:57.014767+pointUp longitude:9.986791];
     CLLocation *c02 = [[CLLocation alloc] initWithLatitude:57.014651+2*pointUp  longitude:9.987445-pointRight];
     [self markObstacleWithCordners:c01 and:c02];
@@ -145,7 +145,7 @@
     CLLocation *c21 = [[CLLocation alloc] initWithLatitude:57.013776 longitude:9.984629];
     CLLocation *c22 = [[CLLocation alloc] initWithLatitude:57.014098-2*pointUp longitude:9.984383];
     [self markObstacleWithCordners:c22 and:c21];
-    
+#endif
 }
 
 - (void)markObstacleWithCordners:(CLLocation*)upLeftCorner and:(CLLocation*)downRight {

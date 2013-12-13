@@ -70,7 +70,10 @@
         
         // goal check
         if([self closedSetContains:goal]){
-            return [self constructPath:goal];
+#ifdef DRAW_PATHFINDING
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DrawPath" object:[self constructPath:goal]];
+#endif
+        return [self constructPath:goal];
         }
         
         // remove current cell from the frontier

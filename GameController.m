@@ -62,7 +62,7 @@
 #ifndef SPAWN_SPECIFIC_LOCATION
             cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:10 and:189] andY:[MathUtilities randomNumberBetween:5 and:36]]; // Never spawn on edge of area.
 #else
-            cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:SPAWN_X-10 and:SPAWN_X+10] andY:[MathUtilities randomNumberBetween:SPAWN_Y-10 and:SPAWN_Y+10]];
+            cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:SPAWN_X-3 and:SPAWN_X+3] andY:[MathUtilities randomNumberBetween:SPAWN_Y-3 and:SPAWN_Y+3]];
 #endif
 
         }

@@ -56,11 +56,11 @@ enum{
 @property (nonatomic) NSInteger distanceToHearingPercept;
 @property (nonatomic) NSInteger soundLevelOfHearingPercept;
 @property (nonatomic) NSInteger distanceToVisualPercept;
-#ifdef DEV_TOUCH_MODE
+
 @property (nonatomic) BOOL seesPlayer;
 @property BOOL lineOfSight;
 @property BOOL alive;
-#endif
+
 -(id)initWithCellLocation:(GridCell*)cellLocation
                identifier:(NSInteger)identifier
         pathfindingSystem:(PathfindingSystem*)pathfindingSystem

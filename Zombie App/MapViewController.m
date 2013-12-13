@@ -30,6 +30,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameOver) name:@"Game Over" object:nil];
+    
+#ifdef DRAW_PATHFINDING
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(drawPathfinding:) name:@"DrawPath" object:nil];
+#endif
 
 
     // Get a reference to the game controller and set this view controller as its delegate.
@@ -305,17 +309,18 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
         [mapView regionThatFits:region];
     });
     */
-    [self zoomMapOnUserLocation:userLocation];
+    //[self zoomMapOnUserLocation:userLocation];
     //[mapView setCenterCoordinate:currentCoordinate animated:NO];
 
     
 #pragma mark post a notification that the user location has changed.
     
     // Only execute on real device. DEBUG indicates dev mode in simulator.
-#ifndef DEBUG
+//#ifndef DEBUG
     CLLocation *location = [userLocation location];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:location];
-#endif
+    NSLog(@"Updated location");
+//#endif
 
 }
 
@@ -324,8 +329,8 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
 
     MKCoordinateRegion theRegion = _mapView.region;
     theRegion.center = userLocation.coordinate;
-    theRegion.span.latitudeDelta /= 512.0;
-    theRegion.span.longitudeDelta /= 512.0;
+    //theRegion.span.latitudeDelta /= 512.0;
+    //theRegion.span.longitudeDelta /= 512.0;
     [_mapView setRegion:theRegion animated:NO];
     
 }
@@ -388,6 +393,29 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
             [_mapView addSubview:imageView];
 
         }
+}
+#endif
+
+#ifdef DRAW_PATHFINDING
+- (void)drawPathfinding:(NSNotification *)cellArray {
+    NSArray *gridCells = [cellArray object];
+    
+    for (UIImageView *img in _mapView.subviews) {
+        //if (img.tag == 200) [img removeFromSuperview];
+    }
+    
+    for (GridCell *cell in gridCells) {
+        UIImage *img = [UIImage imageNamed:@"cell"];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
+        imageView.tag = 200;
+        CLLocation *cellLocation = [[_gameController gridMap] coreLocationForCell:cell];
+        CLLocationCoordinate2D location = cellLocation.coordinate;
+        CGPoint pointInMapView = [_mapView convertCoordinate:location toPointToView:_mapView];
+        centerViewAtPointWithAnimationSpeed(imageView, pointInMapView, 0.0);
+        [_mapView addSubview:imageView];
+    }
+    
+    
 }
 #endif
 

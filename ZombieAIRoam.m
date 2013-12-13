@@ -53,12 +53,18 @@
         while (!goal || goal.obstacle) {
             goal = [map cellAt:[MathUtilities randomNumberBetween:xCoord-roamDistance and:xCoord+roamDistance] andY:[MathUtilities randomNumberBetween:yCoord-roamDistance and:yCoord+roamDistance]];
         }
-        
+#ifndef DRAW_PATHFINDING
         NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:goal];
         _roamPath = path;
         NSAssert(_roamPath, @"_roamPath is nil");
         _roamPathIndex = 0;
         //NSLog(@"new path requested");
+#endif
+#ifdef DRAW_PATHFINDING
+        GridCell *cellA = [map cellAt:0 andY:MAP_HEIGHT-1];
+        GridCell *cellB = [map cellAt:99 andY:0];
+        [[zombie pathfindingSystem] pathFromCell:cellA toCell:cellB];
+#endif
         
     }
     
