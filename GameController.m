@@ -32,9 +32,10 @@
         _strategySelectionMechanism = [[Strategy alloc] init];
         // initialize game entities
         _user = [[User alloc] init];
-        _zombies = [[NSMutableArray alloc] init];
+        
         _gridMap = [[GridMap alloc]init];
-        [self generateZombies:MAX_ZOMBIES];
+        
+
         
     }
     return self;
@@ -234,6 +235,9 @@
 
 // start the game engine main loop
 - (void)start {
+    [_user reset];
+    _zombies = [[NSMutableArray alloc] init];
+    [self generateZombies:MAX_ZOMBIES];
     // initialize the internal timer and thread
     _engineTimer = [[EngineTimer alloc]init];
     _gameloopThread = [NSTimer scheduledTimerWithTimeInterval:UPDATE_GAME_INTERVAL target:self selector:@selector(gameloop) userInfo:nil repeats:YES];

@@ -20,4 +20,6 @@
 @property (atomic) CLLocationSpeed speed;
 @property (atomic) GridCell* cellLocation;
 
+- (void)reset;
+
 @end

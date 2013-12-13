@@ -39,6 +39,8 @@
     // Get a reference to the game controller and set this view controller as its delegate.
     _gameController = [GameController sharedInstance];
     [_gameController setDelegate:self];
+    
+    
  }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -326,12 +328,12 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
 
 - (void)zoomMapOnUserLocation:(MKUserLocation *)userLocation {
     if (!userLocation) return;
-
-    MKCoordinateRegion theRegion = _mapView.region;
-    theRegion.center = userLocation.coordinate;
-    //theRegion.span.latitudeDelta /= 512.0;
-    //theRegion.span.longitudeDelta /= 512.0;
-    [_mapView setRegion:theRegion animated:NO];
+    
+    CLLocationCoordinate2D coord = _mapView.userLocation.location.coordinate;
+    CLLocationDistance tenMeters = 10;
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, tenMeters, tenMeters);
+    MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:region];
+    [_mapView setRegion:adjustedRegion animated:NO];
     
 }
 

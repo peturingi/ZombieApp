@@ -54,9 +54,18 @@
         self.distanceTravelledInMeters += [_previousLocation distanceFromLocation:location];
         _previousLocation = location;
     }
-    
-
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)reset {
+    self.cellLocation = nil;
+    self.speed = 0.0f;
+    self.distanceTravelledInMeters = 0.0f;
+    self.location = nil;
+    _previousLocation = nil;
+}
 
 @end
