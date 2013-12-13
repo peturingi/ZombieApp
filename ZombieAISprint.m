@@ -9,7 +9,7 @@
 #import "ZombieAISprint.h"
 #import "Zombie.h"
 
-#define SPRINT_INTERVAL 0.2f
+#define SPRINT_INTERVAL 0.7f
 
 @implementation ZombieAISprint
 
@@ -18,36 +18,44 @@
 -(id)init{
     self = [super init];
     if(self){
-        _sprintPath = nil;
-        _sprintPathIndex = 0;
-        _sprintInterval = SPRINT_INTERVAL;
+        _runPath = nil;
+        _runPathIndex = 0;
+        _runInterval = SPRINT_INTERVAL;
+        
     }
     return self;
 }
 
+
 -(void)executeFor:(Zombie *)zombie withDelta:(double)deltaTime{
+    GridCell* player = [zombie perceptLocation];
+    
+    
     // if we have not requested a path yet, get a path to the player
-    if(_sprintPath == nil || _sprintPathIndex == [_sprintPath count]){
-        GridCell* player = [zombie perceptLocation];
+    if(_runPath == nil || _runPathIndex >= [_runPath count]){
+        
         // in the case the player is nil (player is outside map bounds), do nothing,
         // return, and hope for another strategy to be choosen, or that the player enters the map
         // again at some point.
         if(player == nil){
+            zombie.isExecutingStrategy = NO;
             return;
         }
         
         NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:player];
-        _sprintPath = path;
+        _runPath = path;
         NSLog(@"new path to the player requested");
-        _sprintPathIndex = 0;
+        _runPathIndex = 0;
     }
     
-    _sprintInterval -= deltaTime;
-    if(_sprintInterval < 0){
+    
+    
+    _runInterval -= deltaTime;
+    if(_runInterval < 0){
 #ifndef ZOMBIES_NEVER_MOVE
         // find next location in path
-        GridCell* location = _sprintPath[_sprintPathIndex];
-        _sprintPathIndex++;
+        GridCell* location = _runPath[_runPathIndex];
+        _runPathIndex++;
         GridCell* currentLocation = [zombie cellLocation];
         
         // decrease energy
@@ -59,12 +67,11 @@
         [zombie moveToLocation:location];
 #endif
         // reset countdown
-        _sprintInterval = SPRINT_INTERVAL;
+        _runInterval = SPRINT_INTERVAL;
     }
 }
 
 -(void)resetState{
     // reset the state
-    _sprintPath = nil;
-}
-@end
+    _runPath = nil;
+}@end

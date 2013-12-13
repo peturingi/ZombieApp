@@ -12,7 +12,7 @@
 @protocol GameEnvironment <NSObject>
 
 -(NSInteger)visualRangeToPlayer:(id)sender;
--(NSInteger)canHearPlayer:(id)sender;
+-(NSInteger)hearingDistanceFromPlayer:(id)sender;
 -(BOOL)isDay;
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender;
 -(NSInteger)soundLevel;

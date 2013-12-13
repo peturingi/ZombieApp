@@ -11,6 +11,7 @@
 
 @interface ZombieAIIdle : NSObject <ZombieAIState>{
     double _idleInterval;
+    double _idleTime;
 }
 
 @end

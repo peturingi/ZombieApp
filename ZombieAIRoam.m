@@ -11,7 +11,7 @@
 #import "GridMap.h"
 #import "MathUtilities.h"
 
-#define ROAM_INTERVAL 0.2f
+#define ROAM_INTERVAL 3.0f
 
 @implementation ZombieAIRoam
 

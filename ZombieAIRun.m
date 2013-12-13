@@ -29,21 +29,23 @@
     
 
     // if we have not requested a path yet, get a path to the player
-    if(_runPath == nil || _runPathIndex >= [_runPath count]){
-        
-        // in the case the player is nil (player is outside map bounds), do nothing,
-        // return, and hope for another strategy to be choosen, or that the player enters the map
-        // again at some point.
-        if(player == nil){
-            zombie.isExecutingStrategy = NO;
-            return;
+        if(_runPath == nil || _runPathIndex >= [_runPath count]){
+            
+            // in the case the player is nil (player is outside map bounds), do nothing,
+            // return, and hope for another strategy to be choosen, or that the player enters the map
+            // again at some point.
+            if(player == nil){
+                zombie.isExecutingStrategy = NO;
+                return;
+            }
+            
+            NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:player];
+            _runPath = path;
+            NSLog(@"new path to the player requested");
+            _runPathIndex = 0;
         }
-        
-        NSArray* path = [[zombie pathfindingSystem] pathFromCell:[zombie cellLocation] toCell:player];
-        _runPath = path;
-        NSLog(@"new path to the player requested");
-        _runPathIndex = 0;
-    }
+
+
     
     _runInterval -= deltaTime;
     if(_runInterval < 0){

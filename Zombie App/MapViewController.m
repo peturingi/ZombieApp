@@ -37,6 +37,11 @@
     [_gameController setDelegate:self];
  }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self zoomMapOnUserLocation:[_mapView userLocation]];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // Start the game loop.
@@ -281,21 +286,28 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 }
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
-    CLLocationCoordinate2D currentCoordinate = [userLocation coordinate];
+    if (!userLocation) return;
     
     // Zoom in on the map, once - the first time the users location is received.
-    static dispatch_once_t onceToken;
+   /* static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        const NSInteger mapLongMeters = 100;
-        const NSInteger mapLatMeters = 100;
+        const NSInteger mapLongMeters = 1;
+        const NSInteger mapLatMeters = 1;
         MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(currentCoordinate,
                                                                        mapLongMeters,
                                                                        mapLatMeters);
+        MKCoordinateSpan span;
+        span.longitudeDelta = 0.00001;
+        span.latitudeDelta = 0.00001;
+        region.span = span;
+
         [mapView setRegion:region];
+        [mapView regionThatFits:region];
     });
-    
-    [mapView setCenterCoordinate:currentCoordinate animated:NO];
+    */
+    [self zoomMapOnUserLocation:userLocation];
+    //[mapView setCenterCoordinate:currentCoordinate animated:NO];
 
     
 #pragma mark post a notification that the user location has changed.
@@ -308,6 +320,16 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
 
 }
 
+- (void)zoomMapOnUserLocation:(MKUserLocation *)userLocation {
+    if (!userLocation) return;
+
+    MKCoordinateRegion theRegion = _mapView.region;
+    theRegion.center = userLocation.coordinate;
+    theRegion.span.latitudeDelta /= 512.0;
+    theRegion.span.longitudeDelta /= 512.0;
+    [_mapView setRegion:theRegion animated:NO];
+    
+}
 
 
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
@@ -330,18 +352,18 @@ void centerViewAtPoint(UIImageView *view, CGPoint pointInMapView) {
     return _mapView.userLocation.location;
 }
 - (IBAction)dev_placePlayerWithTouch:(id)sender {
-#ifdef DEBUG
+#ifdef DEV_TOUCH_MODE
     
     // Get the GPS coordinates where the press occured.
     UILongPressGestureRecognizer *gr = sender;
-    if (gr.state == UIGestureRecognizerStateBegan) { // Only act on first press. This is a continious event.
+    //if (gr.state == UIGestureRecognizerStateBegan) { // Only act on first press. This is a continious event.
         MKMapView *grMapView = (MKMapView *)gr.view;
         CGPoint location = [gr locationInView:grMapView];
         CLLocationCoordinate2D location2d = [grMapView convertPoint:location toCoordinateFromView:grMapView];
         CLLocation *gestureLocation = [[CLLocation alloc] initWithLatitude:location2d.latitude longitude:location2d.longitude];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:gestureLocation];
         NSLog(@"Dev mode: notification posted: didUpdatePlayerPosition");
-    }
+    //}
 
 #endif
 }

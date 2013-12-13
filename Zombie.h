@@ -25,6 +25,8 @@
     id<ZombieAIState> _currentState;
     id<GameEnvironment> _gameEnvironment;
     double _thinkInterval;
+    
+    BOOL _perceptHasMoved;
 }
 
 @property NSInteger identifier;
@@ -33,7 +35,9 @@
 @property (readonly) PathfindingSystem* pathfindingSystem;
 @property (readonly) NSInteger energy;
 @property (readonly) NSUInteger direction;
-@property GridCell* perceptLocation;
+
+@property (nonatomic)GridCell* perceptLocation;
+
 @property (readonly) NSInteger visionSkill;
 @property (readonly) NSInteger hearingSkill;
 @property BOOL facingPercept;
@@ -42,14 +46,20 @@
 @property BOOL obstaclesBetweenZombieAndPlayer;
 @property (nonatomic) NSInteger distanceToHearingPercept;
 @property (nonatomic) NSInteger soundLevelOfHearingPercept;
-@property NSInteger distanceToVisualPercept;
+@property (nonatomic) NSInteger distanceToVisualPercept;
 #ifdef DEV_TOUCH_MODE
 @property (nonatomic) BOOL seesPlayer;
 @property BOOL lineOfSight;
 @property double speed;
+@property BOOL alive;
 #endif
 -(id)initWithCellLocation:(GridCell*)cellLocation
-               identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem*)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment;
+               identifier:(NSInteger)identifier
+        pathfindingSystem:(PathfindingSystem*)pathfindingSystem
+       andGameEnvironment:(id<GameEnvironment>)gameEnvironment
+             hearingSkill:(NSInteger)hearingSkill
+              visionSkill:(NSInteger)visionSkill;
+
 
 // 'think' method invoked by the game controller.
 // This chooses the correct strategy based on the current percept.

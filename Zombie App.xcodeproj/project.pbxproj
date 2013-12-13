@@ -36,6 +36,9 @@
 		D8340F24180D4955004B6679 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8340F22180D4955004B6679 /* InfoPlist.strings */; };
 		D8340F26180D4955004B6679 /* Zombie_AppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8340F25180D4955004B6679 /* Zombie_AppTests.m */; };
 		D849E3EC1857CA52003C4377 /* Los.m in Sources */ = {isa = PBXBuildFile; fileRef = D849E3EB1857CA52003C4377 /* Los.m */; };
+		D85BB25B185B351E005674E3 /* AAU ZombieApp Campus.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D85BB25A185B351E005674E3 /* AAU ZombieApp Campus.gpx */; };
+		D85BB25D185B5CD7005674E3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D85BB25C185B5CD7005674E3 /* MapKit.framework */; };
+		D85BB25F185B5CF3005674E3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D85BB25E185B5CF3005674E3 /* CoreLocation.framework */; };
 		D884F3E3180D4ABC00DC077A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E1180D4ABC00DC077A /* MapViewController.m */; };
 		D884F3E9180D533500DC077A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3E8180D533500DC077A /* User.m */; };
 		D884F3EC180D537700DC077A /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = D884F3EB180D537700DC077A /* GameController.m */; };
@@ -104,6 +107,9 @@
 		D8340F25180D4955004B6679 /* Zombie_AppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zombie_AppTests.m; sourceTree = "<group>"; };
 		D849E3EA1857CA52003C4377 /* Los.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Los.h; sourceTree = "<group>"; };
 		D849E3EB1857CA52003C4377 /* Los.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Los.m; sourceTree = "<group>"; };
+		D85BB25A185B351E005674E3 /* AAU ZombieApp Campus.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "AAU ZombieApp Campus.gpx"; sourceTree = "<group>"; };
+		D85BB25C185B5CD7005674E3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D85BB25E185B5CF3005674E3 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D873695618536529006EECFE /* GameEnvironment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameEnvironment.h; sourceTree = "<group>"; };
 		D873695718538243006EECFE /* PerceptConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerceptConstants.h; sourceTree = "<group>"; };
 		D884F3E0180D4ABC00DC077A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = "Zombie App/MapViewController.h"; sourceTree = "<group>"; };
@@ -127,6 +133,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D85BB25F185B5CF3005674E3 /* CoreLocation.framework in Frameworks */,
+				D85BB25D185B5CD7005674E3 /* MapKit.framework in Frameworks */,
 				D8340EFD180D4955004B6679 /* CoreGraphics.framework in Frameworks */,
 				D8340EFF180D4955004B6679 /* UIKit.framework in Frameworks */,
 				D8340EFB180D4955004B6679 /* Foundation.framework in Frameworks */,
@@ -209,6 +217,7 @@
 		D8340EEE180D4955004B6679 = {
 			isa = PBXGroup;
 			children = (
+				D85BB25A185B351E005674E3 /* AAU ZombieApp Campus.gpx */,
 				D8321573185A0A500006C7A3 /* UIImage+UIImage_Extension_h.h */,
 				D8321574185A0A500006C7A3 /* UIImage+UIImage_Extension_h.m */,
 				D873695718538243006EECFE /* PerceptConstants.h */,
@@ -233,6 +242,8 @@
 		D8340EF9180D4955004B6679 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D85BB25E185B5CF3005674E3 /* CoreLocation.framework */,
+				D85BB25C185B5CD7005674E3 /* MapKit.framework */,
 				D8340EFA180D4955004B6679 /* Foundation.framework */,
 				D8340EFC180D4955004B6679 /* CoreGraphics.framework */,
 				D8340EFE180D4955004B6679 /* UIKit.framework */,
@@ -391,6 +402,7 @@
 				D8340F05180D4955004B6679 /* InfoPlist.strings in Resources */,
 				D8340F0E180D4955004B6679 /* Main.storyboard in Resources */,
 				D89E3D941854E42D00DDC20B /* table.csv in Resources */,
+				D85BB25B185B351E005674E3 /* AAU ZombieApp Campus.gpx in Resources */,
 				D88DF1541844D2CA00F711C4 /* oldTable.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

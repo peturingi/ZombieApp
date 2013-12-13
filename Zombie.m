@@ -13,7 +13,7 @@
 #import "ZombieAISprint.h"
 
 #define THINK_INTERVAL 0.5f
-#define ZOMBIE_ENERGY 1000
+#define ZOMBIE_ENERGY 100000
 
 enum{
     LEFT = 1,
@@ -30,9 +30,17 @@ enum{
 
 
 -(id)initWithCellLocation:(GridCell*)cellLocation
-               identifier:(NSInteger)identifier pathfindingSystem:(PathfindingSystem *)pathfindingSystem andGameEnvironment:(id<GameEnvironment>)gameEnvironment{
+               identifier:(NSInteger)identifier
+        pathfindingSystem:(PathfindingSystem *)pathfindingSystem
+       andGameEnvironment:(id<GameEnvironment>)gameEnvironment
+             hearingSkill:(NSInteger)hearingSkill
+              visionSkill:(NSInteger)visionSkill
+{
     self = [super init];
     if(self){
+        _visionSkill = visionSkill;
+        _hearingSkill = hearingSkill;
+        self.alive = YES;
         _direction = RIGHT;
         _zombieStates = [[NSMutableDictionary alloc]init];
         _cellLocation = cellLocation;
@@ -45,42 +53,33 @@ enum{
         _pathfindingSystem = pathfindingSystem;
         _thinkInterval = 0.0f;
         _energy = ZOMBIE_ENERGY;
-        NSAssert(gameEnvironment, @"fskdfh");
+        NSAssert(gameEnvironment, @"No game environment. nil.");
         _gameEnvironment = gameEnvironment;
     }
     return self;
 }
 
 
--(void)think:(double)deltaTime{
-
+-(void)think:(double)deltaTime
+{
+#ifdef VERBOSE_ZOMBIES
+    NSLog(@"%@", self);
+#endif
+    NSAssert(self.alive, @"Should not think if dead");
     // if it is time to think, do so
     _thinkInterval -= deltaTime;
     
     // blocks game engine, cuz not own thread.
     if(_thinkInterval < 0){
-        // time to think again
-        // ask bayesian network for a strategy
-        //NSLog(@"thinking...");
-        //NSLog(@"can we see player?");
-        
-        
-        BOOL obstacles = NO;
-
-
-        if (!obstacles && self.facingPercept)
-            self.seesPlayer = YES;
-        else
-            self.seesPlayer = NO;
         
         // never out of range : if (distanceToPlayer == -1) distanceToPlayer = 2;
         BOOL isDay = [_gameEnvironment isDay];
         
         NSInteger energyLevel;
-        if (self.energy >= 0 && self.energy < 333) {
+        if (self.energy >= 0 && self.energy < 33333) {
             energyLevel = 0;
         }
-        if (self.energy >= 333 && self.energy < 666)
+        if (self.energy >= 333 && self.energy < 66666)
             energyLevel = 1;
         else
             energyLevel = 2;
@@ -89,27 +88,33 @@ enum{
         // using can hear player as distance to player to not have to execute A* each time this is called.
         // Safe to assume player is out of sight if I cannot hear the player.
         if (!self.isExecutingStrategy) {
-            self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:self.soundLevelOfHearingPercept distanceToPlayer:self.distanceToHearingPercept visibilutyDistance:self.distanceToVisualPercept zombieFacingPercept:self.facingPercept obstacleInBetween:obstacles dayOrNight:isDay hearingSkill:self.hearingSkill visionSkill:self.visionSkill energy:energyLevel travelingDistanceToPercept:self.distanceToHearingPercept];
-            // always run
-            self.currentStrategy = 2;
+            self.currentStrategy = [_gameEnvironment selectStrategyForSoundLevel:self.soundLevelOfHearingPercept
+                                                                distanceToPlayer:self.distanceToHearingPercept
+                                                              visibilutyDistance:self.distanceToVisualPercept
+                                                             zombieFacingPercept:self.facingPercept
+                                                               obstacleInBetween:self.obstaclesBetweenZombieAndPlayer
+                                                                      dayOrNight:isDay
+                                                                    hearingSkill:self.hearingSkill
+                                                                     visionSkill:self.visionSkill
+                                                                          energy:energyLevel
+                                                      travelingDistanceToPercept:self.distanceToHearingPercept];
+
+            
+#ifdef FORCE_STRATEGY
+            self.currentStrategy = FORCE_STRATEGY;
+#endif
             
             [self changeToStrategy:self.currentStrategy];
             self.isExecutingStrategy = YES;
-            NSLog(@"Started executing a strategy");
-        }
-        //NSLog(@"Choose strategy number %ld", choosenStrategyIdentifier);
-#ifdef VERBOSE
-        NSLog(@"Strategy choosen: %d", self.currentStrategy);
+#ifdef VERBOSE_STRATEGY
+            NSLog(@"Started executing strategy: %d", self.currentStrategy);
 #endif
+        }
         
         NSAssert(self.currentStrategy > -1, @"Could not select a strategy. Must be in range of -1 to 3.");
-        
-
-
         // reset counter
         _thinkInterval = THINK_INTERVAL;
     }
-    
 
     // execute strategy
     [self executeCurrentStrategy:deltaTime];
@@ -169,6 +174,7 @@ enum{
     _energy -= amount;
     if(_energy < 0){
         _energy = 0;
+        self.alive = NO;
     }
 }
 
@@ -207,24 +213,49 @@ enum{
 
 }
 
+#warning not fully implemented.
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Identifier: %ld\nDirection: %u\nRadians: %.2lf", (long)self.identifier, self.direction, self.directionAsRadian];
+    return [NSString stringWithFormat:@"Identifier: %ld\nDirection: %u\nRadians: %.2lf\nisExecuting:%d\nvision skill:%d\nhearingSkill: %d",(long)self.identifier, self.direction, self.directionAsRadian, self.isExecutingStrategy, self.visionSkill, self.hearingSkill];
 }
 
+// Player disappearing from view should not cancel the current strategy.
 - (void)setSeesPlayer:(BOOL)seesPlayer {
     if (_seesPlayer == NO && seesPlayer == YES) {
         self.isExecutingStrategy = NO;
+    } else {
+        // Choose stop executing current strategy if you see and saw the player and he has moved.
+        if (_seesPlayer == YES && seesPlayer == YES && _perceptHasMoved) {
+            self.isExecutingStrategy = NO;
+        }
     }
     _seesPlayer = seesPlayer;
 }
 
+
 - (void)setDistanceToHearingPercept:(NSInteger)distanceToHearingPercept {
-    if (_distanceToHearingPercept > distanceToHearingPercept) { // if player came closer.
+    if (_distanceToHearingPercept != distanceToHearingPercept) {
         self.isExecutingStrategy = NO;
     }
     _distanceToHearingPercept = distanceToHearingPercept;
 }
 
+- (void)setDistanceToVisualPercept:(NSInteger)distanceToVisualPercept {
+    if (_distanceToVisualPercept != distanceToVisualPercept) {
+        self.isExecutingStrategy = NO;
+    }
+    _distanceToVisualPercept = distanceToVisualPercept;
+}
+
+// Mark the percept as moved if it has changed.
+- (void)setPerceptLocation:(GridCell *)perceptLocation {
+    //NSAssert(perceptLocation, @"Perceptlocation should never be nil");
+    if (_perceptLocation != perceptLocation) {
+        _perceptLocation = perceptLocation;
+        _perceptHasMoved = YES;
+    } else {
+        _perceptHasMoved = NO;
+    }
+}
 
 
 @end

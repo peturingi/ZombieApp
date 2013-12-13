@@ -10,9 +10,9 @@
 #import "ZombieAIState.h"
 
 @interface ZombieAISprint : NSObject <ZombieAIState>{
-    NSArray* _sprintPath;
-    int _sprintPathIndex;
-    double _sprintInterval;
+    NSArray* _runPath;
+    int _runPathIndex;
+    double _runInterval;
 }
 
 @end

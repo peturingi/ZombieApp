@@ -61,11 +61,40 @@
          */
         GridCell* cell;
         while (!cell || cell.isObstacle) {
-            cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:0 and:199] andY:[MathUtilities randomNumberBetween:0 and:41]];
+#ifndef SPAWN_SPECIFIC_LOCATION
+            cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:10 and:189] andY:[MathUtilities randomNumberBetween:5 and:36]]; // Never spawn on edge of area.
+#else
+            cell = [_gridMap cellAt:[MathUtilities randomNumberBetween:SPAWN_X-10 and:SPAWN_X+10] andY:[MathUtilities randomNumberBetween:SPAWN_Y-10 and:SPAWN_Y+10]];
+#endif
 
         }
+        
+        // blind 0.005
+        // impaired 0.034
+        // normal 0.961
+        NSInteger probBlindVision = 5;
+        NSInteger probImpairedVision = 34;
+        NSInteger probNormalVision = 961;
+        NSInteger vision = [MathUtilities randomNumberBetween:0 and:probBlindVision+probImpairedVision+probNormalVision];
+        NSInteger zombieVision = 0; // blind by default
+        if (vision > probBlindVision) zombieVision = 1; // impaired
+        if (vision > probBlindVision + probImpairedVision) zombieVision = 2; // normal vision
+        
+        NSInteger probDeafHearing = 2;
+        NSInteger probPoorHearing = 14;
+        NSInteger probMediumHearing = 34;
+        NSInteger probGoodHearing = 50;
+        NSInteger hearing = [MathUtilities randomNumberBetween:0 and:probDeafHearing+probPoorHearing+probMediumHearing+probGoodHearing];
+        NSInteger zombieHearing = 0;
+        if (hearing > probDeafHearing) zombieHearing = 1;
+        if (hearing > probDeafHearing + probPoorHearing) zombieHearing = 2;
+        if (hearing > probDeafHearing + probPoorHearing + probMediumHearing) zombieHearing = 3;
+        
+        
         Zombie* zombie = [[Zombie alloc]initWithCellLocation:cell
-                                                  identifier:index+1 pathfindingSystem:pathfindingSystem andGameEnvironment:self];
+                                                  identifier:index+1 pathfindingSystem:pathfindingSystem andGameEnvironment:self
+                                                hearingSkill:zombieHearing
+                                                 visionSkill:zombieVision];
         [_zombies addObject:zombie];
     }
      
@@ -135,11 +164,12 @@
     if (playerLoc) {
     // think for the zombies
     for(Zombie* zombie in _zombies){
+        if (!zombie.alive) continue; // Do not think for dead zombies.
         [zombie setPerceptLocation:[_user cellLocation]];
         zombie.facingPercept = [self isPlayerWithinFieldOfView:zombie.cellLocation.xCoord andMyYCoordinate:zombie.cellLocation.yCoord myDirection:zombie.directionAsRadian myFieldOfView:2.0 * M_PI / 3.0];
         zombie.obstaclesBetweenZombieAndPlayer = [self obstaclesBetweenZombieAndPlayer:zombie];
         zombie.lineOfSight = !zombie.obstaclesBetweenZombieAndPlayer;
-        zombie.distanceToHearingPercept = [self canHearPlayer:zombie];
+        zombie.distanceToHearingPercept = [self hearingDistanceFromPlayer:zombie];
         zombie.soundLevelOfHearingPercept = [self soundLevel];
         zombie.distanceToVisualPercept = [self visualRangeToPlayer:zombie];
         
@@ -218,24 +248,22 @@
 }
 
 -(NSInteger)visualRangeToPlayer:(id)sender{
-    NSInteger distanceFromPercept = [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
+    NSInteger distanceFromPercept;// [[_gridMap cellAt:199 andY:0] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
     
-#ifdef DEV_TOUCH_MODE
     distanceFromPercept = [[_gridMap cellForCoreLocation:[_user location]] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
-#endif
     
-    if (distanceFromPercept <= 50 * 10)
+    if (distanceFromPercept <= 15*10) // 15 * 3 meters = 45 meters
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return CLOSE;
         }
     
     
-    if (distanceFromPercept <= 60 * 10)
+    if (distanceFromPercept <= 60*10) // 60 * 3 meters = 120 meters
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return MEDIUM;
         }
     
-    if (distanceFromPercept <= 70 * 10)
+    if (distanceFromPercept <= 100*10) // 60 * 3 meters = 180 meters
         if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return FAR;
         }
@@ -244,19 +272,16 @@
 }
 
 -(BOOL)obstaclesBetweenZombieAndPlayer:(id)sender {
-#ifdef DEV_TOUCH_MODE
     return ![_gridMap unobstructedLineOfSightFrom:[_user cellLocation] to:[(Zombie*)sender cellLocation]];
-#endif
-    return ![_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]];
 }
 
--(NSInteger)canHearPlayer:(id)sender{
+-(NSInteger)hearingDistanceFromPlayer:(id)sender{
     NSInteger distanceFromPercept = [[_user cellLocation] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
     
-    if (distanceFromPercept <= 100)
+    if (distanceFromPercept <= 3*10)
         return CLOSE;
     
-    if (distanceFromPercept <= 2 * 200)
+    if (distanceFromPercept <= 8*10)
         return MEDIUM;
     
     // else far.
@@ -353,7 +378,9 @@
     
     // Is the player within the zombies visual field?
     if (leftMostPoint >= playerRadian && playerRadian >= rightMostPoint) {
+#ifdef VERBOSE_VISUALS
         NSLog(@"I see the player!");
+#endif
         return YES;
     } else {
         return NO;

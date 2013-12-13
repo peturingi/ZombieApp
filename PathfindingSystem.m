@@ -34,6 +34,17 @@
         return nil;
     }
     
+    if ([self.gridMap unobstructedLineOfSightFrom:start to:goal]) {
+        NSArray *neighbours = [self.gridMap neighboursForCell:start];
+        NSAssert(neighbours, @"Failed to get neighbours");
+        NSAssert(neighbours.count > 0, @"No neighbours");
+        GridCell *shortestPathToGoal = [neighbours firstObject];
+        for (GridCell *cell in neighbours) {
+            if ([cell euclideanDistanceToCell:goal] < [shortestPathToGoal euclideanDistanceToCell:goal])
+                shortestPathToGoal = cell;
+        }
+        return [NSArray arrayWithObject:shortestPathToGoal];
+    }
 
     
     // initialize our lists
@@ -208,7 +219,6 @@
 // This resulted in an enormeous performance increase.
 // Whether the list is sorted or not is not important - getting the element with
 // the highes f score is!
-#warning takes 10% of CPU.
 -(GridCell*)cellWithLowestFScoreInOpenSet{
     //NSAssert(_openSetDict, @"the openset was not instantiated before calling this function!");
     //NSArray* openSet = [_openSetDict allValues];
