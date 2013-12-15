@@ -255,21 +255,16 @@
     
     distanceFromPercept = [[_gridMap cellForCoreLocation:[_user location]] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
     
-    if (distanceFromPercept <= 15*10) // 15 * 3 meters = 45 meters
-        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
+    if (distanceFromPercept <= VISUAL_DISTANCE_CLOSE*10) {// 10 is the distance over a square.        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
             return CLOSE;
         }
     
     
-    if (distanceFromPercept <= 60*10) // 60 * 3 meters = 120 meters
-        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
-            return MEDIUM;
-        }
-    
-    if (distanceFromPercept <= 100*10) // 60 * 3 meters = 180 meters
-        if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]] ) {
-            return FAR;
-        }
+    if (distanceFromPercept <= VISUAL_DISTANCE_MEDIUM*10) {// 10 is the distance over a square.
+            if ([_gridMap unobstructedLineOfSightFrom:[_gridMap cellAt:199 andY:0] to:[(Zombie*)sender cellLocation]]) {
+                return MEDIUM;
+            }
+    }
 
     return FAR;
 }
@@ -281,13 +276,12 @@
 -(NSInteger)hearingDistanceFromPlayer:(id)sender{
     NSInteger distanceFromPercept = [[_user cellLocation] euclideanDistanceToCell:[(Zombie*)sender cellLocation]];
     
-    if (distanceFromPercept <= 3*10)
+    if (distanceFromPercept <= HEARING_DISTANCE_CLOSE*10) // 10 is the distance over a square.
         return CLOSE;
     
-    if (distanceFromPercept <= 8*10)
+    if (distanceFromPercept <= HEARING_DISTANCE_MEDIUM*10) // 10 is the distance over a square
         return MEDIUM;
     
-    // else far.
     return FAR;
 }
 
@@ -298,7 +292,7 @@
     //NSLog(@"time, %@",theTime);
     
     NSInteger hour = [theTime integerValue];
-    if (hour > 8 && hour < 20) {
+    if (hour > 8 && hour < 20) { // 8 and 20 are hours of the clock.
         return YES;
     }
     else {
@@ -307,11 +301,6 @@
 }
 
 - (NSInteger)soundLevel{
-    
-#define SPEED_IDLE  1 // KM/H
-#define SPEED_WALK  6 // KM/H
-//Run is all values above walk.
-    
     NSInteger userSpeed = (_user.speed + 0.5);
     if (userSpeed < 0) @throw [NSException exceptionWithName:@"Invalid speed" reason:[NSString stringWithFormat:@"User speed was interpreted as %d", userSpeed] userInfo:nil];
     
@@ -322,7 +311,6 @@
         return 1; // walk
     else
         return 2; // Running
-        
 }
 
 - (NSInteger)selectStrategyForSoundLevel:(NSInteger)soundLevel

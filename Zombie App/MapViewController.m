@@ -409,9 +409,10 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
     region.span.longitudeDelta = 0.0001f;
     region.span.latitudeDelta = 0.0001f;
     [_mapView setRegion:region animated:NO];
-
+#ifndef DEV_TOUCH_MODE
     // Alert game controller that player has changed position.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:userLocation];
+
 #ifdef DEV_CL_VERBOSE
     static NSDate *date;
     if (!date) date=userLocation.timestamp;
@@ -430,6 +431,7 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
     [fileHandle seekToEndOfFile];
     [fileHandle writeData:[content dataUsingEncoding:NSUTF8StringEncoding]];
     [fileHandle closeFile];
+#endif
 #endif
 }
 

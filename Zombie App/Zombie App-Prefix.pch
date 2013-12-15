@@ -16,6 +16,20 @@
 #endif
 
 
+/* Game Specific Variables. Do not remove those */
+
+// Speed of zombies in KM/H
+#define SPEED_IDLE	1 
+#define SPEED_WALK	6
+
+// Visual distance as number of squares.
+#define VISUAL_DISTANCE_CLOSE	30	
+#define VISUAL_DISTANCE_MEDIUM	60
+
+// Hearing distance as number of squares.
+#define HEARING_DISTANCE_CLOSE	20
+#define HEARING_DISTANCE_MEDIUM 40
+
 //#define ZOMBIES_NEVER_MOVE
 #define DEV_TOUCH_MODE
 #define SINGLE_ZOMBIE
@@ -39,4 +53,4 @@
 
 //define AAU_PARKING
 
-#define DEV_CL_VERBOSE // show all relevant info on core location requests and services.
+//#define DEV_CL_VERBOSE // show all relevant info on core location requests and services and saves it to gpsaccuracy.txt
