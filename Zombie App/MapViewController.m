@@ -45,11 +45,14 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self zoomMapOnUserLocation:[_mapView userLocation]];
+    //[self zoomMapOnUserLocation:[_mapView userLocation]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self setupLocationServices];
+    
     // Start the game loop.
     [_gameController start];
 #ifdef DEV_TOUCH_ZOMBIE
@@ -57,6 +60,12 @@
     dev_seesPlayer.hidden = NO;
     dev_lineOfSight.hidden = NO;
 #endif
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.locationManager stopUpdatingLocation];
+    [self.locationManager stopUpdatingHeading];
 }
 
 - (void)didReceiveMemoryWarning
@@ -274,7 +283,7 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
     CLLocationSpeed userSpeed = [[infoDictionary valueForKey:@"userSpeed"] doubleValue];
     [self updateSpeedLabel:userSpeed];
 }
-
+#pragma mark MKMapView
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
 #ifdef DEBUG
     if (!self.zombiesData)
@@ -319,13 +328,13 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
     
     // Only execute on real device. DEBUG indicates dev mode in simulator.
 //#ifndef DEBUG
-    CLLocation *location = [userLocation location];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:location];
-    NSLog(@"Updated location");
+//    CLLocation *location = [userLocation location];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:location];
+//    NSLog(@"Updated location");
 //#endif
 
 }
-
+/*
 - (void)zoomMapOnUserLocation:(MKUserLocation *)userLocation {
     if (!userLocation) return;
     
@@ -334,12 +343,98 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, tenMeters, tenMeters);
     MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:region];
     [_mapView setRegion:adjustedRegion animated:NO];
-    
-}
+}*/
 
 
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
-#warning not implemented
+}
+
+#pragma mark - Core Location
+
+- (void)setupLocationServices {
+    
+    // Handle permission errors with core location services.
+    // The location service can not be started unless the user accepts.
+    if (![CLLocationManager locationServicesEnabled]) {
+        [self errorBox:@"Location Services" andMessage:@"Location services are blocked by user. Aborting."];
+    }
+    
+    switch ([CLLocationManager authorizationStatus]) {
+        case kCLAuthorizationStatusDenied:
+            [self errorBox:@"Error" andMessage:@"App requires location services. Aborting."];
+            break;
+            
+        case kCLAuthorizationStatusRestricted:
+            [self errorBox:@"Error" andMessage:@"App not authorized to use location services. Aborting."];
+            break;
+ 
+#ifdef DEV_CL_VERBOSE
+        case kCLAuthorizationStatusNotDetermined:
+            [self infoBox:@"DEV_CL_VERBOSE" andMessage:@"About to ask user for permission to use location services"];
+            break;
+#endif
+     
+        default:
+            break;
+    }
+    
+    // Setup location manager
+    self.locationManager = [[CLLocationManager alloc] init];
+    // attention: NSLocationUsageDescription in plist determines the message shown to the user on request to user location services.
+    [self.locationManager setDelegate:self];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
+#define CL_DISTANCE_FILTER 1 // Meters
+    [self.locationManager setDistanceFilter:kCLDistanceFilterNone];
+#define CL_HEADING_FILTER 5 // Degrees
+    [self.locationManager setHeadingFilter:CL_HEADING_FILTER];
+    
+    // Start updating location services
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.locationManager startUpdatingLocation];
+    } else {
+        [self errorBox:@"Location Services" andMessage:@"Location Services are Disabled. Aborting"];
+    }
+    
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    /* from docs:
+     locations: An array of CLLocation objects containing the location data. This array always contains at least one object representing the current location. If updates were deferred or if multiple locations arrived before they could be delivered, the array may contain additional entries. The objects in the array are organized in the order in which they occurred. Therefore, the most recent location update is at the end of the array.
+     */
+    CLLocation *userLocation = [locations lastObject];
+    
+    // Center the map manually because MapKits location manager is disabled and thus not handling the centering himself.
+    MKCoordinateRegion region = {{0.0f,0.0f},{0.0f,0.0f}};
+    region.center = userLocation.coordinate;
+    region.span.longitudeDelta = 0.0001f;
+    region.span.latitudeDelta = 0.0001f;
+    [_mapView setRegion:region animated:NO];
+
+    // Alert game controller that player has changed position.
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didUpdatePlayerPosition" object:userLocation];
+#ifdef DEV_CL_VERBOSE
+    static NSDate *date;
+    if (!date) date=userLocation.timestamp;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains
+    (NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    //make a file name to write the data to using the documents directory:
+    NSString *fileName = [NSString stringWithFormat:@"%@/gpsaccuracy.txt",
+                          documentsDirectory];
+    //create content - four lines of text
+    NSString *content = [NSString stringWithFormat:@"%lf,%lf,%lf,%lf\n", userLocation.horizontalAccuracy, userLocation.verticalAccuracy, userLocation.speed, [userLocation.timestamp timeIntervalSinceDate:date]];    //save content to the documents directory
+    NSLog(@"DidupdateLocation");
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:fileName];
+    [fileHandle seekToEndOfFile];
+    [fileHandle writeData:[content dataUsingEncoding:NSUTF8StringEncoding]];
+    [fileHandle closeFile];
+#endif
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [self errorBox:error.localizedDescription andMessage:error.localizedFailureReason];
 }
 
 #pragma mark - Setters & Getters
@@ -422,7 +517,43 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
 #endif
 
 - (void)gameOver{
+    [_gameController stop]; // Stop here cuz alert boxes can end the game.
     [self performSegueWithIdentifier:@"endGame" sender:self];
 }
+
+#pragma mark - Alerts
+
+#define ALERTBOX_ERROR  1
+#define ALERTBOX_INFO   2
+
+- (void)errorBox:(NSString* )withTitle andMessage:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:withTitle message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Acknowledge", nil];
+    alert.tag = ALERTBOX_ERROR;
+    [alert show];
+}
+
+- (void)infoBox:(NSString *)withTitle andMessage:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:withTitle message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Acknowledge", nil];
+    alert.tag = ALERTBOX_INFO;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (alertView.tag) {
+            
+        case ALERTBOX_ERROR:
+            [self gameOver];
+            break;
+            
+        case ALERTBOX_INFO:
+            break;
+            
+        default:
+            NSLog(@"\nWarning: Unhandled Alert:\nTitle:%@\nMessage:%@\n", alertView.title, alertView.message);
+            break;
+    }
+}
+
+
 
 @end

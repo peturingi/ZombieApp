@@ -15,7 +15,7 @@
 #define IMAGE_ZOMBIE [UIImage imageNamed:@"Zombie"];
 
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate>{
+@interface MapViewController : UIViewController <MKMapViewDelegate, GameControllerDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>{
     GameController* _gameController;
     __weak IBOutlet MKMapView *_mapView;
     __weak IBOutlet UILabel *_elapsedtimeLabel;
@@ -37,6 +37,8 @@
  *  @note Change strong to weak if another class should be responsible for the property.
  */
 @property (strong, nonatomic) NSArray *zombiesData;
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (void)gameOver;
 

@@ -161,30 +161,27 @@
     [_user setCellLocation:playerLoc];
     
     if (playerLoc) {
-    // think for the zombies
-    for(Zombie* zombie in _zombies){
-        if (!zombie.alive) continue; // Do not think for dead zombies.
-        [zombie setPerceptLocation:[_user cellLocation]];
-        zombie.facingPercept = [self isPlayerWithinFieldOfView:zombie.cellLocation.xCoord andMyYCoordinate:zombie.cellLocation.yCoord myDirection:zombie.directionAsRadian myFieldOfView:2.0 * M_PI / 3.0];
-        zombie.obstaclesBetweenZombieAndPlayer = [self obstaclesBetweenZombieAndPlayer:zombie];
-        zombie.lineOfSight = !zombie.obstaclesBetweenZombieAndPlayer;
-        zombie.distanceToHearingPercept = [self hearingDistanceFromPlayer:zombie];
-        zombie.soundLevelOfHearingPercept = [self soundLevel];
-        zombie.distanceToVisualPercept = [self visualRangeToPlayer:zombie];
-        
-        [zombie think:deltaTime];
-        
-        if (zombie.hasMovedSinceLastTimeHeThought) {
-            zombie.hasMovedSinceLastTimeHeThought = NO;
-            [self renderZombies];
+        // think for the zombies
+        for(Zombie* zombie in _zombies){
+            if (!zombie.alive) continue; // Do not think for dead zombies.
+            [zombie setPerceptLocation:[_user cellLocation]];
+            zombie.facingPercept = [self isPlayerWithinFieldOfView:zombie.cellLocation.xCoord andMyYCoordinate:zombie.cellLocation.yCoord myDirection:zombie.directionAsRadian myFieldOfView:2.0 * M_PI / 3.0];
+            zombie.obstaclesBetweenZombieAndPlayer = [self obstaclesBetweenZombieAndPlayer:zombie];
+            zombie.lineOfSight = !zombie.obstaclesBetweenZombieAndPlayer;
+            zombie.distanceToHearingPercept = [self hearingDistanceFromPlayer:zombie];
+            zombie.soundLevelOfHearingPercept = [self soundLevel];
+            zombie.distanceToVisualPercept = [self visualRangeToPlayer:zombie];
+            
+            [zombie think:deltaTime];
+            
+            if (zombie.hasMovedSinceLastTimeHeThought) {
+                zombie.hasMovedSinceLastTimeHeThought = NO;
+                [self renderZombies];
+            }
+            
+            if ([playerLoc euclideanDistanceToCell:zombie.cellLocation] < 2*10 )
+                [_delegate gameOver];
         }
-        
-        if (playerLoc == zombie.cellLocation)
-        {
-            // Game over!
-            [_delegate gameOver];
-        }
-    }
     }
     
     // update UI stat labels

@@ -16,9 +16,9 @@
 #endif
 
 
-#define ZOMBIES_NEVER_MOVE
-//#define DEV_TOUCH_MODE
-//#define SINGLE_ZOMBIE
+//#define ZOMBIES_NEVER_MOVE
+#define DEV_TOUCH_MODE
+#define SINGLE_ZOMBIE
 //#define NEVER_DRAW_ZOMBIES
 //#define DRAW_CELLS
 //#define DRAW_PATHFINDING
@@ -26,7 +26,7 @@
 #define VERBOSE_ZOMBIES
 
 #define SPAWN_SPECIFIC_LOCATION
-#define SPAWN_X 3 
+#define SPAWN_X 30 
 #define SPAWN_Y 30
 
 // 0 idle
@@ -37,4 +37,6 @@
 
 //#define VERBOSE_VISUALS
 
-#define AAU_PARKING
+//define AAU_PARKING
+
+#define DEV_CL_VERBOSE // show all relevant info on core location requests and services.
