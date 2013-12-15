@@ -152,25 +152,6 @@ struct {
 } node;
 static NSInteger numberOfNodes = 15;
 
-//x,x,x,x,x,x,x,2,1,2,0
-/*
-still
-dist: close
-visib: far
- not facing
- no obstacle
- day
- deaf
- impaired
- med
- out of range
- 
- 
- 
- 
- 
-
-*/
 @interface Bayesian : NSObject {
     assignment parent_state;
     directed_graph<bayes_node>::kernel_1a_c bn;

@@ -31,17 +31,17 @@
 #define HEARING_DISTANCE_MEDIUM 40
 
 //#define ZOMBIES_NEVER_MOVE
-#define DEV_TOUCH_MODE
-#define SINGLE_ZOMBIE
+//#define DEV_TOUCH_MODE
+//#define SINGLE_ZOMBIE
 //#define NEVER_DRAW_ZOMBIES
 //#define DRAW_CELLS
 //#define DRAW_PATHFINDING
 #define VERBOSE_STRATEGY
-#define VERBOSE_ZOMBIES
+//#define VERBOSE_ZOMBIES
 
-#define SPAWN_SPECIFIC_LOCATION
-#define SPAWN_X 30 
-#define SPAWN_Y 30
+//#define SPAWN_SPECIFIC_LOCATION
+//#define SPAWN_X 30 
+//#define SPAWN_Y 30
 
 // 0 idle
 // 1 roam

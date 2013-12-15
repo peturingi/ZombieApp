@@ -1,10 +1,11 @@
 //
-//  UIImage+UIImage_Extension_h.m
-//  Zombie App
+//  UIImage-Extensions.m
 //
-//  Created by Pétur Ingi Egilsson on 12/12/13.
-//  Copyright (c) 2013 Aalborg Universitet. All rights reserved.
+//  Created by Hardy Macia on 7/1/09.
+//  Copyright 2009 Catamount Software. All rights reserved.
 //
+
+// http://www.catamount.com/forums/viewtopic.php?f=21&t=967
 
 #import "UIImage+UIImage_Extension_h.h"
 

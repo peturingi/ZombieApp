@@ -587,20 +587,13 @@ using namespace bayes_node_utils;
     [[NSFileManager defaultManager] createFileAtPath: @"table.csv" contents: [@"" dataUsingEncoding: NSUnicodeStringEncoding] attributes: nil];
     NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath: @"table.csv"];
     [file seekToEndOfFile];
-    //NSString *header = @"soundLevel,distanceToPlayer,visibilityDistance,zombieFacingPercept,obstacleInBetween,dayOrNight,hearingSkill,visionSkill,energy,travlingDistanceToPercept,strategy\n";
-    //[file writeData:[header dataUsingEncoding:NSUTF8StringEncoding]];
     
-
     join_tree_type join_tree;
     create_moral_graph(bn, join_tree);
     create_join_tree(join_tree, join_tree);
     
-    //NSMutableArray *data = [[NSMutableArray alloc] init];
-    
-     
     try{
     
-    // soundLevel
     for (int soundLevel = 0; soundLevel < sizeof(node.soundLevel.states) / sizeof(NSInteger); soundLevel++) {
         set_node_value(bn, node.soundLevel.ident, soundLevel);
         set_node_as_evidence(bn, node.soundLevel.ident);
@@ -639,7 +632,7 @@ using namespace bayes_node_utils;
                                             double probSprint = solution_with_evidence.probability(node.strategy.ident)(node.strategy.states.sprint) * 100;
                                             
                                             //NSInteger strategy = -1;
-                                            
+                                            // Activate this part if you are interested in getting the highest probability only, instead of all of them.
                                             /*// Return the highest probability.
                                             if (probRoam >= probWalk && probRoam >= probIdle && probRoam >= probSprint)
                                                 strategy = node.strategy.states.roam;
@@ -651,6 +644,7 @@ using namespace bayes_node_utils;
                                                 strategy = node.strategy.states.sprint;*/
                                             
                                             NSString *str = [NSString stringWithFormat:@"%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01d,%01.0f,%01.0f,%01.0f,%01.0f\n", soundLevel, distanceToPlayer, visibilityDistance, zombieFacingPercept, obstacleInBetween, dayOrNight, hearingSkill, visionSkill, energy, travelingDistanceToPercept, probIdle, probRoam, probWalk, probSprint];
+#warning Sometimes the output file contains an invalid magic number, can be fixed with a hex editor if needed.
                                             [file writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
                                             
                                             
