@@ -1,0 +1,303 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     11685,        294]
+NotebookOptionsPosition[     11351,        277]
+NotebookOutlinePosition[     11710,        293]
+CellTagsIndexPosition[     11667,        290]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"zombie", "=", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0"}], "}"}]}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"fieldOfView", "=", 
+     RowBox[{"2", 
+      RowBox[{"Pi", "/", "3.0"}]}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"are", " ", 
+      RowBox[{"equal", "?"}]}], "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"leftmostPoint", "=", 
+     RowBox[{"direction", "+", 
+      RowBox[{"fieldOfView", "/", "2.0"}]}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"rightMostPoint", "=", 
+     RowBox[{"direction", "-", 
+      RowBox[{"fieldOfView", "/", "2.0"}]}]}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"hypotenuse", " ", "=", " ", 
+     RowBox[{"EuclideanDistance", "[", 
+      RowBox[{"zombie", ",", "player"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    
+    RowBox[{"adjacent", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"player", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "-", 
+      RowBox[{"zombie", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"opposite", "=", 
+     RowBox[{
+      RowBox[{"player", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], "-", 
+      RowBox[{"zombie", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"playerCosine", " ", "=", " ", 
+     RowBox[{"adjacent", "/", "hypotenuse"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"playerSine", "=", 
+     RowBox[{"opposite", "/", "hypotenuse"}]}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"playerRadian", " ", "=", " ", "0"}], ";", "\[IndentingNewLine]", 
+    
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"playerSine", "\[GreaterEqual]", "0"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"playerRadian", "=", 
+       RowBox[{"ArcCos", "[", "playerCosine", "]"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"playerSine", "\[LessEqual]", "0"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"playerRadian", "=", 
+         RowBox[{
+          RowBox[{"2", "Pi"}], "-", 
+          RowBox[{"ArcCos", "[", "playerCosine", "]"}]}]}]}], "]"}]}], "]"}], 
+    ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"rightMostPoint", "<", "0.0"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"rightMostPoint", "+=", 
+         RowBox[{"2.0", "Pi"}]}], ",", 
+        RowBox[{"leftmostPoint", "+=", 
+         RowBox[{"2.0", "Pi"}]}]}], "}"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"rightMostPoint", " ", ">", 
+          RowBox[{"2.0", "Pi"}]}], " ", "||", " ", 
+         RowBox[{"leftmostPoint", ">", 
+          RowBox[{"2.0", "Pi"}]}]}], ")"}], "&&", " ", 
+       RowBox[{"playerRadian", "<", "Pi"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"playerRadian", "+=", 
+       RowBox[{"2", "Pi"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"leftmostPoint", "\[GreaterEqual]", "playerRadian"}], " ", "&&",
+          " ", 
+         RowBox[{
+         "playerRadian", " ", "\[GreaterEqual]", " ", "rightMostPoint"}]}], 
+        ")"}], ",", "\[IndentingNewLine]", "\"\<Sees player\>\"", ",", 
+       "\[IndentingNewLine]", "\"\<\>\""}], "]"}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Circle", "[", 
+         RowBox[{"zombie", ",", "1"}], "]"}], ",", "\[IndentingNewLine]", 
+        "Red", ",", "\[IndentingNewLine]", 
+        RowBox[{"PointSize", "[", "0.05", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Point", "[", 
+         RowBox[{"{", 
+          RowBox[{"playerCosine", ",", "playerSine"}], "}"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Cos", "[", "rightMostPoint", "]"}], ",", 
+             RowBox[{"Sin", "[", "rightMostPoint", "]"}]}], "}"}]}], "}"}], 
+         "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Cos", "[", "leftmostPoint", "]"}], ",", 
+             RowBox[{"Sin", "[", "leftmostPoint", "]"}]}], "}"}]}], "}"}], 
+         "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Cos", "[", "direction", "]"}], "/", "4.0"}], ",", 
+             RowBox[{
+              RowBox[{"Sin", "[", "direction", "]"}], "/", "4.0"}]}], "}"}]}],
+           "}"}], "]"}]}], "\[IndentingNewLine]", "}"}], "]"}]}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"direction", ",", "1"}], "}"}], ",", "0", ",", 
+     RowBox[{"2", "Pi"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"player", ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", 
+       RowBox[{"-", "1"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.596111914385942*^9, 3.5961123029506197`*^9}, {
+   3.596112358769346*^9, 3.5961127174638863`*^9}, {3.596112843208406*^9, 
+   3.596112851934382*^9}, {3.596113065686241*^9, 3.596113093492024*^9}, {
+   3.596113134187389*^9, 3.5961133115831957`*^9}, {3.596113415942422*^9, 
+   3.596113706248156*^9}, {3.596113753262484*^9, 3.596113798875484*^9}, 
+   3.596114006113833*^9, {3.59611416132812*^9, 3.596114291198984*^9}, {
+   3.596114352095645*^9, 3.5961143931859217`*^9}, {3.596114443002461*^9, 
+   3.596114463851609*^9}, {3.596114819603366*^9, 3.596114833035809*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`direction$$ = 
+    1.4828317324943825`, $CellContext`player$$ = {
+    0.33000000000000007`, -0.5800000000000001}, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`direction$$], 1}, 0, 2 Pi}, {{
+       Hold[$CellContext`player$$], {1, 1}}, {-1, -1}, {1, 1}}}, 
+    Typeset`size$$ = {93., {43., 47.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`direction$1105$$ = 0, $CellContext`player$1106$$ = {0, 
+    0}}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`direction$$ = 
+        1, $CellContext`player$$ = {1, 1}}, "ControllerVariables" :> {
+        Hold[$CellContext`direction$$, $CellContext`direction$1105$$, 0], 
+        Hold[$CellContext`player$$, $CellContext`player$1106$$, {0, 0}]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`zombie = {0, 0}; $CellContext`fieldOfView = 
+        2 (Pi/3.); $CellContext`leftmostPoint = $CellContext`direction$$ + \
+$CellContext`fieldOfView/
+          2.; $CellContext`rightMostPoint = $CellContext`direction$$ - \
+$CellContext`fieldOfView/2.; $CellContext`hypotenuse = 
+        EuclideanDistance[$CellContext`zombie, $CellContext`player$$]; \
+$CellContext`adjacent = 
+        Part[$CellContext`player$$, 1] - 
+         Part[$CellContext`zombie, 1]; $CellContext`opposite = 
+        Part[$CellContext`player$$, 2] - 
+         Part[$CellContext`zombie, 
+          2]; $CellContext`playerCosine = \
+$CellContext`adjacent/$CellContext`hypotenuse; $CellContext`playerSine = \
+$CellContext`opposite/$CellContext`hypotenuse; $CellContext`playerRadian = 0; 
+       If[$CellContext`playerSine >= 0, $CellContext`playerRadian = 
+         ArcCos[$CellContext`playerCosine], 
+         If[$CellContext`playerSine <= 0, $CellContext`playerRadian = 
+          2 Pi - ArcCos[$CellContext`playerCosine]]]; 
+       If[$CellContext`rightMostPoint < 0., {
+          AddTo[$CellContext`rightMostPoint, 2. Pi], 
+          AddTo[$CellContext`leftmostPoint, 2. Pi]}]; If[
+         And[
+          
+          Or[$CellContext`rightMostPoint > 2. Pi, $CellContext`leftmostPoint > 
+           2. Pi], $CellContext`playerRadian < Pi], 
+         AddTo[$CellContext`playerRadian, 2 Pi]]; If[
+          
+          And[$CellContext`leftmostPoint >= $CellContext`playerRadian, \
+$CellContext`playerRadian >= $CellContext`rightMostPoint], "Sees player", ""] 
+        Graphics[{
+           Circle[$CellContext`zombie, 1], Red, 
+           PointSize[0.05], 
+           Point[{$CellContext`playerCosine, $CellContext`playerSine}], 
+           Line[{{0, 0}, {
+              Cos[$CellContext`rightMostPoint], 
+              Sin[$CellContext`rightMostPoint]}}], 
+           Line[{{0, 0}, {
+              Cos[$CellContext`leftmostPoint], 
+              Sin[$CellContext`leftmostPoint]}}], 
+           
+           Arrow[{{0, 0}, {
+             Cos[$CellContext`direction$$]/4., Sin[$CellContext`direction$$]/
+              4.}}]}]), 
+      "Specifications" :> {{{$CellContext`direction$$, 1}, 0, 2 
+         Pi}, {{$CellContext`player$$, {1, 1}}, {-1, -1}, {1, 1}}}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{281., {129., 134.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.596114261719736*^9, 3.5961142947585373`*^9, {3.596114377925097*^9, 
+   3.59611439397372*^9}, {3.596114451189678*^9, 3.596114465470132*^9}, {
+   3.596114826156827*^9, 3.596114833995384*^9}}]
+}, Open  ]]
+},
+WindowSize->{1257, 1282},
+WindowMargins->{{468, Automatic}, {0, Automatic}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 6550, 165, 726, "Input"],
+Cell[7132, 189, 4203, 85, 314, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
