@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     11685,        294]
-NotebookOptionsPosition[     11351,        277]
-NotebookOutlinePosition[     11710,        293]
-CellTagsIndexPosition[     11667,        290]
+NotebookDataLength[     11557,        291]
+NotebookOptionsPosition[     11223,        274]
+NotebookOutlinePosition[     11582,        290]
+CellTagsIndexPosition[     11539,        287]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -185,29 +185,29 @@ Cell[BoxData[
    3.596113706248156*^9}, {3.596113753262484*^9, 3.596113798875484*^9}, 
    3.596114006113833*^9, {3.59611416132812*^9, 3.596114291198984*^9}, {
    3.596114352095645*^9, 3.5961143931859217`*^9}, {3.596114443002461*^9, 
-   3.596114463851609*^9}, {3.596114819603366*^9, 3.596114833035809*^9}}],
+   3.596114463851609*^9}, {3.596114819603366*^9, 3.596114833035809*^9}, {
+   3.596195862464113*^9, 3.596195892532544*^9}}],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
    DynamicModuleBox[{$CellContext`direction$$ = 
-    1.4828317324943825`, $CellContext`player$$ = {
-    0.33000000000000007`, -0.5800000000000001}, Typeset`show$$ = True, 
-    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
-    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
-    "\"untitled\"", Typeset`specs$$ = {{{
+    2.337344934270806, $CellContext`player$$ = {-0.16999999999999993`, 
+    0.3700000000000001}, Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
        Hold[$CellContext`direction$$], 1}, 0, 2 Pi}, {{
        Hold[$CellContext`player$$], {1, 1}}, {-1, -1}, {1, 1}}}, 
-    Typeset`size$$ = {93., {43., 47.}}, Typeset`update$$ = 0, 
+    Typeset`size$$ = {179., {43., 47.}}, Typeset`update$$ = 0, 
     Typeset`initDone$$, Typeset`skipInitDone$$ = 
-    True, $CellContext`direction$1105$$ = 0, $CellContext`player$1106$$ = {0, 
+    True, $CellContext`direction$2057$$ = 0, $CellContext`player$2058$$ = {0, 
     0}}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, 
       "Variables" :> {$CellContext`direction$$ = 
         1, $CellContext`player$$ = {1, 1}}, "ControllerVariables" :> {
-        Hold[$CellContext`direction$$, $CellContext`direction$1105$$, 0], 
-        Hold[$CellContext`player$$, $CellContext`player$1106$$, {0, 0}]}, 
+        Hold[$CellContext`direction$$, $CellContext`direction$2057$$, 0], 
+        Hold[$CellContext`player$$, $CellContext`player$2058$$, {0, 0}]}, 
       "OtherVariables" :> {
        Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
         Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
@@ -269,10 +269,7 @@ $CellContext`playerRadian >= $CellContext`rightMostPoint], "Sees player", ""]
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{
-  3.596114261719736*^9, 3.5961142947585373`*^9, {3.596114377925097*^9, 
-   3.59611439397372*^9}, {3.596114451189678*^9, 3.596114465470132*^9}, {
-   3.596114826156827*^9, 3.596114833995384*^9}}]
+ CellChangeTimes->{3.596195893682776*^9}]
 }, Open  ]]
 },
 WindowSize->{1257, 1282},
@@ -293,8 +290,8 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[579, 22, 6550, 165, 726, "Input"],
-Cell[7132, 189, 4203, 85, 314, "Output"]
+Cell[579, 22, 6600, 166, 726, "Input"],
+Cell[7182, 190, 4025, 81, 280, "Output"]
 }, Open  ]]
 }
 ]

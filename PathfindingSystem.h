@@ -17,8 +17,6 @@
     // looking up in the dictionary to see if a particular object
     // has been added to the open or closed list, is O(n). However, it
     // is more often O(1), thus often faster than linear array search O(n).
-    NSMutableDictionary* _openSetDict;
-    NSMutableDictionary* _closedSetDict;
     
     BOOL openSetEmpty;
     NSInteger openSetIndex;

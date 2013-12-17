@@ -34,7 +34,7 @@
 //#define DEV_TOUCH_MODE
 //#define SINGLE_ZOMBIE
 //#define NEVER_DRAW_ZOMBIES
-//#define DRAW_CELLS
+#define DRAW_CELLS
 //#define DRAW_PATHFINDING
 #define VERBOSE_STRATEGY
 //#define VERBOSE_ZOMBIES

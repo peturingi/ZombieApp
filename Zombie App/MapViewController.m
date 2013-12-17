@@ -8,7 +8,6 @@
 
 #import "MapViewController.h"
 #import "StatsViewController.h"
-// #import "MapViewDelegate.h"
 #import "NSString+stringFromTimeInterval.h"
 #import "UIImage+UIImage_Extension_h.h"
 
