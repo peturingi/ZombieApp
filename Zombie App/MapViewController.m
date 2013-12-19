@@ -382,7 +382,6 @@ void centerViewAtPointWithAnimationSpeed(UIImageView *view, CGPoint pointInMapVi
     // attention: NSLocationUsageDescription in plist determines the message shown to the user on request to user location services.
     [self.locationManager setDelegate:self];
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBestForNavigation];
-#define CL_DISTANCE_FILTER 1 // Meters
     [self.locationManager setDistanceFilter:kCLDistanceFilterNone];
 #define CL_HEADING_FILTER 5 // Degrees
     [self.locationManager setHeadingFilter:CL_HEADING_FILTER];
